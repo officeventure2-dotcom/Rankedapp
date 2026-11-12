@@ -61,7 +61,8 @@ export const UserProfileModal: React.FC = () => {
         <div className="relative h-28 bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-950 p-4 flex justify-end items-start">
           <button
             onClick={closeUserProfile}
-            className="p-1.5 rounded-full bg-black/40 text-zinc-300 hover:text-white transition-colors"
+            aria-label="Close profile"
+            className="p-1.5 rounded-full bg-black/40 text-zinc-300 hover:text-white transition-colors inline-flex items-center justify-center min-h-touch min-w-touch"
           >
             <X className="w-4 h-4" />
           </button>

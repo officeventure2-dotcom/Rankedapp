@@ -123,7 +123,8 @@ export const LevelingArchitectureModal: React.FC<LevelingArchitectureModalProps>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            aria-label="Close"
+            className="p-2 rounded-xl text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors inline-flex items-center justify-center min-h-touch min-w-touch"
           >
             <X className="w-5 h-5" />
           </button>

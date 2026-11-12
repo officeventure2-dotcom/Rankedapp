@@ -204,7 +204,8 @@ export const ChatView: React.FC = () => {
             />
             <button
               type="submit"
-              className="p-2.5 rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 hover:bg-zinc-800 transition-colors"
+              aria-label="Send message"
+              className="p-2.5 rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 hover:bg-zinc-800 transition-colors inline-flex items-center justify-center min-h-touch min-w-touch"
             >
               <Send className="w-4 h-4" />
             </button>

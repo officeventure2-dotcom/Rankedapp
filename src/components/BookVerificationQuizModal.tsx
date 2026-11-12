@@ -92,7 +92,8 @@ export const BookVerificationQuizModal: React.FC<BookVerificationQuizModalProps>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            aria-label="Close quiz"
+            className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors inline-flex items-center justify-center min-h-touch min-w-touch"
           >
             <X className="w-4 h-4" />
           </button>
