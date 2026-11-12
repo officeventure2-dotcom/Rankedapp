@@ -645,7 +645,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
 
                 <div className="text-xs text-zinc-500 dark:text-zinc-400">
                   {selectedOptionIndex === currentQuestion.correctIndex
-                    ? `Current streak: ${stats.currentStreak} 🔥`
+                    ? (<span className="inline-flex items-center gap-1">Current streak: {stats.currentStreak} <Flame className="w-3.5 h-3.5 text-orange-500" /></span>)
                     : `Streak reset to 0`}
                 </div>
               </div>

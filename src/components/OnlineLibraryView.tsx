@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { BOOK_CATALOG, BookCatalogItem, searchBookSuggestions } from '../data/bookCatalogData';
 import { BookVerificationQuizModal } from './BookVerificationQuizModal';
+import { BookCover } from './BookCover';
 
 export const OnlineLibraryView: React.FC = () => {
   const {
@@ -146,9 +147,7 @@ export const OnlineLibraryView: React.FC = () => {
                   className="p-3 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800/70 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
                 >
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-10 rounded bg-gradient-to-br from-amber-600 to-zinc-900 flex items-center justify-center text-white shrink-0 shadow-sm text-xs font-bold font-mono">
-                      {item.title.charAt(0)}
-                    </div>
+                    <BookCover title={item.title} author={item.author} className="w-8 shrink-0" />
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
                         <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-amber-500 transition-colors">
@@ -214,7 +213,9 @@ export const OnlineLibraryView: React.FC = () => {
             >
               <div className="space-y-3">
                 <div className="flex items-start justify-between gap-4">
-                  <div>
+                  <div className="flex items-start gap-4 min-w-0">
+                    <BookCover title={book.title} author={book.author} color={book.coverColor} className="w-16 sm:w-20 shrink-0" />
+                    <div className="min-w-0">
                     <span className="text-xs font-mono text-zinc-400 block mb-1">
                       {book.genre} · {book.year > 0 ? book.year : `${Math.abs(book.year)} BC`}
                     </span>
@@ -224,6 +225,7 @@ export const OnlineLibraryView: React.FC = () => {
                     <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
                       by {book.author}
                     </p>
+                    </div>
                   </div>
 
                   <div className="text-right shrink-0">

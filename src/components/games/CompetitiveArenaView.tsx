@@ -25,7 +25,12 @@ import {
   Play,
   Grid,
   Calculator,
-  Target
+  Target,
+  Crown,
+  CircleDot,
+  Languages,
+  Hash,
+  Type
 } from 'lucide-react';
 
 export const CompetitiveArenaView: React.FC = () => {
@@ -146,7 +151,7 @@ export const CompetitiveArenaView: React.FC = () => {
           }`}
         >
           <Swords className="w-4 h-4 text-amber-500" />
-          <span>⚔️ 1v1 & Multiplayer Arena (5 Games)</span>
+          <span>1v1 & Multiplayer Arena (5 Games)</span>
           <span className="hidden sm:inline-block text-[10px] font-mono font-normal px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400">
             Pass & Play · vs AI Bot
           </span>
@@ -161,7 +166,7 @@ export const CompetitiveArenaView: React.FC = () => {
           }`}
         >
           <Brain className="w-4 h-4 text-indigo-500" />
-          <span>🧩 Solo Mind & Puzzle Lab (5 Games)</span>
+          <span>Solo Mind & Puzzle Lab (5 Games)</span>
           <span className="hidden sm:inline-block text-[10px] font-mono font-normal px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
             Cognitive Logic · Daily Streaks
           </span>
@@ -191,7 +196,7 @@ export const CompetitiveArenaView: React.FC = () => {
             >
               <div>
                 <div className="flex items-start justify-between">
-                  <span className="text-2xl sm:text-3xl">♟️</span>
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400"><Crown className="w-6 h-6" /></span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
                     Pass & Play
                   </span>
@@ -220,7 +225,7 @@ export const CompetitiveArenaView: React.FC = () => {
             >
               <div>
                 <div className="flex items-start justify-between">
-                  <span className="text-2xl sm:text-3xl">🔴</span>
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-400"><CircleDot className="w-6 h-6" /></span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-600 dark:text-rose-400 font-bold">
                     NEW 1v1
                   </span>
@@ -249,7 +254,7 @@ export const CompetitiveArenaView: React.FC = () => {
             >
               <div>
                 <div className="flex items-start justify-between">
-                  <span className="text-2xl sm:text-3xl">⚡</span>
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400"><Zap className="w-6 h-6" /></span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold">
                     NEW 1v1
                   </span>
@@ -278,7 +283,7 @@ export const CompetitiveArenaView: React.FC = () => {
             >
               <div>
                 <div className="flex items-start justify-between">
-                  <span className="text-2xl sm:text-3xl">🎯</span>
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"><Target className="w-6 h-6" /></span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
                     Live Buzzer
                   </span>
@@ -307,7 +312,7 @@ export const CompetitiveArenaView: React.FC = () => {
             >
               <div>
                 <div className="flex items-start justify-between">
-                  <span className="text-2xl sm:text-3xl">🔤</span>
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-sky-500/15 text-sky-600 dark:text-sky-400"><Languages className="w-6 h-6" /></span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
                     Wordle Duel
                   </span>
@@ -361,7 +366,7 @@ export const CompetitiveArenaView: React.FC = () => {
             >
               <div>
                 <div className="flex items-start justify-between">
-                  <span className="text-2xl sm:text-3xl">🧮</span>
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-indigo-500/15 text-indigo-600 dark:text-indigo-400"><Calculator className="w-6 h-6" /></span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold">
                     NEW SOLO
                   </span>
@@ -390,7 +395,7 @@ export const CompetitiveArenaView: React.FC = () => {
             >
               <div>
                 <div className="flex items-start justify-between">
-                  <span className="text-2xl sm:text-3xl">🔢</span>
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-violet-500/15 text-violet-600 dark:text-violet-400"><Hash className="w-6 h-6" /></span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
                     Solo / 9x9
                   </span>
@@ -419,7 +424,7 @@ export const CompetitiveArenaView: React.FC = () => {
             >
               <div>
                 <div className="flex items-start justify-between">
-                  <span className="text-2xl sm:text-3xl">▦</span>
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-teal-500/15 text-teal-600 dark:text-teal-400"><Grid className="w-6 h-6" /></span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-bold">
                     NEW SOLO
                   </span>
@@ -448,7 +453,7 @@ export const CompetitiveArenaView: React.FC = () => {
             >
               <div>
                 <div className="flex items-start justify-between">
-                  <span className="text-2xl sm:text-3xl">🧠</span>
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-indigo-500/15 text-indigo-600 dark:text-indigo-400"><Brain className="w-6 h-6" /></span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
                     Matrices
                   </span>
@@ -477,7 +482,7 @@ export const CompetitiveArenaView: React.FC = () => {
             >
               <div>
                 <div className="flex items-start justify-between">
-                  <span className="text-2xl sm:text-3xl">🔠</span>
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-400"><Type className="w-6 h-6" /></span>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
                     Solo Wordle
                   </span>

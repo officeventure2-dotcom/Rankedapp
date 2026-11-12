@@ -36,6 +36,7 @@ import { LanguageLabView } from './LanguageLabView';
 import { BOOK_CATALOG, BookCatalogItem, searchBookSuggestions } from '../data/bookCatalogData';
 import { BookVerificationQuizModal } from './BookVerificationQuizModal';
 import { TriviaArenaView } from './TriviaArenaView';
+import { BookCover } from './BookCover';
 
 export type ChallengeSubTab = CategoryType | 'competitive';
 
@@ -393,9 +394,7 @@ export const ChallengesView: React.FC = () => {
                       }}
                     >
                       <div className="flex items-start gap-3">
-                        <div className="w-9 h-11 rounded bg-gradient-to-br from-amber-600 to-zinc-900 flex items-center justify-center text-white shrink-0 shadow-sm text-xs font-bold font-mono">
-                          {item.title.charAt(0)}
-                        </div>
+                        <BookCover title={item.title} author={item.author} className="w-9 shrink-0" />
                         <div>
                           <div className="flex items-center gap-2 flex-wrap">
                             <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-amber-500 transition-colors">

@@ -3,6 +3,7 @@ import { useRanked } from '../context/RankedContext';
 import { getTierForLevel, getTierColor, CATEGORY_METADATA } from '../utils/levelMath';
 import { Heart, MessageSquare, Share2, Plus, Sparkles, Send } from 'lucide-react';
 import { CategoryType } from '../types';
+import { Avatar } from './Avatar';
 
 export const SocialFeedView: React.FC = () => {
   const { feedPosts, toggleLikePost, addCommentToPost, createPost, user, openUserProfile } = useRanked();
@@ -140,12 +141,7 @@ export const SocialFeedView: React.FC = () => {
                   onClick={() => openUserProfile(post.userId)}
                   className="flex items-center gap-3 cursor-pointer group"
                 >
-                  <img
-                    src={post.userAvatar}
-                    alt={post.userName}
-                    referrerPolicy="no-referrer"
-                    className="w-10 h-10 rounded-xl object-cover border border-zinc-200 dark:border-zinc-700 group-hover:ring-2 group-hover:ring-amber-500 transition-all"
-                  />
+                  <Avatar src={post.userAvatar} name={post.userName} className="w-10 h-10 rounded-xl object-cover border border-zinc-200 dark:border-zinc-700 group-hover:ring-2 group-hover:ring-amber-500 transition-all" />
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-amber-500 transition-colors">

@@ -3,6 +3,7 @@ import { useRanked } from '../context/RankedContext';
 import { getTierForLevel, getTierColor, CATEGORY_METADATA } from '../utils/levelMath';
 import { LeaderboardUser, CategoryType } from '../types';
 import { Search, Trophy, Users, Shield, ArrowUpDown, X, Sparkles } from 'lucide-react';
+import { Avatar } from './Avatar';
 
 export const LeaderboardView: React.FC = () => {
   const { leaderboard, user, setActiveFriendId, setActiveTab, openUserProfile } = useRanked();
@@ -126,12 +127,7 @@ export const LeaderboardView: React.FC = () => {
                         onClick={() => openUserProfile(entry.id)}
                         className="flex items-center gap-3 cursor-pointer group"
                       >
-                        <img
-                          src={entry.avatar}
-                          alt={entry.name}
-                          referrerPolicy="no-referrer"
-                          className="w-8 h-8 rounded-lg object-cover border border-zinc-200 dark:border-zinc-700 group-hover:ring-2 group-hover:ring-amber-500 transition-all"
-                        />
+                        <Avatar src={entry.avatar} name={entry.name} className="w-8 h-8 rounded-lg object-cover border border-zinc-200 dark:border-zinc-700 group-hover:ring-2 group-hover:ring-amber-500 transition-all" />
                         <div>
                           <p className="font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5 group-hover:text-amber-500 transition-colors">
                             <span>{entry.name}</span>
@@ -225,12 +221,7 @@ export const LeaderboardView: React.FC = () => {
             <div className="grid grid-cols-2 gap-6 text-center">
               {/* You */}
               <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200 dark:border-zinc-800 space-y-2">
-                <img
-                  src={user.avatar}
-                  alt={user.name}
-                  referrerPolicy="no-referrer"
-                  className="w-14 h-14 rounded-full mx-auto object-cover border-2 border-amber-500"
-                />
+                <Avatar src={user.avatar} name={user.name} className="w-14 h-14 rounded-full mx-auto object-cover border-2 border-amber-500" />
                 <h4 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">{user.name}</h4>
                 <p className="text-xs text-zinc-500">Level {user.level} · {getTierForLevel(user.level)}</p>
                 <p className="font-mono text-sm font-bold text-amber-600 dark:text-amber-400 tabular-nums">
@@ -245,12 +236,7 @@ export const LeaderboardView: React.FC = () => {
 
               {/* Opponent */}
               <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200 dark:border-zinc-800 space-y-2">
-                <img
-                  src={selectedUserForCompare.avatar}
-                  alt={selectedUserForCompare.name}
-                  referrerPolicy="no-referrer"
-                  className="w-14 h-14 rounded-full mx-auto object-cover border-2 border-zinc-400"
-                />
+                <Avatar src={selectedUserForCompare.avatar} name={selectedUserForCompare.name} className="w-14 h-14 rounded-full mx-auto object-cover border-2 border-zinc-400" />
                 <h4 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">{selectedUserForCompare.name}</h4>
                 <p className="text-xs text-zinc-500">Level {selectedUserForCompare.level} · {selectedUserForCompare.tier}</p>
                 <p className="font-mono text-sm font-bold text-zinc-700 dark:text-zinc-300 tabular-nums">

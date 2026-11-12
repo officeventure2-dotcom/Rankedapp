@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRanked } from '../context/RankedContext';
 import { Bell, X, Check, Clock, AlertTriangle } from 'lucide-react';
+import { HERO_CREST_PATH } from '../data/mockData';
 
 export const NotificationsModal: React.FC = () => {
   const {
@@ -19,7 +20,7 @@ export const NotificationsModal: React.FC = () => {
     if ('Notification' in window && Notification.permission === 'granted') {
       new Notification('Ranked Goal Reminder', {
         body: 'Keep your 48-day study streak alive! Complete your daily cognitive matrix.',
-        icon: '/src/assets/images/ranked_hero_crest_1792934617606.jpg'
+        icon: HERO_CREST_PATH
       });
     }
   };

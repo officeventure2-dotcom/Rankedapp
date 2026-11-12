@@ -18,10 +18,17 @@ import {
   ThemePreset
 } from '../types';
 
-export const HERO_CREST_PATH = '/src/assets/images/ranked_hero_crest_1792934617606.jpg';
-export const AVATAR_ELENA_PATH = '/src/assets/images/avatar_elena_1792934618640.jpg';
-export const AVATAR_MARCUS_PATH = '/src/assets/images/avatar_marcus_1792934618838.jpg';
-export const WEARABLE_PREVIEW_PATH = '/src/assets/images/device_wearable_preview_1792934619010.jpg';
+import heroCrestUrl from '../assets/images/ranked_hero_crest_1792934617606.jpg';
+import avatarElenaUrl from '../assets/images/avatar_elena_1792934618640.jpg';
+import avatarMarcusUrl from '../assets/images/avatar_marcus_1792934618838.jpg';
+import wearablePreviewUrl from '../assets/images/device_wearable_preview_1792934619010.jpg';
+
+// Imported (not hard-coded '/src/...' strings) so Vite bundles the files into
+// the production build and gives them working URLs.
+export const HERO_CREST_PATH = heroCrestUrl;
+export const AVATAR_ELENA_PATH = avatarElenaUrl;
+export const AVATAR_MARCUS_PATH = avatarMarcusUrl;
+export const WEARABLE_PREVIEW_PATH = wearablePreviewUrl;
 
 export const INITIAL_USER: UserProfile = {
   id: 'usr_me',
