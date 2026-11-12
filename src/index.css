@@ -1,0 +1,302 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html, body {
+    overscroll-behavior-y: contain;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-x pan-y;
+    min-height: 100%;
+    overflow-x: hidden;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+  
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-top: env(safe-area-inset-top, 0px);
+    overflow-x: hidden;
+  }
+
+  button, a, input, [role="button"] {
+    touch-action: manipulation;
+  }
+}
+
+/* Mobile Safe-Area & Touch Helpers */
+.pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 16px);
+}
+.pt-safe {
+  padding-top: max(env(safe-area-inset-top, 0px), 12px);
+}
+.min-h-touch {
+  min-height: 44px;
+}
+.min-w-touch {
+  min-width: 44px;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ==========================================================================
+   THEME ARCHITECTURE: Standard, Dark Neo-Brutalist & Anime Aesthetics
+   ========================================================================== */
+
+/* 1. Classic Dark (Obsidian Minimal - Default) */
+html[data-theme="dark"],
+body[data-theme="dark"],
+[data-theme="dark"] body {
+  background-color: #09090b !important;
+  color: #fafafa !important;
+}
+
+/* 2. Light Theme (Scholar Alabaster) */
+html[data-theme="light"],
+body[data-theme="light"],
+[data-theme="light"] body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] header {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .bg-zinc-900,
+[data-theme="light"] .bg-zinc-950,
+[data-theme="light"] .dark\:bg-zinc-900,
+[data-theme="light"] .dark\:bg-zinc-950,
+[data-theme="light"] .dark\:bg-zinc-900\/80,
+[data-theme="light"] .dark\:bg-zinc-900\/90,
+[data-theme="light"] .dark\:bg-zinc-800\/60,
+[data-theme="light"] .dark\:bg-zinc-800\/40 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .text-zinc-100,
+[data-theme="light"] .text-white,
+[data-theme="light"] .dark\:text-zinc-100,
+[data-theme="light"] .dark\:text-zinc-50 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .text-zinc-400,
+[data-theme="light"] .dark\:text-zinc-400 {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .border-zinc-800,
+[data-theme="light"] .dark\:border-zinc-800,
+[data-theme="light"] .dark\:border-zinc-700 {
+  border-color: #e2e8f0 !important;
+}
+
+/* 3. Dark Neo-Brutalist & Cyberpunk Wireframe */
+html[data-theme="dark-neo"],
+body[data-theme="dark-neo"],
+[data-theme="dark-neo"] body {
+  background-color: #030712 !important;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.16) 0%, transparent 60%),
+    linear-gradient(to right, rgba(6, 182, 212, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(6, 182, 212, 0.06) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 36px 36px, 36px 36px !important;
+  color: #f0fdf4 !important;
+}
+
+[data-theme="dark-neo"] header {
+  background-color: rgba(3, 7, 18, 0.92) !important;
+  border-bottom: 1px solid rgba(6, 182, 212, 0.4) !important;
+  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.1) !important;
+}
+
+[data-theme="dark-neo"] .bg-zinc-900,
+[data-theme="dark-neo"] .dark\:bg-zinc-900,
+[data-theme="dark-neo"] .dark\:bg-zinc-900\/80,
+[data-theme="dark-neo"] .dark\:bg-zinc-900\/90,
+[data-theme="dark-neo"] .dark\:bg-zinc-950 {
+  background-color: rgba(5, 12, 28, 0.9) !important;
+  border-color: rgba(6, 182, 212, 0.35) !important;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.06) !important;
+}
+
+[data-theme="dark-neo"] ::selection {
+  background-color: rgba(6, 182, 212, 0.35);
+  color: #22d3ee;
+}
+
+/* 4. Anime Theme 1: Solo Leveling (Shadow Monarch) */
+html[data-theme="anime-solo"],
+body[data-theme="anime-solo"],
+[data-theme="anime-solo"] body {
+  background-color: #020617 !important;
+  background-image: 
+    radial-gradient(circle at 50% -10%, rgba(56, 189, 248, 0.25) 0%, rgba(99, 102, 241, 0.14) 45%, transparent 75%),
+    radial-gradient(circle at 85% 60%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 15% 40%, rgba(56, 189, 248, 0.1) 0%, transparent 50%) !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="anime-solo"] header {
+  background-color: rgba(2, 6, 23, 0.92) !important;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 4px 24px rgba(56, 189, 248, 0.15) !important;
+}
+
+[data-theme="anime-solo"] .bg-zinc-900,
+[data-theme="anime-solo"] .dark\:bg-zinc-900,
+[data-theme="anime-solo"] .dark\:bg-zinc-900\/80,
+[data-theme="anime-solo"] .dark\:bg-zinc-900\/90,
+[data-theme="anime-solo"] .dark\:bg-zinc-950 {
+  background-color: rgba(8, 15, 38, 0.9) !important;
+  border-color: rgba(56, 189, 248, 0.3) !important;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.08) !important;
+}
+
+[data-theme="anime-solo"] ::selection {
+  background-color: rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+}
+
+/* 5. Anime Theme 2: Cyber Mecha EVA-01 (Evangelion Core) */
+html[data-theme="anime-cyberpunk"],
+body[data-theme="anime-cyberpunk"],
+[data-theme="anime-cyberpunk"] body {
+  background-color: #0a0118 !important;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.24) 0%, rgba(34, 197, 94, 0.14) 50%, transparent 80%),
+    radial-gradient(circle at 90% 70%, rgba(244, 63, 94, 0.12) 0%, transparent 45%),
+    linear-gradient(135deg, rgba(34, 197, 94, 0.03) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(34, 197, 94, 0.03) 25%, transparent 25%) !important;
+  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px !important;
+  color: #f0fdf4 !important;
+}
+
+[data-theme="anime-cyberpunk"] header {
+  background-color: rgba(10, 1, 24, 0.92) !important;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.4) !important;
+  box-shadow: 0 4px 24px rgba(34, 197, 94, 0.12) !important;
+}
+
+[data-theme="anime-cyberpunk"] .bg-zinc-900,
+[data-theme="anime-cyberpunk"] .dark\:bg-zinc-900,
+[data-theme="anime-cyberpunk"] .dark\:bg-zinc-900\/80,
+[data-theme="anime-cyberpunk"] .dark\:bg-zinc-900\/90,
+[data-theme="anime-cyberpunk"] .dark\:bg-zinc-950 {
+  background-color: rgba(22, 6, 38, 0.9) !important;
+  border-color: rgba(34, 197, 94, 0.3) !important;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.08) !important;
+}
+
+[data-theme="anime-cyberpunk"] ::selection {
+  background-color: rgba(34, 197, 94, 0.35);
+  color: #4ade80;
+}
+
+/* 6. Anime Theme 3: Tokyo Twilight Sakura (Demon Slayer / Nichirin) */
+html[data-theme="anime-sakura"],
+body[data-theme="anime-sakura"],
+[data-theme="anime-sakura"] body {
+  background-color: #0b0714 !important;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(244, 114, 182, 0.24) 0%, rgba(192, 132, 252, 0.14) 40%, transparent 75%),
+    radial-gradient(circle at 20% 80%, rgba(251, 113, 133, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 80% 30%, rgba(244, 114, 182, 0.1) 0%, transparent 40%) !important;
+  color: #fdf2f8 !important;
+}
+
+[data-theme="anime-sakura"] header {
+  background-color: rgba(11, 7, 20, 0.92) !important;
+  border-bottom: 1px solid rgba(244, 114, 182, 0.4) !important;
+  box-shadow: 0 4px 24px rgba(244, 114, 182, 0.12) !important;
+}
+
+[data-theme="anime-sakura"] .bg-zinc-900,
+[data-theme="anime-sakura"] .dark\:bg-zinc-900,
+[data-theme="anime-sakura"] .dark\:bg-zinc-900\/80,
+[data-theme="anime-sakura"] .dark\:bg-zinc-900\/90,
+[data-theme="anime-sakura"] .dark\:bg-zinc-950 {
+  background-color: rgba(24, 14, 34, 0.9) !important;
+  border-color: rgba(244, 114, 182, 0.3) !important;
+  box-shadow: 0 0 20px rgba(244, 114, 182, 0.08) !important;
+}
+
+[data-theme="anime-sakura"] ::selection {
+  background-color: rgba(244, 114, 182, 0.35);
+  color: #f472b6;
+}
+
+/* 7. Anime Theme 4: Super Saiyan Ki Flare (Dragon Gold) */
+html[data-theme="anime-saiyan"],
+body[data-theme="anime-saiyan"],
+[data-theme="anime-saiyan"] body {
+  background-color: #090803 !important;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(250, 204, 21, 0.24) 0%, rgba(249, 115, 22, 0.14) 45%, transparent 75%),
+    radial-gradient(circle at 80% 60%, rgba(234, 88, 12, 0.12) 0%, transparent 45%) !important;
+  color: #fefce8 !important;
+}
+
+[data-theme="anime-saiyan"] header {
+  background-color: rgba(9, 8, 3, 0.92) !important;
+  border-bottom: 1px solid rgba(250, 204, 21, 0.4) !important;
+  box-shadow: 0 4px 24px rgba(250, 204, 21, 0.15) !important;
+}
+
+[data-theme="anime-saiyan"] .bg-zinc-900,
+[data-theme="anime-saiyan"] .dark\:bg-zinc-900,
+[data-theme="anime-saiyan"] .dark\:bg-zinc-900\/80,
+[data-theme="anime-saiyan"] .dark\:bg-zinc-900\/90,
+[data-theme="anime-saiyan"] .dark\:bg-zinc-950 {
+  background-color: rgba(24, 20, 6, 0.9) !important;
+  border-color: rgba(250, 204, 21, 0.3) !important;
+  box-shadow: 0 0 20px rgba(250, 204, 21, 0.08) !important;
+}
+
+[data-theme="anime-saiyan"] ::selection {
+  background-color: rgba(250, 204, 21, 0.35);
+  color: #fde047;
+}
+
+/* Custom Themed Glow Rings */
+.theme-glow-card {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark-neo"] .theme-glow-card {
+  border-color: rgba(6, 182, 212, 0.3) !important;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.12);
+}
+
+[data-theme="anime-solo"] .theme-glow-card {
+  border-color: rgba(56, 189, 248, 0.25) !important;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.12);
+}
+
+[data-theme="anime-cyberpunk"] .theme-glow-card {
+  border-color: rgba(34, 197, 94, 0.25) !important;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.12);
+}
+
+[data-theme="anime-sakura"] .theme-glow-card {
+  border-color: rgba(244, 114, 182, 0.25) !important;
+  box-shadow: 0 0 20px rgba(244, 114, 182, 0.12);
+}
+
+[data-theme="anime-saiyan"] .theme-glow-card {
+  border-color: rgba(250, 204, 21, 0.25) !important;
+  box-shadow: 0 0 20px rgba(250, 204, 21, 0.12);
+}

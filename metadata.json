@@ -1,0 +1,6 @@
+{
+  "name": "Ranked",
+  "description": "The definitive 1-1,000 level life achievement system. Level up across trivia, languages, books, movies, fitness, degrees, and IQ puzzles with global leaderboards, wearable syncing, and social feeds.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

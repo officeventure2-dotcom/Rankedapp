@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Ranked</string>
+    <string name="package_name">com.ranked.polymath</string>
+    <string name="app_description">Ranked: Polymath Life Mastery RPG (Levels 1–1,000)</string>
+</resources>
