@@ -82,7 +82,9 @@ const AppContent: React.FC = () => {
   const isMapTab = activeTab === 'map';
 
   return (
-    <div className="min-h-screen bg-transparent text-zinc-900 dark:text-zinc-50 flex flex-col font-['Plus_Jakarta_Sans',sans-serif] selection:bg-amber-500/20 selection:text-amber-500 relative transition-colors duration-250">
+    <div className="min-h-screen bg-transparent text-zinc-900 dark:text-zinc-50 flex flex-col font-['Plus_Jakarta_Sans',sans-serif] selection:bg-amber-500/20 selection:text-amber-500 relative isolate transition-colors duration-250">
+      {/* Soft coloured light behind the glass surfaces (see liquid-glass.css) */}
+      <div className="lg-backdrop" aria-hidden="true"><span /></div>
       
       {/* Top Bar Navigation (Jakob's Law clean header) */}
       <Header />

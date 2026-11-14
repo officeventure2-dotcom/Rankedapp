@@ -1,0 +1,202 @@
+/*
+ * Liquid Glass layer.
+ *
+ * Loaded after index.css. It restyles the app's existing surfaces (cards, tiles,
+ * header, bottom bar, modals, inputs) as frosted, light-refracting glass over a
+ * soft coloured backdrop. Nothing here changes layout or behaviour, so removing
+ * the import in main.tsx brings back the previous look.
+ *
+ * Each theme only supplies colours (--lg-orb-*); the glass itself is shared.
+ */
+
+/* ---------- Palette per theme ---------- */
+html {
+  --lg-orb-1: 245, 158, 11;   /* amber  */
+  --lg-orb-2: 99, 102, 241;   /* indigo */
+  --lg-orb-3: 16, 185, 129;   /* emerald */
+}
+html[data-theme="dark-neo"]        { --lg-orb-1: 6, 182, 212;  --lg-orb-2: 59, 130, 246;  --lg-orb-3: 16, 185, 129; }
+html[data-theme="anime-solo"]      { --lg-orb-1: 56, 189, 248; --lg-orb-2: 99, 102, 241;  --lg-orb-3: 168, 85, 247; }
+html[data-theme="anime-cyberpunk"] { --lg-orb-1: 168, 85, 247; --lg-orb-2: 34, 197, 94;   --lg-orb-3: 244, 63, 94; }
+html[data-theme="anime-sakura"]    { --lg-orb-1: 244, 114, 182; --lg-orb-2: 192, 132, 252; --lg-orb-3: 251, 113, 133; }
+html[data-theme="anime-saiyan"]    { --lg-orb-1: 250, 204, 21; --lg-orb-2: 249, 115, 22;  --lg-orb-3: 234, 88, 12; }
+html[data-theme="light"]           { --lg-orb-1: 251, 191, 36; --lg-orb-2: 129, 140, 248; --lg-orb-3: 45, 212, 191; }
+
+/* ---------- Glass tokens (dark themes are the default) ---------- */
+html {
+  --lg-blur: 22px;
+  --lg-fill-hi: rgba(255, 255, 255, 0.13);
+  --lg-fill: rgba(16, 16, 30, 0.30);
+  --lg-fill-lo: rgba(10, 10, 22, 0.40);
+  --lg-fill-nested: rgba(255, 255, 255, 0.055);
+  --lg-fill-control: rgba(255, 255, 255, 0.08);
+  --lg-edge: rgba(255, 255, 255, 0.16);
+  --lg-rim: rgba(255, 255, 255, 0.30);
+  --lg-rim-low: rgba(255, 255, 255, 0.05);
+  --lg-drop: rgba(0, 0, 0, 0.45);
+  --lg-orb-alpha: 0.24;
+}
+html:not(.dark) {
+  --lg-fill-hi: rgba(255, 255, 255, 0.78);
+  --lg-fill: rgba(255, 255, 255, 0.55);
+  --lg-fill-lo: rgba(255, 255, 255, 0.40);
+  --lg-fill-nested: rgba(255, 255, 255, 0.42);
+  --lg-fill-control: rgba(255, 255, 255, 0.55);
+  --lg-edge: rgba(255, 255, 255, 0.85);
+  --lg-rim: rgba(255, 255, 255, 1);
+  --lg-rim-low: rgba(255, 255, 255, 0.5);
+  --lg-drop: rgba(60, 70, 140, 0.22);
+  --lg-orb-alpha: 0.42;
+}
+
+/* ---------- Backdrop: soft colour for the glass to refract ---------- */
+.lg-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  overflow: hidden;
+}
+.lg-backdrop::before,
+.lg-backdrop::after,
+.lg-backdrop > span {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform;
+}
+.lg-backdrop::before {
+  width: 78vmax; height: 78vmax; left: -28vmax; top: -30vmax;
+  background: radial-gradient(circle, rgba(var(--lg-orb-1), var(--lg-orb-alpha)) 0%, transparent 62%);
+  animation: lg-drift-a 38s ease-in-out infinite alternate;
+}
+.lg-backdrop::after {
+  width: 70vmax; height: 70vmax; right: -30vmax; top: 18vh;
+  background: radial-gradient(circle, rgba(var(--lg-orb-2), var(--lg-orb-alpha)) 0%, transparent 62%);
+  animation: lg-drift-b 46s ease-in-out infinite alternate;
+}
+.lg-backdrop > span {
+  width: 64vmax; height: 64vmax; left: 8vw; bottom: -34vmax;
+  background: radial-gradient(circle, rgba(var(--lg-orb-3), calc(var(--lg-orb-alpha) * 0.85)) 0%, transparent 62%);
+  animation: lg-drift-c 52s ease-in-out infinite alternate;
+}
+@keyframes lg-drift-a { to { transform: translate3d(9vmax, 7vmax, 0) scale(1.08); } }
+@keyframes lg-drift-b { to { transform: translate3d(-8vmax, 6vmax, 0) scale(1.12); } }
+@keyframes lg-drift-c { to { transform: translate3d(7vmax, -8vmax, 0) scale(1.06); } }
+
+/* ---------- Glass surfaces: cards and panels ---------- */
+html .rounded-2xl.border,
+html .rounded-3xl.border {
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(1.8);
+  backdrop-filter: blur(var(--lg-blur)) saturate(1.8);
+  border-color: var(--lg-edge) !important;
+  box-shadow:
+    inset 0 1px 0 var(--lg-rim),
+    inset 0 -1px 0 var(--lg-rim-low),
+    inset 0 0 22px rgba(255, 255, 255, 0.04),
+    0 14px 34px -14px var(--lg-drop) !important;
+}
+/* Only neutral panels take the glass fill; amber/emerald/etc. tinted panels keep their colour. */
+html .rounded-2xl.border:is(.bg-white, .bg-zinc-50, .bg-zinc-100, .bg-zinc-900, [class*="bg-zinc-"], [class*="from-zinc-"], [class*="bg-white"]),
+html .rounded-3xl.border:is(.bg-white, .bg-zinc-50, .bg-zinc-100, .bg-zinc-900, [class*="bg-zinc-"], [class*="from-zinc-"], [class*="bg-white"]) {
+  background-color: transparent !important;
+  background-image: linear-gradient(135deg, var(--lg-fill-hi) 0%, var(--lg-fill) 42%, var(--lg-fill-lo) 100%) !important;
+}
+
+/* Glass inside glass: a lighter pane, no second blur (cheaper, and it reads as depth). */
+html :is(.rounded-2xl, .rounded-3xl).border :is(.rounded-xl, .rounded-2xl, .rounded-3xl).border {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-color: var(--lg-edge) !important;
+  box-shadow: inset 0 1px 0 var(--lg-rim-low) !important;
+}
+html :is(.rounded-2xl, .rounded-3xl).border :is(.rounded-xl, .rounded-2xl, .rounded-3xl).border:is(.bg-white, .bg-zinc-50, .bg-zinc-100, [class*="bg-zinc-"], [class*="from-zinc-"], [class*="bg-white"]) {
+  background-color: var(--lg-fill-nested) !important;
+  background-image: none !important;
+}
+
+/* Standalone tiles that are not inside a card. */
+html .rounded-xl.border:is([class*="bg-zinc-"]) {
+  background-color: var(--lg-fill-nested) !important;
+  border-color: var(--lg-edge) !important;
+  box-shadow: inset 0 1px 0 var(--lg-rim-low) !important;
+}
+
+/* Banner cards were written for a dark background (light grey / pale amber text).
+   In light mode they are glass like every other card, so give that text dark equivalents. */
+html:not(.dark) :is(.rounded-2xl, .rounded-3xl).border[class*="from-zinc-"] :is(.text-zinc-200, .text-zinc-300, .text-zinc-400):not(:is(.bg-zinc-700, .bg-zinc-800, .bg-zinc-900), :is(.bg-zinc-700, .bg-zinc-800, .bg-zinc-900) *) {
+  color: #475569 !important;
+}
+html:not(.dark) :is(.rounded-2xl, .rounded-3xl).border[class*="from-zinc-"] :is(.text-amber-300, .text-amber-400) {
+  color: #b45309 !important;
+}
+
+/* ---------- Header and bottom bar: the clearest glass ---------- */
+html header.sticky.top-0 {
+  background-color: transparent !important;
+  background-image: linear-gradient(180deg, var(--lg-fill-hi), var(--lg-fill-lo)) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(1.9);
+  backdrop-filter: blur(28px) saturate(1.9);
+  border-bottom: 1px solid var(--lg-edge) !important;
+  box-shadow: inset 0 -1px 0 var(--lg-rim-low), 0 10px 30px -18px var(--lg-drop) !important;
+}
+html nav[aria-label="Bottom App Navigation"].pointer-events-auto {
+  background-color: transparent !important;
+  background-image: linear-gradient(135deg, var(--lg-fill-hi), var(--lg-fill) 55%, var(--lg-fill-lo)) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(2);
+  backdrop-filter: blur(30px) saturate(2);
+  border: 1px solid var(--lg-edge) !important;
+  box-shadow:
+    inset 0 1px 0 var(--lg-rim),
+    inset 0 -1px 0 var(--lg-rim-low),
+    0 18px 40px -12px var(--lg-drop) !important;
+}
+
+/* Keep the bar's inactive labels and icons readable on translucent glass. */
+html.dark nav[aria-label="Bottom App Navigation"] :is(span, svg, p):not([class*="amber"]):not([class*="emerald"]):not([class*="text-white"]) {
+  color: rgba(255, 255, 255, 0.78);
+}
+html:not(.dark) nav[aria-label="Bottom App Navigation"] :is(span, svg, p):not([class*="amber"]):not([class*="emerald"]):not([class*="text-white"]) {
+  color: rgba(15, 23, 42, 0.78);
+}
+
+/* ---------- Controls: inputs, chips, secondary buttons ---------- */
+html :is(input, textarea, select):not([type="checkbox"]):not([type="radio"]):not([type="range"]) {
+  background-color: var(--lg-fill-control) !important;
+  border-color: var(--lg-edge) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+html :is(button, a, span, div).rounded-full:is(.bg-zinc-100, .bg-zinc-50, [class*="dark:bg-zinc-800"]):not([class*="bg-zinc-900"]),
+html button:is(.bg-zinc-100, .bg-zinc-50):is(.rounded-lg, .rounded-xl) {
+  background-color: var(--lg-fill-control) !important;
+  border-color: var(--lg-edge) !important;
+  box-shadow: inset 0 1px 0 var(--lg-rim-low);
+}
+
+/* ---------- Modals: frost the page behind, keep the dialog itself glass ---------- */
+html .fixed.inset-0.z-50[class*="bg-black"] {
+  background-color: rgba(8, 10, 20, 0.38) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+}
+html:not(.dark) .fixed.inset-0.z-50[class*="bg-black"] {
+  background-color: rgba(220, 226, 245, 0.35) !important;
+}
+
+/* ---------- Accessibility and fallbacks ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .lg-backdrop::before,
+  .lg-backdrop::after,
+  .lg-backdrop > span { animation: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  html { --lg-fill-hi: rgba(24, 24, 27, 0.96); --lg-fill: rgba(24, 24, 27, 0.96); --lg-fill-lo: rgba(24, 24, 27, 0.96); --lg-fill-nested: rgba(39, 39, 42, 0.96); --lg-fill-control: rgba(39, 39, 42, 0.96); }
+  html:not(.dark) { --lg-fill-hi: #fff; --lg-fill: #fff; --lg-fill-lo: #fff; --lg-fill-nested: #f4f4f5; --lg-fill-control: #f4f4f5; }
+  html * { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html { --lg-fill-hi: rgba(24, 24, 27, 0.9); --lg-fill: rgba(24, 24, 27, 0.9); --lg-fill-lo: rgba(24, 24, 27, 0.9); }
+  html:not(.dark) { --lg-fill-hi: rgba(255, 255, 255, 0.95); --lg-fill: rgba(255, 255, 255, 0.95); --lg-fill-lo: rgba(255, 255, 255, 0.95); }
+}
