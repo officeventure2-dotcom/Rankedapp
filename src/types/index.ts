@@ -7,6 +7,9 @@ export type CategoryType =
   | 'degree'
   | 'iq';
 
+/** A section of the Challenges screen: one per pillar, plus the 1v1 mind-games arena. */
+export type ChallengeSubTab = CategoryType | 'competitive';
+
 export type TierType = 
   | 'Novice'       // 1 - 99
   | 'Adept'        // 100 - 249

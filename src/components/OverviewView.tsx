@@ -30,6 +30,7 @@ export const OverviewView: React.FC = () => {
     user,
     dailyQuests,
     setActiveTab,
+    setChallengePillar,
     gainXp,
     setWearablesModalOpen,
     setStreakModalOpen,
@@ -344,9 +345,16 @@ export const OverviewView: React.FC = () => {
               const score = user.pillarMastery[catKey] || 50;
 
               return (
-                <div
+                <button
+                  type="button"
                   key={catKey}
-                  className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/70 hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
+                  onClick={() => {
+                    setChallengePillar(catKey);
+                    setActiveTab('challenges');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  aria-label={`Open ${meta.name}: ${score}% mastery`}
+                  className="group block w-full text-left cursor-pointer p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/70 hover:border-amber-400/60 dark:hover:border-amber-400/40 active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/60"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2.5">
@@ -362,10 +370,11 @@ export const OverviewView: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="text-right">
+                    <div className="flex items-center gap-2 text-right">
                       <span className="font-mono text-sm font-bold text-zinc-800 dark:text-zinc-200 tabular-nums">
                         {score}%
                       </span>
+                      <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-amber-500 group-hover:translate-x-0.5 transition-all" aria-hidden="true" />
                     </div>
                   </div>
 
@@ -378,7 +387,7 @@ export const OverviewView: React.FC = () => {
                       }}
                     />
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>

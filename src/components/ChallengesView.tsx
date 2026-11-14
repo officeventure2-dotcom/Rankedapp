@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRanked } from '../context/RankedContext';
 import {
   TRIVIA_BANK,
@@ -30,7 +30,7 @@ import {
   RefreshCw,
   Layers
 } from 'lucide-react';
-import { CategoryType, AcademicMilestone, FitnessActivity } from '../types';
+import { CategoryType, AcademicMilestone, FitnessActivity, ChallengeSubTab } from '../types';
 import { CompetitiveArenaView } from './games/CompetitiveArenaView';
 import { LanguageLabView } from './LanguageLabView';
 import { BOOK_CATALOG, BookCatalogItem, searchBookSuggestions } from '../data/bookCatalogData';
@@ -38,7 +38,7 @@ import { BookVerificationQuizModal } from './BookVerificationQuizModal';
 import { TriviaArenaView } from './TriviaArenaView';
 import { BookCover } from './BookCover';
 
-export type ChallengeSubTab = CategoryType | 'competitive';
+export type { ChallengeSubTab };
 
 export const ChallengesView: React.FC = () => {
   const {
@@ -63,8 +63,8 @@ export const ChallengesView: React.FC = () => {
     setActiveTab
   } = useRanked();
 
-  // Active sub-pillar
-  const [activePillar, setActivePillar] = useState<ChallengeSubTab>('competitive');
+  // Active sub-pillar (shared, so the Home screen can open a specific one)
+  const { challengePillar: activePillar, setChallengePillar: setActivePillar } = useRanked();
 
   // Trivia state
   const [triviaIndex, setTriviaIndex] = useState(0);
@@ -148,6 +148,16 @@ export const ChallengesView: React.FC = () => {
     setIqSubmitted(false);
   };
 
+  // Keep the selected tab visible when a section is opened from elsewhere (e.g. Home).
+  const pillarStripRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const strip = pillarStripRef.current;
+    const tab = strip?.querySelector<HTMLElement>('[data-active="true"]');
+    if (!strip || !tab) return;
+    // Scroll only the strip sideways; scrollIntoView would also move the whole page.
+    strip.scrollTo({ left: tab.offsetLeft - (strip.clientWidth - tab.offsetWidth) / 2 });
+  }, [activePillar]);
+
   const pillarsList: Array<{ id: ChallengeSubTab; label: string; icon: React.ReactNode }> = [
     { id: 'competitive', label: '1v1 & Solo Mind Games', icon: <Swords className="w-4 h-4 text-amber-500" /> },
     { id: 'trivia', label: 'Trivia Arena', icon: <Sparkles className="w-4 h-4" /> },
@@ -163,13 +173,14 @@ export const ChallengesView: React.FC = () => {
     <div className="space-y-6 pb-16">
       
       {/* Pillar Selector Strip */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+      <div ref={pillarStripRef} className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
         {pillarsList.map(item => {
           const isActive = activePillar === item.id;
           return (
             <button
               key={item.id}
               onClick={() => setActivePillar(item.id)}
+              data-active={isActive}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap shrink-0 transition-colors ${
                 isActive
                   ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-sm'
