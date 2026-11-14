@@ -16,7 +16,8 @@ import {
   LeaderboardUser,
   OnlineBook,
   EducationalVideo,
-  ThemeMode
+  ThemeMode,
+  ChallengeSubTab
 } from '../types';
 import { BookCatalogItem } from '../data/bookCatalogData';
 import {
@@ -62,6 +63,9 @@ interface RankedContextType {
   academics: AcademicMilestone[];
   leaderboard: LeaderboardUser[];
   activeTab: 'overview' | 'challenges' | 'library' | 'academy' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges';
+  /** Which Challenges section is open (so other screens can deep-link into one). */
+  challengePillar: ChallengeSubTab;
+  setChallengePillar: (pillar: ChallengeSubTab) => void;
   setActiveTab: (tab: 'overview' | 'challenges' | 'library' | 'academy' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges') => void;
   userLocation: { lat: number; lng: number; city?: string } | null;
   locationEnabled: boolean;
@@ -155,6 +159,7 @@ export const RankedProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return saved !== null ? saved === 'true' : true;
   });
 
+  const [challengePillar, setChallengePillar] = useState<ChallengeSubTab>('competitive');
   const [activeTab, setActiveTab] = useState<'overview' | 'challenges' | 'library' | 'academy' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges'>('overview');
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number; city?: string } | null>({
     lat: 37.7749,
@@ -1166,6 +1171,8 @@ export const RankedProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         leaderboard,
         activeTab,
         setActiveTab,
+        challengePillar,
+        setChallengePillar,
         userLocation,
         locationEnabled,
         enableLocation,
