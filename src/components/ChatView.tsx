@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useRanked } from '../context/RankedContext';
 import { getTierForLevel, getTierColor } from '../utils/levelMath';
 import { Send, Circle, Sparkles, MessageCircle } from 'lucide-react';
+import { Avatar } from './Avatar';
 
 export const ChatView: React.FC = () => {
   const {
@@ -69,12 +70,7 @@ export const ChatView: React.FC = () => {
                   }`}
                 >
                   <div className="relative shrink-0">
-                    <img
-                      src={friend.avatar}
-                      alt={friend.name}
-                      referrerPolicy="no-referrer"
-                      className="w-10 h-10 rounded-xl object-cover"
-                    />
+                    <Avatar src={friend.avatar} name={friend.name} className="w-10 h-10 rounded-xl object-cover" />
                     <span
                       className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-zinc-900 ${
                         friend.status === 'online'
@@ -126,12 +122,7 @@ export const ChatView: React.FC = () => {
               onClick={() => openUserProfile(activeFriend.id)}
               className="flex items-center gap-3 cursor-pointer group"
             >
-              <img
-                src={activeFriend.avatar}
-                alt={activeFriend.name}
-                referrerPolicy="no-referrer"
-                className="w-9 h-9 rounded-xl object-cover group-hover:ring-2 group-hover:ring-amber-500 transition-all"
-              />
+              <Avatar src={activeFriend.avatar} name={activeFriend.name} className="w-9 h-9 rounded-xl object-cover group-hover:ring-2 group-hover:ring-amber-500 transition-all" />
               <div>
                 <div className="flex items-center gap-2">
                   <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-amber-500 transition-colors">
@@ -213,7 +204,8 @@ export const ChatView: React.FC = () => {
             />
             <button
               type="submit"
-              className="p-2.5 rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 hover:bg-zinc-800 transition-colors"
+              aria-label="Send message"
+              className="p-2.5 rounded-xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 hover:bg-zinc-800 transition-colors inline-flex items-center justify-center min-h-touch min-w-touch"
             >
               <Send className="w-4 h-4" />
             </button>

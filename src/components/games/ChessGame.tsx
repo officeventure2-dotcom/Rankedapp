@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { sounds } from '../../utils/audio';
+import { Avatar } from '../Avatar';
 
 const PIECE_SYMBOLS: Record<string, string> = {
   'w_k': '♔',
@@ -317,7 +318,7 @@ export const ChessGame: React.FC<ChessGameProps> = () => {
           {/* Black Player Banner */}
           <div className="w-full max-w-[540px] px-4 py-2.5 rounded-t-2xl border border-b-0 border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <span className="text-lg">{opponentInfo.avatar}</span>
+              <Avatar src={opponentInfo.avatar} name={opponentInfo.name} className="w-8 h-8 rounded-md object-cover border border-zinc-300 dark:border-zinc-700" />
               <div>
                 <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
                   {opponentInfo.name}
@@ -404,12 +405,7 @@ export const ChessGame: React.FC<ChessGameProps> = () => {
           {/* White Player Banner */}
           <div className="w-full max-w-[540px] px-4 py-2.5 rounded-b-2xl border border-t-0 border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <img
-                src={user.avatar}
-                alt={user.name}
-                referrerPolicy="no-referrer"
-                className="w-7 h-7 rounded-md object-cover border border-amber-500"
-              />
+              <Avatar src={user.avatar} name={user.name} className="w-7 h-7 rounded-md object-cover border border-amber-500" />
               <div>
                 <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
                   {gameMode === '2p' ? 'Player 1 (White)' : `${user.name} (You)`}

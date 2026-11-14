@@ -22,6 +22,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { haptics } from '../utils/haptics';
+import { Avatar } from './Avatar';
 
 // Controller component to handle programmatic pan/zoom when selecting players or centering
 const MapController: React.FC<{
@@ -245,12 +246,7 @@ export const PlayersMapView: React.FC = () => {
                             : `${tierColor.badgeBorder} hover:scale-105`
                         }`}
                       >
-                        <img
-                          src={player.avatar}
-                          alt={player.name}
-                          referrerPolicy="no-referrer"
-                          className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl object-cover bg-zinc-800"
-                        />
+                        <Avatar src={player.avatar} name={player.name} className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl object-cover bg-zinc-800" />
 
                         {/* Level Badge Pin */}
                         <div
@@ -273,12 +269,7 @@ export const PlayersMapView: React.FC = () => {
                 >
                   <div className="p-2 max-w-xs text-zinc-900 space-y-2 font-['Plus_Jakarta_Sans',sans-serif]">
                     <div className="flex items-center gap-2.5">
-                      <img
-                        src={selectedPlayer.avatar}
-                        alt={selectedPlayer.name}
-                        referrerPolicy="no-referrer"
-                        className="w-10 h-10 rounded-xl object-cover border border-zinc-300"
-                      />
+                      <Avatar src={selectedPlayer.avatar} name={selectedPlayer.name} className="w-10 h-10 rounded-xl object-cover border border-zinc-300" />
                       <div className="min-w-0">
                         <h4 className="text-xs font-bold font-['Outfit'] text-zinc-900 truncate">
                           {selectedPlayer.name}
@@ -495,12 +486,7 @@ export const PlayersMapView: React.FC = () => {
                     }`}
                   >
                     <div className="relative shrink-0">
-                      <img
-                        src={p.avatar}
-                        alt={p.name}
-                        referrerPolicy="no-referrer"
-                        className={`w-9 h-9 rounded-xl object-cover border ${tierColor.badgeBorder}`}
-                      />
+                      <Avatar src={p.avatar} name={p.name} className={`w-9 h-9 rounded-xl object-cover border ${tierColor.badgeBorder}`} />
                       <span className={`absolute -bottom-1 -right-1 px-1 py-0.2 rounded font-mono text-[8px] font-bold border ${tierColor.badgeBg} ${tierColor.badgeBorder} ${tierColor.badgeText}`}>
                         {p.level}
                       </span>
@@ -531,12 +517,7 @@ export const PlayersMapView: React.FC = () => {
           <div className="absolute bottom-20 right-4 z-20 max-w-sm w-full bg-zinc-950/85 backdrop-blur-2xl rounded-3xl border border-white/15 p-4 text-white shadow-[0_16px_50px_rgba(0,0,0,0.6)] animate-in slide-in-from-bottom-2 duration-150 hidden sm:block">
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-3">
-                <img
-                  src={selectedPlayer.avatar}
-                  alt={selectedPlayer.name}
-                  referrerPolicy="no-referrer"
-                  className="w-12 h-12 rounded-2xl object-cover border-2 border-amber-500/80"
-                />
+                <Avatar src={selectedPlayer.avatar} name={selectedPlayer.name} className="w-12 h-12 rounded-2xl object-cover border-2 border-amber-500/80" />
                 <div>
                   <h3 className="text-sm font-bold font-['Outfit'] text-white">
                     {selectedPlayer.name}

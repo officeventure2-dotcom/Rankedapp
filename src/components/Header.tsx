@@ -20,6 +20,7 @@ import {
   Layers
 } from 'lucide-react';
 import { haptics } from '../utils/haptics';
+import { Avatar } from './Avatar';
 
 export const Header: React.FC = () => {
   const {
@@ -214,12 +215,7 @@ export const Header: React.FC = () => {
               className="flex items-center gap-2 p-1 sm:pl-2 sm:pr-2.5 sm:py-1 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors bg-zinc-50 dark:bg-zinc-900/80 min-h-[38px] min-w-[38px]"
               aria-label="User Account"
             >
-              <img
-                src={user.avatar}
-                alt={user.name}
-                referrerPolicy="no-referrer"
-                className="w-7 h-7 rounded-lg object-cover"
-              />
+              <Avatar src={user.avatar} name={user.name} className="w-7 h-7 rounded-lg object-cover" />
               <div className="hidden sm:flex flex-col items-start text-left">
                 <span className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 leading-tight">
                   Lvl {user.level}

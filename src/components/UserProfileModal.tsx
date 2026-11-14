@@ -19,6 +19,7 @@ import {
   Lock
 } from 'lucide-react';
 import { CategoryType } from '../types';
+import { Avatar } from './Avatar';
 
 export const UserProfileModal: React.FC = () => {
   const {
@@ -60,7 +61,8 @@ export const UserProfileModal: React.FC = () => {
         <div className="relative h-28 bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-950 p-4 flex justify-end items-start">
           <button
             onClick={closeUserProfile}
-            className="p-1.5 rounded-full bg-black/40 text-zinc-300 hover:text-white transition-colors"
+            aria-label="Close profile"
+            className="p-1.5 rounded-full bg-black/40 text-zinc-300 hover:text-white transition-colors inline-flex items-center justify-center min-h-touch min-w-touch"
           >
             <X className="w-4 h-4" />
           </button>
@@ -70,12 +72,7 @@ export const UserProfileModal: React.FC = () => {
         <div className="px-6 sm:px-8 pb-6 -mt-12 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div className="flex items-end gap-4">
-              <img
-                src={inspectingUser.avatar}
-                alt={inspectingUser.name}
-                referrerPolicy="no-referrer"
-                className="w-24 h-24 rounded-2xl object-cover border-4 border-white dark:border-zinc-900 shadow-xl bg-zinc-800"
-              />
+              <Avatar src={inspectingUser.avatar} name={inspectingUser.name} className="w-24 h-24 rounded-2xl object-cover border-4 border-white dark:border-zinc-900 shadow-xl bg-zinc-800" />
               <div className="space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">

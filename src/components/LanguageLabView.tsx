@@ -378,7 +378,7 @@ export const LanguageLabView: React.FC = () => {
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950'
                   }`}
                 >
-                  🔤 Alphabet & Sounds
+                  <span className="inline-flex items-center gap-1.5"><Languages className="w-3.5 h-3.5" />Alphabet & Sounds</span>
                 </button>
                 <button
                   onClick={() => setA0StudioTab('phonics')}
@@ -388,7 +388,7 @@ export const LanguageLabView: React.FC = () => {
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950'
                   }`}
                 >
-                  📖 How to Read Words
+                  <span className="inline-flex items-center gap-1.5"><BookOpen className="w-3.5 h-3.5" />How to Read Words</span>
                 </button>
               </div>
             </div>
@@ -582,7 +582,8 @@ export const LanguageLabView: React.FC = () => {
                   title="Review Alphabet & How to Read Words"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-xs font-semibold transition-colors cursor-pointer"
                 >
-                  <span>🔤 Alphabet Soundboard</span>
+                  <Volume2 className="w-3.5 h-3.5" />
+                  <span>Alphabet Soundboard</span>
                 </button>
                 <button
                   onClick={() => playNativeAudio(currentExercise.taskPhrase)}
