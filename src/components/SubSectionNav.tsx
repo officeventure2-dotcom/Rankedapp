@@ -10,7 +10,8 @@ import {
   MessageCircle,
   Award,
   GalleryVertical,
-  BrainCircuit
+  BrainCircuit,
+  HeartHandshake
 } from 'lucide-react';
 import { haptics } from '../utils/haptics';
 
@@ -27,13 +28,14 @@ export const SubSectionNav: React.FC = () => {
       { id: 'challenges', label: '1v1 & Solo Mind Games', icon: <Swords className="w-3.5 h-3.5" /> },
       { id: 'science', label: 'Science Codex & Fact Cards', icon: <Atom className="w-3.5 h-3.5" /> }
     ];
-  } else if (activeTab === 'library' || activeTab === 'academy' || activeTab === 'scroll' || activeTab === 'memory') {
+  } else if (activeTab === 'library' || activeTab === 'academy' || activeTab === 'scroll' || activeTab === 'memory' || activeTab === 'psychology') {
     hubName = 'Knowledge & Academy Hub';
     subTabs = [
       { id: 'library', label: 'Foundational Books', icon: <BookOpen className="w-3.5 h-3.5" /> },
       { id: 'academy', label: 'Video Masterclasses', icon: <Youtube className="w-3.5 h-3.5" /> },
-      { id: 'scroll', label: 'Scroll Mode', icon: <GalleryVertical className="w-3.5 h-3.5" /> },
-      { id: 'memory', label: 'Memory Mode', icon: <BrainCircuit className="w-3.5 h-3.5" /> }
+      { id: 'scroll', label: 'Scroll', icon: <GalleryVertical className="w-3.5 h-3.5" /> },
+      { id: 'memory', label: 'Memory', icon: <BrainCircuit className="w-3.5 h-3.5" /> },
+      { id: 'psychology', label: 'Psychology', icon: <HeartHandshake className="w-3.5 h-3.5" /> }
     ];
   } else if (
     activeTab === 'leaderboard' ||
@@ -57,7 +59,7 @@ export const SubSectionNav: React.FC = () => {
     <div className="mb-6 animate-in fade-in slide-in-from-top-2 duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         {/* Transparent Glass Sub-Section Switcher (Jakob's Law UX) */}
-        <div className="p-1 rounded-2xl bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-zinc-200/60 dark:border-white/10 shadow-sm flex items-center gap-1 overflow-x-auto scrollbar-none w-full sm:w-auto">
+        <div className="p-1 rounded-2xl bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-zinc-200/60 dark:border-white/10 shadow-sm flex flex-wrap items-center gap-1 w-full sm:w-auto">
           {subTabs.map(tab => {
             const isActive = activeTab === tab.id;
 
@@ -68,7 +70,7 @@ export const SubSectionNav: React.FC = () => {
                   haptics.tap();
                   setActiveTab(tab.id as any);
                 }}
-                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-2 min-h-[40px] rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
                   isActive
                     ? 'bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 shadow-md scale-[1.02]'
                     : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5'
