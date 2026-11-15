@@ -17,7 +17,8 @@ import {
   OnlineBook,
   EducationalVideo,
   ThemeMode,
-  ChallengeSubTab
+  ChallengeSubTab,
+  ArenaGameId
 } from '../types';
 import { BookCatalogItem } from '../data/bookCatalogData';
 import {
@@ -65,6 +66,9 @@ interface RankedContextType {
   activeTab: 'overview' | 'challenges' | 'library' | 'academy' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges';
   /** Which Challenges section is open (so other screens can deep-link into one). */
   challengePillar: ChallengeSubTab;
+  /** A game another screen wants the Arena to open; the Arena clears it once handled. */
+  pendingArenaGame: ArenaGameId | null;
+  setPendingArenaGame: (game: ArenaGameId | null) => void;
   setChallengePillar: (pillar: ChallengeSubTab) => void;
   setActiveTab: (tab: 'overview' | 'challenges' | 'library' | 'academy' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges') => void;
   userLocation: { lat: number; lng: number; city?: string } | null;
@@ -160,6 +164,7 @@ export const RankedProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   });
 
   const [challengePillar, setChallengePillar] = useState<ChallengeSubTab>('competitive');
+  const [pendingArenaGame, setPendingArenaGame] = useState<ArenaGameId | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'challenges' | 'library' | 'academy' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges'>('overview');
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number; city?: string } | null>({
     lat: 37.7749,
@@ -1172,6 +1177,8 @@ export const RankedProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         activeTab,
         setActiveTab,
         challengePillar,
+        pendingArenaGame,
+        setPendingArenaGame,
         setChallengePillar,
         userLocation,
         locationEnabled,

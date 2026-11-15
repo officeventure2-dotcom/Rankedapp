@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRanked } from '../context/RankedContext';
 import { getLevelProgress, getTierColor, CATEGORY_METADATA, MAX_XP } from '../utils/levelMath';
 import { HERO_CREST_PATH } from '../data/mockData';
+import { ARENA_GAMES } from '../data/gameCatalog';
 import { LevelingArchitectureModal } from './LevelingArchitectureModal';
 import {
   Flame,
@@ -19,6 +20,7 @@ import {
   Zap,
   Youtube,
   Swords,
+  User,
   Atom,
   Hourglass,
   MapPin
@@ -31,6 +33,7 @@ export const OverviewView: React.FC = () => {
     dailyQuests,
     setActiveTab,
     setChallengePillar,
+    setPendingArenaGame,
     gainXp,
     setWearablesModalOpen,
     setStreakModalOpen,
@@ -213,9 +216,13 @@ export const OverviewView: React.FC = () => {
             onClick={() => setActiveTab('challenges')}
             className="w-[240px] sm:w-auto shrink-0 snap-start p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm hover:border-amber-500/70 dark:hover:border-amber-500/70 transition-all cursor-pointer group flex flex-col justify-between touch-manipulation active:scale-[0.98]"
           >
-            <div className="space-y-1">
+            <div className="flex items-start gap-3">
+              <span className="flex items-center justify-center w-11 h-11 shrink-0 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400">
+                <Swords className="w-6 h-6" aria-hidden="true" />
+              </span>
+              <div className="space-y-1 min-w-0">
               <span className="text-[11px] font-mono text-amber-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                <Swords className="w-3.5 h-3.5" /> 2P & Solo
+                2P & Solo
               </span>
               <h3 className="text-sm sm:text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 group-hover:text-amber-500 transition-colors">
                 1v1 Mind Games
@@ -223,6 +230,7 @@ export const OverviewView: React.FC = () => {
               <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2">
                 Chess, Sudoku, Wordle, & Mind Matrix.
               </p>
+              </div>
             </div>
             <div className="flex items-center justify-between mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800/60 text-xs font-semibold text-amber-600 dark:text-amber-400">
               <span>Play Now</span>
@@ -234,9 +242,13 @@ export const OverviewView: React.FC = () => {
             onClick={() => setActiveTab('map')}
             className="w-[240px] sm:w-auto shrink-0 snap-start p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm hover:border-emerald-500/70 dark:hover:border-emerald-500/70 transition-all cursor-pointer group flex flex-col justify-between touch-manipulation active:scale-[0.98]"
           >
-            <div className="space-y-1">
+            <div className="flex items-start gap-3">
+              <span className="flex items-center justify-center w-11 h-11 shrink-0 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+                <MapPin className="w-6 h-6" aria-hidden="true" />
+              </span>
+              <div className="space-y-1 min-w-0">
               <span className="text-[11px] font-mono text-emerald-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5" /> Geolocation
+                Geolocation
               </span>
               <h3 className="text-sm sm:text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 group-hover:text-emerald-500 transition-colors">
                 Player Radar Map
@@ -244,6 +256,7 @@ export const OverviewView: React.FC = () => {
               <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2">
                 Enable GPS & view players and their levels.
               </p>
+              </div>
             </div>
             <div className="flex items-center justify-between mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800/60 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
               <span>Explore Radar</span>
@@ -255,9 +268,13 @@ export const OverviewView: React.FC = () => {
             onClick={() => setActiveTab('science')}
             className="w-[240px] sm:w-auto shrink-0 snap-start p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm hover:border-cyan-500/70 dark:hover:border-cyan-500/70 transition-all cursor-pointer group flex flex-col justify-between touch-manipulation active:scale-[0.98]"
           >
-            <div className="space-y-1">
+            <div className="flex items-start gap-3">
+              <span className="flex items-center justify-center w-11 h-11 shrink-0 rounded-xl bg-cyan-500/15 text-cyan-600 dark:text-cyan-400">
+                <Atom className="w-6 h-6" aria-hidden="true" />
+              </span>
+              <div className="space-y-1 min-w-0">
               <span className="text-[11px] font-mono text-cyan-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                <Atom className="w-3.5 h-3.5" /> Discovery Cards
+                Discovery Cards
               </span>
               <h3 className="text-sm sm:text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 group-hover:text-cyan-500 transition-colors">
                 Science Codex
@@ -265,6 +282,7 @@ export const OverviewView: React.FC = () => {
               <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2">
                 Vocabulary, facts & breakthrough quizzes.
               </p>
+              </div>
             </div>
             <div className="flex items-center justify-between mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800/60 text-xs font-semibold text-cyan-600 dark:text-cyan-400">
               <span>Study Codex</span>
@@ -276,9 +294,13 @@ export const OverviewView: React.FC = () => {
             onClick={() => setActiveTab('library')}
             className="w-[240px] sm:w-auto shrink-0 snap-start p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm hover:border-blue-500/70 dark:hover:border-blue-500/70 transition-all cursor-pointer group flex flex-col justify-between touch-manipulation active:scale-[0.98]"
           >
-            <div className="space-y-1">
+            <div className="flex items-start gap-3">
+              <span className="flex items-center justify-center w-11 h-11 shrink-0 rounded-xl bg-blue-500/15 text-blue-600 dark:text-blue-400">
+                <BookOpen className="w-6 h-6" aria-hidden="true" />
+              </span>
+              <div className="space-y-1 min-w-0">
               <span className="text-[11px] font-mono text-blue-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5" /> Online Library
+                Online Library
               </span>
               <h3 className="text-sm sm:text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 group-hover:text-blue-500 transition-colors">
                 Foundational Books
@@ -286,6 +308,7 @@ export const OverviewView: React.FC = () => {
               <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2">
                 Marcus Aurelius, Einstein, Sun Tzu, Nietzsche.
               </p>
+              </div>
             </div>
             <div className="flex items-center justify-between mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800/60 text-xs font-semibold text-blue-600 dark:text-blue-400">
               <span>Read Classics</span>
@@ -297,9 +320,13 @@ export const OverviewView: React.FC = () => {
             onClick={() => setActiveTab('academy')}
             className="w-[240px] sm:w-auto shrink-0 snap-start p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm hover:border-red-500/70 dark:hover:border-red-500/70 transition-all cursor-pointer group flex flex-col justify-between touch-manipulation active:scale-[0.98]"
           >
-            <div className="space-y-1">
+            <div className="flex items-start gap-3">
+              <span className="flex items-center justify-center w-11 h-11 shrink-0 rounded-xl bg-red-500/15 text-red-600 dark:text-red-400">
+                <Youtube className="w-6 h-6" aria-hidden="true" />
+              </span>
+              <div className="space-y-1 min-w-0">
               <span className="text-[11px] font-mono text-red-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                <Youtube className="w-3.5 h-3.5" /> Video Academy
+                Video Academy
               </span>
               <h3 className="text-sm sm:text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 group-hover:text-red-500 transition-colors">
                 Masterclasses
@@ -307,6 +334,7 @@ export const OverviewView: React.FC = () => {
               <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2">
                 Quantum physics, neuroscience & cinema.
               </p>
+              </div>
             </div>
             <div className="flex items-center justify-between mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800/60 text-xs font-semibold text-red-600 dark:text-red-400">
               <span>Watch Lessons</span>
@@ -316,7 +344,50 @@ export const OverviewView: React.FC = () => {
         </div>
       </div>
 
-      {/* 2-Column Section: 7-Pillars of Mastery & Daily Quests */}
+            {/* Games: every Arena game with its icon; a tap opens that game */}
+      <div>
+        <div className="flex items-center justify-between mb-2.5 px-0.5">
+          <span className="text-xs font-mono font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+            Games
+          </span>
+          <span className="text-[10px] font-mono text-zinc-400">
+            5 head-to-head · 5 solo
+          </span>
+        </div>
+        <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-none gap-3 pb-2 -mx-3.5 px-3.5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-5 sm:overflow-visible sm:pb-0">
+          {ARENA_GAMES.map((game) => {
+            const GameIcon = game.icon;
+            const isDuel = game.mode === 'multiplayer';
+            return (
+              <button
+                type="button"
+                key={game.id}
+                onClick={() => {
+                  setPendingArenaGame(game.id);
+                  setChallengePillar('competitive');
+                  setActiveTab('challenges');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                aria-label={`Play ${game.title} (${isDuel ? '1v1' : 'solo'})`}
+                className="group w-[132px] sm:w-auto shrink-0 snap-start p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm hover:border-amber-500/70 dark:hover:border-amber-500/50 active:scale-[0.98] transition-all text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/60"
+              >
+                <span className={`flex items-center justify-center w-11 h-11 rounded-xl ${game.tile}`}>
+                  <GameIcon className="w-6 h-6" aria-hidden="true" />
+                </span>
+                <span className="mt-2.5 block text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 leading-tight group-hover:text-amber-500 transition-colors">
+                  {game.title}
+                </span>
+                <span className="mt-1.5 inline-flex items-center gap-1 text-[10px] font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                  {isDuel ? <Swords className="w-3 h-3" aria-hidden="true" /> : <User className="w-3 h-3" aria-hidden="true" />}
+                  {isDuel ? '1v1' : 'Solo'}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+{/* 2-Column Section: 7-Pillars of Mastery & Daily Quests */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left: 7 Pillars of Life Mastery Breakdown */}

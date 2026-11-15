@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRanked } from '../../context/RankedContext';
+import { getArenaGame } from '../../data/gameCatalog';
 import { ChessGame } from './ChessGame';
 import { ConnectFourGame } from './ConnectFourGame';
 import { SpeedMathDuelGame } from './SpeedMathDuelGame';
@@ -34,7 +35,7 @@ import {
 } from 'lucide-react';
 
 export const CompetitiveArenaView: React.FC = () => {
-  const { user, showToast, friends } = useRanked();
+  const { user, showToast, friends, pendingArenaGame, setPendingArenaGame } = useRanked();
 
   // Primary mode separation: 1v1 Multiplayer vs Solo Mind Games
   const [arenaCategory, setArenaCategory] = useState<'multiplayer' | 'solo'>('multiplayer');
@@ -42,6 +43,25 @@ export const CompetitiveArenaView: React.FC = () => {
   // Active game states
   const [multiplayerGame, setMultiplayerGame] = useState<'chess' | 'connect4' | 'speed_math' | 'trivia_duel' | 'word_duel'>('chess');
   const [soloGame, setSoloGame] = useState<'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word'>('game24');
+
+  // Open the game another screen (Home) asked for, then bring it into view.
+  useEffect(() => {
+    if (!pendingArenaGame) return;
+    const game = getArenaGame(pendingArenaGame);
+    if (game?.mode === 'multiplayer') {
+      setArenaCategory('multiplayer');
+      setMultiplayerGame(pendingArenaGame as 'chess' | 'connect4' | 'speed_math' | 'trivia_duel' | 'word_duel');
+    } else if (game?.mode === 'solo') {
+      setArenaCategory('solo');
+      setSoloGame(pendingArenaGame as 'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word');
+    }
+    setPendingArenaGame(null);
+    // Wait for the chosen game's panel to render before scrolling to it. Not cancelled on cleanup:
+    // clearing the request above re-runs this effect, and that must not drop the scroll.
+    window.setTimeout(() => {
+      document.getElementById('arena-active-game')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  }, [pendingArenaGame, setPendingArenaGame]);
 
   // Lobby state
   const [roomCode, setRoomCode] = useState('RANKED-9421');
@@ -333,7 +353,7 @@ export const CompetitiveArenaView: React.FC = () => {
           </div>
 
           {/* Active 1v1 Multiplayer Game Component */}
-          <div className="pt-2">
+          <div id="arena-active-game" className="pt-2 scroll-mt-24">
             {multiplayerGame === 'chess' && <ChessGame />}
             {multiplayerGame === 'connect4' && <ConnectFourGame />}
             {multiplayerGame === 'speed_math' && <SpeedMathDuelGame />}
@@ -503,7 +523,7 @@ export const CompetitiveArenaView: React.FC = () => {
           </div>
 
           {/* Active Solo Mind Game Component */}
-          <div className="pt-2">
+          <div id="arena-active-game" className="pt-2 scroll-mt-24">
             {soloGame === 'game24' && <Game24 />}
             {soloGame === 'sudoku' && <SudokuGame />}
             {soloGame === 'nonogram' && <NonogramGame />}
