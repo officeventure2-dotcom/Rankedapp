@@ -8,7 +8,8 @@ import {
   Trophy,
   Globe,
   MessageCircle,
-  Award
+  Award,
+  GalleryVertical
 } from 'lucide-react';
 import { haptics } from '../utils/haptics';
 
@@ -25,11 +26,12 @@ export const SubSectionNav: React.FC = () => {
       { id: 'challenges', label: '1v1 & Solo Mind Games', icon: <Swords className="w-3.5 h-3.5" /> },
       { id: 'science', label: 'Science Codex & Fact Cards', icon: <Atom className="w-3.5 h-3.5" /> }
     ];
-  } else if (activeTab === 'library' || activeTab === 'academy') {
+  } else if (activeTab === 'library' || activeTab === 'academy' || activeTab === 'scroll') {
     hubName = 'Knowledge & Academy Hub';
     subTabs = [
       { id: 'library', label: 'Foundational Books', icon: <BookOpen className="w-3.5 h-3.5" /> },
-      { id: 'academy', label: 'Video Masterclasses', icon: <Youtube className="w-3.5 h-3.5" /> }
+      { id: 'academy', label: 'Video Masterclasses', icon: <Youtube className="w-3.5 h-3.5" /> },
+      { id: 'scroll', label: 'Scroll Mode', icon: <GalleryVertical className="w-3.5 h-3.5" /> }
     ];
   } else if (
     activeTab === 'leaderboard' ||
