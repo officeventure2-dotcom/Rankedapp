@@ -206,3 +206,29 @@ html[data-theme] .fact-tag.fact-tag {
   color: #fff !important;
   background: rgba(0, 0, 0, 0.5) !important;
 }
+
+/* Memory Mode: a selected chip stays solid instead of turning into faint glass. */
+html.dark button.mem-on.mem-on.mem-on.mem-on.mem-on.mem-on {
+  background: #fff !important;
+  color: #09090b !important;
+  border-color: transparent !important;
+}
+html:not(.dark) button.mem-on.mem-on.mem-on.mem-on.mem-on.mem-on {
+  background: #09090b !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+/* Memory Mode: plan checkboxes and the progress track must stay visible on glass. */
+html button.mem-box.mem-box.mem-box.mem-box.mem-box.mem-box[aria-checked="false"] {
+  border: 2px solid rgba(113, 113, 122, 0.6) !important;
+  background: transparent !important;
+}
+html button.mem-box.mem-box.mem-box.mem-box.mem-box.mem-box[aria-checked="true"] {
+  border-color: #10b981 !important;
+  background: #10b981 !important;
+  color: #fff !important;
+}
+html .mem-track.mem-track.mem-track {
+  background: rgba(113, 113, 122, 0.3) !important;
+}

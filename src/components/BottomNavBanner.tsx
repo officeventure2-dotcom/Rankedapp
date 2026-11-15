@@ -30,6 +30,7 @@ export const BottomNavBanner: React.FC = () => {
       case 'library':
       case 'academy':
       case 'scroll':
+      case 'memory':
         return 'knowledge';
       case 'leaderboard':
       case 'social':
