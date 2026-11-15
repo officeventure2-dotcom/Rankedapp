@@ -20,6 +20,7 @@ import { EducationalVideosView } from './components/EducationalVideosView';
 import { UserProfileModal } from './components/UserProfileModal';
 import { OnlineReaderModal } from './components/OnlineReaderModal';
 import { ScienceCodexView } from './components/ScienceCodexView';
+import { ScrollModeView } from './components/ScrollModeView';
 import { PlayersMapView } from './components/PlayersMapView';
 import { DailyStreakModal } from './components/DailyStreakModal';
 import { BottomNavBanner } from './components/BottomNavBanner';
@@ -101,6 +102,7 @@ const AppContent: React.FC = () => {
           {activeTab === 'challenges' && <ChallengesView />}
           {activeTab === 'library' && <OnlineLibraryView />}
           {activeTab === 'academy' && <EducationalVideosView />}
+          {activeTab === 'scroll' && <ScrollModeView />}
           {activeTab === 'science' && <ScienceCodexView />}
           {activeTab === 'leaderboard' && <LeaderboardView />}
           {activeTab === 'social' && <SocialFeedView />}

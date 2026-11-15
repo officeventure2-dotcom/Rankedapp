@@ -176,3 +176,159 @@ ${titleText}
 </svg>`;
   return toDataUri(svg);
 }
+
+export type FactTopic =
+  | 'space'
+  | 'physics'
+  | 'chemistry'
+  | 'biology'
+  | 'body'
+  | 'earth'
+  | 'history'
+  | 'tech'
+  | 'math'
+  | 'mind';
+
+/** Base hue per topic, so each subject has a recognisable colour. */
+export const TOPIC_HUE: Record<FactTopic, number> = {
+  space: 255,
+  physics: 200,
+  chemistry: 160,
+  biology: 120,
+  body: 350,
+  earth: 30,
+  history: 42,
+  tech: 185,
+  math: 285,
+  mind: 320
+};
+
+function scene(topic: FactTopic, h: number, hue: number): string {
+  const light = `hsl(${hue},85%,78%)`;
+  const mid = `hsl(${hue},70%,58%)`;
+  const dark = `hsl(${hue},60%,32%)`;
+  const accent = `hsl(${(hue + 40) % 360},90%,70%)`;
+  const r = (n: number, shift: number) => ((h >> shift) % n);
+
+  switch (topic) {
+    case 'space': {
+      const stars = Array.from({ length: 36 }, (_, i) => {
+        const x = (hash(`s${h}x${i}`) % 320);
+        const y = (hash(`s${h}y${i}`) % 200);
+        const s = 0.6 + (hash(`s${h}r${i}`) % 14) / 10;
+        return `<circle cx="${x}" cy="${y}" r="${s}" fill="#fff" opacity="${0.35 + (i % 5) * 0.13}"/>`;
+      }).join('');
+      const cx = 120 + r(80, 3);
+      return `${stars}<circle cx="${cx}" cy="104" r="46" fill="url(#orb)"/><ellipse cx="${cx}" cy="104" rx="84" ry="16" fill="none" stroke="${accent}" stroke-width="5" opacity="0.7" transform="rotate(-18 ${cx} 104)"/><circle cx="${cx + 70}" cy="44" r="9" fill="${light}" opacity="0.9"/>`;
+    }
+    case 'physics': {
+      const rot = r(60, 2);
+      return `<g transform="translate(160 100) rotate(${rot})" fill="none" stroke="${light}" stroke-width="2.4" opacity="0.9"><ellipse rx="86" ry="30"/><ellipse rx="86" ry="30" transform="rotate(60)"/><ellipse rx="86" ry="30" transform="rotate(120)"/></g><circle cx="160" cy="100" r="13" fill="${accent}"/><circle cx="244" cy="100" r="6" fill="#fff"/><circle cx="118" cy="${28 + r(10, 5)}" r="6" fill="#fff"/><circle cx="118" cy="172" r="6" fill="#fff"/>`;
+    }
+    case 'chemistry': {
+      const hex = (cx: number, cy: number, rad: number, fill: string) => {
+        const p = Array.from({ length: 6 }, (_, i) => {
+          const a = (Math.PI / 3) * i + Math.PI / 6;
+          return `${(cx + rad * Math.cos(a)).toFixed(1)},${(cy + rad * Math.sin(a)).toFixed(1)}`;
+        }).join(' ');
+        return `<polygon points="${p}" fill="${fill}" stroke="${light}" stroke-width="2.4" stroke-linejoin="round"/>`;
+      };
+      const dots = [[160, 100], [100, 134], [220, 66], [220, 134], [100, 66]]
+        .map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="${i === 0 ? 9 : 6}" fill="${i % 2 ? accent : '#fff'}"/>`)
+        .join('');
+      return `${hex(160, 100, 52, 'none')}${hex(224, 63, 34, `${mid}55`)}${hex(96, 137, 34, `${mid}55`)}${dots}`;
+    }
+    case 'biology': {
+      const rungs: string[] = [];
+      let a = '';
+      let b = '';
+      for (let x = 0; x <= 320; x += 4) {
+        const y1 = 100 + 46 * Math.sin((x + r(40, 4)) / 22);
+        const y2 = 100 - 46 * Math.sin((x + r(40, 4)) / 22);
+        a += `${x === 0 ? 'M' : 'L'}${x} ${y1.toFixed(1)} `;
+        b += `${x === 0 ? 'M' : 'L'}${x} ${y2.toFixed(1)} `;
+        if (x % 20 === 0) rungs.push(`<line x1="${x}" y1="${y1.toFixed(1)}" x2="${x}" y2="${y2.toFixed(1)}" stroke="${light}" stroke-width="2" opacity="0.55"/>`);
+      }
+      return `${rungs.join('')}<path d="${a}" fill="none" stroke="${accent}" stroke-width="5" stroke-linecap="round"/><path d="${b}" fill="none" stroke="${light}" stroke-width="5" stroke-linecap="round"/>`;
+    }
+    case 'body': {
+      const cells = Array.from({ length: 14 }, (_, i) => {
+        const x = 20 + (hash(`c${h}x${i}`) % 280);
+        const y = 20 + (hash(`c${h}y${i}`) % 160);
+        const s = 8 + (hash(`c${h}r${i}`) % 16);
+        return `<circle cx="${x}" cy="${y}" r="${s}" fill="${mid}" opacity="0.28"/><circle cx="${x}" cy="${y}" r="${s * 0.4}" fill="${light}" opacity="0.45"/>`;
+      }).join('');
+      return `${cells}<path d="M0 104h92l14-42 22 86 18-70 12 26h162" fill="none" stroke="${accent}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    }
+    case 'earth': {
+      return `<circle cx="${220 + r(40, 3)}" cy="58" r="26" fill="${accent}" opacity="0.95"/><path d="M0 150l50-62 38 40 52-84 56 80 40-34 84 60v50H0z" fill="${mid}"/><path d="M0 172l60-40 50 28 64-48 70 52 76-30v66H0z" fill="${dark}"/><path d="M0 186c40-8 80 8 120 0s80-8 120 0 60 6 80 0v14H0z" fill="${light}" opacity="0.55"/>`;
+    }
+    case 'history': {
+      const cols = [64, 112, 160, 208, 256]
+        .map((x) => `<rect x="${x - 9}" y="74" width="18" height="76" rx="3" fill="${light}" opacity="0.92"/><rect x="${x - 13}" y="68" width="26" height="8" rx="2" fill="${light}"/><rect x="${x - 13}" y="148" width="26" height="8" rx="2" fill="${light}"/>`)
+        .join('');
+      return `<path d="M40 68L160 22l120 46z" fill="${mid}"/>${cols}<rect x="34" y="158" width="252" height="12" rx="3" fill="${light}"/><rect x="24" y="172" width="272" height="10" rx="3" fill="${accent}" opacity="0.8"/>`;
+    }
+    case 'tech': {
+      const traces = Array.from({ length: 7 }, (_, i) => {
+        const y = 26 + i * 24;
+        const x1 = 20 + (hash(`t${h}a${i}`) % 90);
+        const x2 = x1 + 60 + (hash(`t${h}b${i}`) % 120);
+        const y2 = y + ((hash(`t${h}c${i}`) % 3) - 1) * 24;
+        return `<path d="M0 ${y}H${x1}L${x1 + 24} ${y2}H${x2}L${x2 + 20} ${y}H320" fill="none" stroke="${i % 2 ? light : accent}" stroke-width="2.6" opacity="0.75"/><circle cx="${x2 + 20}" cy="${y}" r="4.5" fill="#fff"/>`;
+      }).join('');
+      return `${traces}<rect x="124" y="70" width="72" height="60" rx="8" fill="${dark}" stroke="${accent}" stroke-width="3"/><rect x="142" y="86" width="36" height="28" rx="4" fill="${accent}" opacity="0.85"/>`;
+    }
+    case 'math': {
+      let spiral = '';
+      for (let t = 0; t < 7.5; t += 0.12) {
+        const rad = 5 * Math.pow(1.34, t);
+        const x = 168 + rad * Math.cos(t * 1.9 + h % 6);
+        const y = 100 + rad * Math.sin(t * 1.9 + h % 6);
+        spiral += `${t === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)} `;
+      }
+      const grid = Array.from({ length: 9 }, (_, i) => `<line x1="${i * 40}" y1="0" x2="${i * 40}" y2="200" stroke="${light}" stroke-width="1" opacity="0.14"/>`).join('') +
+        Array.from({ length: 6 }, (_, i) => `<line x1="0" y1="${i * 40}" x2="320" y2="${i * 40}" stroke="${light}" stroke-width="1" opacity="0.14"/>`).join('');
+      return `${grid}<path d="${spiral}" fill="none" stroke="${accent}" stroke-width="4" stroke-linecap="round"/><circle cx="168" cy="100" r="5" fill="#fff"/>`;
+    }
+    case 'mind': {
+      const pts = Array.from({ length: 11 }, (_, i) => [
+        30 + (hash(`m${h}x${i}`) % 260),
+        24 + (hash(`m${h}y${i}`) % 152)
+      ]);
+      const links = pts
+        .flatMap((p, i) => pts.slice(i + 1).map((q) => ({ p, q, d: Math.hypot(p[0] - q[0], p[1] - q[1]) })))
+        .filter((l) => l.d < 100)
+        .map((l) => `<line x1="${l.p[0]}" y1="${l.p[1]}" x2="${l.q[0]}" y2="${l.q[1]}" stroke="${light}" stroke-width="1.8" opacity="0.5"/>`)
+        .join('');
+      const nodes = pts.map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="${i % 3 === 0 ? 9 : 6}" fill="${i % 3 === 0 ? accent : '#fff'}"/>`).join('');
+      return `${links}${nodes}`;
+    }
+  }
+}
+
+/** An original illustrated 16:10 picture for a fact card. */
+export function factArt(topic: FactTopic, seed: string): string {
+  const h = hash(`${topic}|${seed}`);
+  const hue = (TOPIC_HUE[topic] + (h % 24) - 12 + 360) % 360;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="hsl(${hue},62%,26%)"/>
+<stop offset="1" stop-color="hsl(${(hue + 50) % 360},68%,10%)"/>
+</linearGradient>
+<radialGradient id="orb" cx="0.35" cy="0.3" r="0.8">
+<stop offset="0" stop-color="hsl(${hue},90%,78%)"/>
+<stop offset="1" stop-color="hsl(${(hue + 30) % 360},70%,30%)"/>
+</radialGradient>
+<radialGradient id="glow" cx="0.5" cy="0.45" r="0.6">
+<stop offset="0" stop-color="hsl(${hue},90%,70%)" stop-opacity="0.35"/>
+<stop offset="1" stop-color="hsl(${hue},90%,70%)" stop-opacity="0"/>
+</radialGradient>
+</defs>
+<rect width="320" height="200" fill="url(#bg)"/>
+<rect width="320" height="200" fill="url(#glow)"/>
+${scene(topic, h, hue)}
+</svg>`;
+  return toDataUri(svg);
+}

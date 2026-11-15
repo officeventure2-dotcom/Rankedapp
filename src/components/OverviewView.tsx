@@ -19,6 +19,7 @@ import {
   Trophy,
   Zap,
   Youtube,
+  GalleryVertical,
   Swords,
   User,
   Atom,
@@ -338,6 +339,32 @@ export const OverviewView: React.FC = () => {
             </div>
             <div className="flex items-center justify-between mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800/60 text-xs font-semibold text-red-600 dark:text-red-400">
               <span>Watch Lessons</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          <div
+            onClick={() => setActiveTab('scroll')}
+            className="w-[240px] sm:w-auto shrink-0 snap-start p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm hover:border-fuchsia-500/70 dark:hover:border-fuchsia-500/70 transition-all cursor-pointer group flex flex-col justify-between touch-manipulation active:scale-[0.98]"
+          >
+            <div className="flex items-start gap-3">
+              <span className="flex items-center justify-center w-11 h-11 shrink-0 rounded-xl bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-400">
+                <GalleryVertical className="w-6 h-6" aria-hidden="true" />
+              </span>
+              <div className="space-y-1 min-w-0">
+              <span className="text-[11px] font-mono text-fuchsia-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
+                Endless Facts
+              </span>
+              <h3 className="text-sm sm:text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 group-hover:text-fuchsia-500 transition-colors">
+                Scroll Mode
+              </h3>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2">
+                Science, history & general knowledge with pictures.
+              </p>
+              </div>
+            </div>
+            <div className="flex items-center justify-between mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800/60 text-xs font-semibold text-fuchsia-600 dark:text-fuchsia-400">
+              <span>Start Scrolling</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </div>
           </div>
