@@ -84,6 +84,8 @@ interface RankedContextType {
   dismissLevelUp: () => void;
   toast: string | null;
   showToast: (msg: string) => void;
+  settingsSheetOpen: boolean;
+  setSettingsSheetOpen: (open: boolean) => void;
   wearablesModalOpen: boolean;
   setWearablesModalOpen: (open: boolean) => void;
   notificationsModalOpen: boolean;
@@ -276,6 +278,7 @@ export const RankedProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   // Modals & transient state
   const [levelUpModal, setLevelUpModal] = useState<LevelUpInfo | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [settingsSheetOpen, setSettingsSheetOpen] = useState<boolean>(false);
   const [wearablesModalOpen, setWearablesModalOpen] = useState<boolean>(false);
   const [notificationsModalOpen, setNotificationsModalOpen] = useState<boolean>(false);
   const [isSyncingWearable, setIsSyncingWearable] = useState<boolean>(false);
@@ -1193,6 +1196,8 @@ export const RankedProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         dismissLevelUp,
         toast,
         showToast,
+        settingsSheetOpen,
+        setSettingsSheetOpen,
         wearablesModalOpen,
         setWearablesModalOpen,
         notificationsModalOpen,

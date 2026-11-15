@@ -165,7 +165,7 @@ export const PlayersMapView: React.FC = () => {
   };
 
   return (
-    <div className={isFullscreen ? 'fixed inset-0 top-16 z-30 w-full h-[calc(100vh-4rem)] bg-zinc-950 overflow-hidden' : 'space-y-6 pb-24'}>
+    <div className={isFullscreen ? 'fixed inset-0 z-30 w-full h-dvh bg-zinc-950 overflow-hidden' : 'space-y-6 pb-24'}>
       
       {/* If not in fullscreen mode: show intro header */}
       {!isFullscreen && (

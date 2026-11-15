@@ -21,6 +21,9 @@ import {
   Youtube,
   GalleryVertical,
   BrainCircuit,
+  Bell,
+  Palette,
+  SlidersHorizontal,
   Swords,
   User,
   Atom,
@@ -38,6 +41,8 @@ export const OverviewView: React.FC = () => {
     setPendingArenaGame,
     gainXp,
     setWearablesModalOpen,
+    setNotificationsModalOpen,
+    setSettingsSheetOpen,
     setStreakModalOpen,
     syncWearables,
     isSyncingWearable,
@@ -61,6 +66,42 @@ export const OverviewView: React.FC = () => {
 
   return (
     <div className="space-y-8 pb-16">
+
+      {/* Brand and quick controls (these used to live in a bar pinned to the top of every screen) */}
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-9 h-9 shrink-0 rounded-xl bg-zinc-900 dark:bg-zinc-100 flex items-center justify-center text-white dark:text-zinc-900 font-bold font-['Outfit'] text-base shadow-sm">
+            R
+          </div>
+          <div className="min-w-0">
+            <p className="text-lg font-extrabold tracking-tight font-['Outfit'] text-zinc-900 dark:text-zinc-50 leading-none">Ranked</p>
+            <p className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 tracking-wider">POLYMATH RPG</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setNotificationsModalOpen(true)}
+            aria-label="Goal notifications"
+            className="min-h-touch min-w-touch flex items-center justify-center rounded-full text-zinc-600 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
+          >
+            <Bell className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => setWearablesModalOpen(true)}
+            aria-label="Themes and appearance"
+            className="min-h-touch min-w-touch flex items-center justify-center rounded-full text-amber-500 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
+          >
+            <Palette className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => setSettingsSheetOpen(true)}
+            aria-label="Open quick settings"
+            className="min-h-touch min-w-touch flex items-center justify-center rounded-full text-zinc-600 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
+          >
+            <SlidersHorizontal className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
       
       {/* Hero Level Progression Banner */}
       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm p-4 sm:p-8">
