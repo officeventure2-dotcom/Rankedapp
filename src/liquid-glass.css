@@ -232,3 +232,13 @@ html button.mem-box.mem-box.mem-box.mem-box.mem-box.mem-box[aria-checked="true"]
 html .mem-track.mem-track.mem-track {
   background: rgba(113, 113, 122, 0.3) !important;
 }
+
+/* Psychology: keep the progress track and the "read" state visible on glass. */
+html .psy-track.psy-track.psy-track {
+  background: rgba(113, 113, 122, 0.3) !important;
+}
+html button.psy-read.psy-read.psy-read.psy-read.psy-read.psy-read {
+  background: rgba(16, 185, 129, 0.18) !important;
+  border-color: rgba(16, 185, 129, 0.6) !important;
+  color: #059669 !important;
+}

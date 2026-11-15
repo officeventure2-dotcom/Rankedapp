@@ -31,6 +31,7 @@ export const BottomNavBanner: React.FC = () => {
       case 'academy':
       case 'scroll':
       case 'memory':
+      case 'psychology':
         return 'knowledge';
       case 'leaderboard':
       case 'social':
