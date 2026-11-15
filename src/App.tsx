@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { RankedProvider, useRanked } from './context/RankedContext';
-import { Header } from './components/Header';
+import { SettingsSheet } from './components/SettingsSheet';
 import { OverviewView } from './components/OverviewView';
 import { ChallengesView } from './components/ChallengesView';
 import { LeaderboardView } from './components/LeaderboardView';
@@ -88,16 +88,13 @@ const AppContent: React.FC = () => {
       {/* Soft coloured light behind the glass surfaces (see liquid-glass.css) */}
       <div className="lg-backdrop" aria-hidden="true"><span /></div>
       
-      {/* Top Bar Navigation (Jakob's Law clean header) */}
-      <Header />
-
       {/* Main Content Area */}
       {isMapTab ? (
         <main className="flex-1 w-full relative">
           <PlayersMapView />
         </main>
       ) : (
-        <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-32 sm:pb-28">
+        <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 pt-[max(1rem,env(safe-area-inset-top))] sm:pt-6 pb-32 sm:pb-28">
           <SubSectionNav />
           {activeTab === 'overview' && <OverviewView />}
           {activeTab === 'challenges' && <ChallengesView />}
@@ -127,6 +124,7 @@ const AppContent: React.FC = () => {
       )}
 
       {/* Modals */}
+      <SettingsSheet />
       <WearablesModal />
       <NotificationsModal />
       <DailyStreakModal />

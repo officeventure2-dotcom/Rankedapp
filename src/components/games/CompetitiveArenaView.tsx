@@ -353,7 +353,7 @@ export const CompetitiveArenaView: React.FC = () => {
           </div>
 
           {/* Active 1v1 Multiplayer Game Component */}
-          <div id="arena-active-game" className="pt-2 scroll-mt-24">
+          <div id="arena-active-game" className="pt-2 scroll-mt-4">
             {multiplayerGame === 'chess' && <ChessGame />}
             {multiplayerGame === 'connect4' && <ConnectFourGame />}
             {multiplayerGame === 'speed_math' && <SpeedMathDuelGame />}
@@ -523,7 +523,7 @@ export const CompetitiveArenaView: React.FC = () => {
           </div>
 
           {/* Active Solo Mind Game Component */}
-          <div id="arena-active-game" className="pt-2 scroll-mt-24">
+          <div id="arena-active-game" className="pt-2 scroll-mt-4">
             {soloGame === 'game24' && <Game24 />}
             {soloGame === 'sudoku' && <SudokuGame />}
             {soloGame === 'nonogram' && <NonogramGame />}
