@@ -8,6 +8,7 @@ import {
   FileUp,
   Hash,
   BookOpenText,
+  Camera,
   Plus,
   RotateCcw,
   Trash2,
@@ -16,6 +17,7 @@ import {
 import { useRanked } from '../context/RankedContext';
 import { MemoryAiSearch } from './MemoryAiSearch';
 import { QuranPicker } from './QuranPicker';
+import { PhotoMemoryView } from './PhotoMemoryView';
 import { MEMORY_LIBRARY } from '../data/memoryLibrary';
 import { haptics } from '../utils/haptics';
 import {
@@ -102,6 +104,7 @@ export const MemoryModeView: React.FC = () => {
   const [openId, setOpenId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [quran, setQuran] = useState(false);
+  const [photo, setPhoto] = useState(false);
 
   const items = useMemo(() => [...MEMORY_LIBRARY, ...store.custom], [store.custom]);
   const open = items.find((i) => i.id === openId) ?? null;
@@ -112,6 +115,8 @@ export const MemoryModeView: React.FC = () => {
     setQuran(false);
     setOpenId(item.id);
   };
+
+  if (photo) return <PhotoMemoryView onBack={() => setPhoto(false)} />;
 
   if (quran) return <QuranPicker onCancel={() => setQuran(false)} onSave={saveCustom} />;
 
@@ -147,6 +152,24 @@ export const MemoryModeView: React.FC = () => {
       </div>
 
       <MemoryAiSearch onSave={saveCustom} onOpenQuran={() => setQuran(true)} />
+
+      <button
+        onClick={() => {
+          haptics.tap();
+          setPhoto(true);
+        }}
+        className={`${card} w-full p-4 flex items-center gap-3 text-left cursor-pointer hover:border-amber-500/60 transition-colors`}
+      >
+        <span className="flex items-center justify-center w-11 h-11 shrink-0 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400">
+          <Camera className="w-6 h-6" aria-hidden="true" />
+        </span>
+        <span className="min-w-0">
+          <span className="block text-sm font-bold text-zinc-900 dark:text-zinc-100">Photo Memory</span>
+          <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+            Train your visual memory with picture games.
+          </span>
+        </span>
+      </button>
 
       <button
         onClick={() => {
