@@ -32,14 +32,18 @@ function shuffle<T>(list: T[], rand: () => number): T[] {
   return a;
 }
 
-export const cellCount = (level: number) => Math.min(12, 3 + Math.max(1, level));
+/** Pictures per round. Capped so there are always 3 decoys left in the pool. */
+export const cellCount = (level: number, poolSize = POOL_SIZE) =>
+  Math.max(3, Math.min(12, poolSize - 3, 3 + Math.max(1, level)));
+/** Highest level that still adds pictures for this pool. */
+export const maxLevel = (poolSize = POOL_SIZE) => Math.min(9, Math.max(1, cellCount(9, poolSize) - 3));
 export const colsFor = (cells: number) => (cells <= 4 ? 2 : 3);
 export const studySecondsFor = (cells: number) => Math.round(4 + cells * 0.8);
 
-export function makeRound(level: number, seed: number): Round {
+export function makeRound(level: number, seed: number, poolSize = POOL_SIZE): Round {
   const rand = rng(seed);
-  const n = cellCount(level);
-  const order = shuffle(Array.from({ length: POOL_SIZE }, (_, i) => i), rand);
+  const n = cellCount(level, poolSize);
+  const order = shuffle(Array.from({ length: poolSize }, (_, i) => i), rand);
   const cells = order.slice(0, n);
   const decoys = order.slice(n, n + 3);
   return { cells, cols: colsFor(n), studySeconds: studySecondsFor(n), tray: shuffle([...cells, ...decoys], rand) };
@@ -52,8 +56,8 @@ export function gradeGrid(round: Round, placed: Array<number | null>): { correct
 }
 
 /** Level after a grid round: perfect goes up, under half goes down. */
-export function nextLevel(level: number, correct: number, total: number): number {
-  if (correct === total) return Math.min(9, level + 1);
+export function nextLevel(level: number, correct: number, total: number, poolSize = POOL_SIZE): number {
+  if (correct === total) return Math.min(maxLevel(poolSize), level + 1);
   if (correct * 2 < total) return Math.max(1, level - 1);
   return level;
 }
@@ -67,10 +71,10 @@ export interface ChangeRound {
 }
 
 /** One cell is swapped for an item that was not in the grid. */
-export function makeChangeRound(level: number, seed: number): ChangeRound {
+export function makeChangeRound(level: number, seed: number, poolSize = POOL_SIZE): ChangeRound {
   const rand = rng(seed);
-  const n = Math.max(6, cellCount(level));
-  const order = shuffle(Array.from({ length: POOL_SIZE }, (_, i) => i), rand);
+  const n = Math.min(poolSize - 1, Math.max(6, cellCount(level, poolSize)));
+  const order = shuffle(Array.from({ length: poolSize }, (_, i) => i), rand);
   const before = order.slice(0, n);
   const changedCell = Math.floor(rand() * n);
   const after = before.slice();
