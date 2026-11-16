@@ -7,15 +7,19 @@ import {
   FileText,
   FileUp,
   Hash,
+  BookOpenText,
   Plus,
   RotateCcw,
   Trash2,
   Volume2
 } from 'lucide-react';
 import { useRanked } from '../context/RankedContext';
+import { MemoryAiSearch } from './MemoryAiSearch';
+import { QuranPicker } from './QuranPicker';
 import { MEMORY_LIBRARY } from '../data/memoryLibrary';
 import { haptics } from '../utils/haptics';
 import {
+  ARABIC_FONT,
   MAX_CONTENT_CHARS,
   blocksOf,
   buildPlan,
@@ -97,19 +101,25 @@ export const MemoryModeView: React.FC = () => {
   const { store, update, patchProgress } = useMemoryStore();
   const [openId, setOpenId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
+  const [quran, setQuran] = useState(false);
 
   const items = useMemo(() => [...MEMORY_LIBRARY, ...store.custom], [store.custom]);
   const open = items.find((i) => i.id === openId) ?? null;
+
+  const saveCustom = (item: MemoryItem) => {
+    update((prev) => ({ ...prev, custom: [item, ...prev.custom] }));
+    setAdding(false);
+    setQuran(false);
+    setOpenId(item.id);
+  };
+
+  if (quran) return <QuranPicker onCancel={() => setQuran(false)} onSave={saveCustom} />;
 
   if (adding) {
     return (
       <AddForm
         onCancel={() => setAdding(false)}
-        onSave={(item) => {
-          update((prev) => ({ ...prev, custom: [item, ...prev.custom] }));
-          setAdding(false);
-          setOpenId(item.id);
-        }}
+        onSave={saveCustom}
       />
     );
   }
@@ -136,6 +146,26 @@ export const MemoryModeView: React.FC = () => {
         </p>
       </div>
 
+      <MemoryAiSearch onSave={saveCustom} onOpenQuran={() => setQuran(true)} />
+
+      <button
+        onClick={() => {
+          haptics.tap();
+          setQuran(true);
+        }}
+        className={`${card} w-full p-4 flex items-center gap-3 text-left cursor-pointer hover:border-emerald-500/60 transition-colors`}
+      >
+        <span className="flex items-center justify-center w-11 h-11 shrink-0 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+          <BookOpenText className="w-6 h-6" aria-hidden="true" />
+        </span>
+        <span className="min-w-0">
+          <span className="block text-sm font-bold text-zinc-900 dark:text-zinc-100">Quran</span>
+          <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+            Pick a surah and verses. Arabic text, English meaning and a plan.
+          </span>
+        </span>
+      </button>
+
       <button
         onClick={() => {
           haptics.tap();
@@ -158,7 +188,7 @@ export const MemoryModeView: React.FC = () => {
         {items.map((item) => {
           const p = store.progress[item.id] ?? {};
           const day = p.plan ? planDayFor(p.plan.start) : 0;
-          const Icon = item.kind === 'digits' ? Hash : FileText;
+          const Icon = item.kind === 'digits' ? Hash : item.rtl ? BookOpenText : FileText;
           return (
             <div key={item.id} className={`${card} flex items-stretch`}>
               <button
@@ -434,6 +464,18 @@ const ItemDetail: React.FC<{
         ))}
       </div>
 
+      {(item.note || item.meaning) && (
+        <details className={`${card} px-3.5 py-2.5 text-sm`}>
+          <summary className="cursor-pointer min-h-touch flex items-center font-semibold text-zinc-700 dark:text-zinc-200">
+            {item.meaning ? 'Meaning and source' : 'About this text'}
+          </summary>
+          {item.meaning && (
+            <p className="mt-1 whitespace-pre-line leading-relaxed text-zinc-700 dark:text-zinc-300">{item.meaning}</p>
+          )}
+          {item.note && <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">{item.note}</p>}
+        </details>
+      )}
+
       {focus && tab !== 'plan' && (
         <div className="flex items-center justify-between gap-2 text-xs rounded-xl px-3 py-2 bg-amber-500/10 text-amber-700 dark:text-amber-400">
           <span>
@@ -687,7 +729,7 @@ const PlanTab: React.FC<{
 const PAGE_PARTS = 3;
 const LEVELS = ['Read', 'Some gaps', 'More gaps', 'First letters', 'All hidden'];
 
-const WORD_RE = /([\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*)/u;
+const WORD_RE = /([\p{L}\p{M}\p{N}]+(?:['’-][\p{L}\p{M}\p{N}]+)*)/u;
 
 const StudyTab: React.FC<{ item: MemoryItem; blocks: string[]; range: BlockRange | null }> = ({ item, blocks, range }) => {
   const { list, offset } = sliceRange(blocks, range);
@@ -719,7 +761,9 @@ const StudyTab: React.FC<{ item: MemoryItem; blocks: string[]; range: BlockRange
     try {
       const text = item.kind === 'digits' ? visible.join(' ').split('').join(' ') : visible.join('\n');
       window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+      const utterance = new SpeechSynthesisUtterance(text);
+      if (item.rtl) utterance.lang = 'ar-SA';
+      window.speechSynthesis.speak(utterance);
     } catch {
       /* speech not available */
     }
@@ -804,7 +848,7 @@ const StudyTab: React.FC<{ item: MemoryItem; blocks: string[]; range: BlockRange
                 })}
               </p>
             ) : (
-              <TextBlock block={block} partNo={partNo} level={level} revealed={revealed} reveal={reveal} />
+              <TextBlock block={block} partNo={partNo} level={level} revealed={revealed} reveal={reveal} rtl={item.rtl} />
             )}
           </div>
         );
@@ -831,10 +875,16 @@ const TextBlock: React.FC<{
   level: number;
   revealed: Set<string>;
   reveal: (key: string) => void;
-}> = ({ block, partNo, level, revealed, reveal }) => {
+  rtl?: boolean;
+}> = ({ block, partNo, level, revealed, reveal, rtl }) => {
   let w = 0;
   return (
-    <div className="text-base leading-relaxed text-zinc-800 dark:text-zinc-100 space-y-0.5">
+    <div
+      dir={rtl ? 'rtl' : undefined}
+      lang={rtl ? 'ar' : undefined}
+      style={rtl ? { fontFamily: ARABIC_FONT } : undefined}
+      className={`text-zinc-800 dark:text-zinc-100 space-y-0.5 ${rtl ? 'text-2xl leading-[2.4]' : 'text-base leading-relaxed'}`}
+    >
       {block.split('\n').map((line, li) =>
         line.trim() === '' ? (
           <div key={li} className="h-3" />
@@ -925,7 +975,9 @@ const ReciteTab: React.FC<{
         <p className="text-sm text-zinc-600 dark:text-zinc-300">
           {item.kind === 'digits'
             ? `Type the digits from memory${item.prefix && (!range || range.from <= 1) ? ` (starts with ${item.prefix})` : ''}. Spaces are ignored.`
-            : 'Type the text from memory. Capital letters and punctuation do not matter.'}
+            : item.rtl
+              ? 'Type it from memory with an Arabic keyboard. Vowel marks (tashkeel) do not matter.'
+              : 'Type the text from memory. Capital letters and punctuation do not matter.'}
         </p>
         <textarea
           value={typed}
@@ -936,6 +988,8 @@ const ReciteTab: React.FC<{
           rows={item.kind === 'digits' ? 4 : 8}
           inputMode={item.kind === 'digits' ? 'numeric' : 'text'}
           aria-label="Your answer from memory"
+          dir={item.rtl ? 'rtl' : undefined}
+          lang={item.rtl ? 'ar' : undefined}
           autoCapitalize="off"
           autoCorrect="off"
           spellCheck={false}
@@ -1006,7 +1060,12 @@ const ReciteTab: React.FC<{
             {textResult.hits} of {textResult.total} words
             {wholeItem && progress.bestAccuracy ? ` · your best: ${Math.round(progress.bestAccuracy * 100)}%` : ''}
           </p>
-          <p className="text-base leading-relaxed">
+          <p
+            dir={item.rtl ? 'rtl' : undefined}
+            lang={item.rtl ? 'ar' : undefined}
+            style={item.rtl ? { fontFamily: ARABIC_FONT } : undefined}
+            className={item.rtl ? 'text-2xl leading-[2.4]' : 'text-base leading-relaxed'}
+          >
             {textResult.words.map((w, i) => (
               <span
                 key={i}
