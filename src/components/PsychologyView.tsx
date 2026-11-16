@@ -13,6 +13,7 @@ import {
   MessagesSquare,
   Repeat,
   Wind,
+  ShieldAlert,
   Lightbulb
 } from 'lucide-react';
 import {
@@ -34,7 +35,8 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   communication: MessagesSquare,
   habits: Repeat,
   emotions: Wind,
-  people: Eye
+  people: Eye,
+  dark: ShieldAlert
 };
 
 const STORE_KEY = 'ranked.psychology.v1';
@@ -205,6 +207,12 @@ const CategoryView: React.FC<{
           <p className="text-xs text-zinc-500 dark:text-zinc-400">{category.tagline}</p>
         </div>
       </div>
+
+      {category.note && (
+        <p className="text-xs leading-relaxed rounded-xl px-3.5 py-2.5 bg-indigo-500/10 text-indigo-700 dark:text-indigo-300">
+          {category.note}
+        </p>
+      )}
 
       <div className="space-y-3">
         {category.lessons.map((l, i) => {

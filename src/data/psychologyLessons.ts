@@ -28,6 +28,8 @@ export interface PsychCategory {
   /** Picks the picture style and colour for the category. */
   art: FactTopic;
   tile: string;
+  /** Optional framing shown above the lessons. */
+  note?: string;
   lessons: PsychLesson[];
 }
 
@@ -544,6 +546,152 @@ export const PSYCH_CATEGORIES: PsychCategory[] = [
         action: 'Think of someone who irritates you. List two circumstances that might explain what they do.',
         evidence: 'strong',
         source: 'Nickerson, 1998; Ross, 1977'
+      }
+    ]
+  },
+  {
+    id: 'dark',
+    title: 'Dark Psychology',
+    tagline: 'Spot manipulation and protect yourself',
+    art: 'space',
+    tile: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400',
+    note: 'These lessons are about recognising and resisting manipulation, so it cannot be used on you. They are not a guide to using it on others.',
+    lessons: [
+      {
+        id: 'dark-1',
+        title: 'What “dark psychology” really means',
+        body: [
+          'Dark psychology is the study of how people influence others in ways that serve themselves at the other person’s expense. Influence on its own is normal and often healthy. Manipulation is influence that works by getting around your free, informed choice: through pressure, deception, guilt or fear.',
+          'Researchers group three personality traits as the “Dark Triad”: narcissism (entitlement and a need for admiration), Machiavellianism (strategic, cynical use of others) and psychopathy (low empathy and impulsiveness). Everyone has some of these traits to a degree. It is a spectrum, not a club of villains.',
+          'You do not need to diagnose anyone. Labels are unreliable, and amateur diagnosis often goes wrong. Focus on patterns of behaviour instead: does this person respect your “no”, own their mistakes and treat you the same in private as in public?'
+        ],
+        points: [
+          'Manipulation bypasses your informed choice. Healthy influence respects it.',
+          'Traits exist on a spectrum, so avoid snap diagnoses.',
+          'Judge repeated behaviour, not labels.'
+        ],
+        action: 'Think of someone you trust. List two behaviours that show they respect your choices, so you know what the healthy version looks like.',
+        evidence: 'moderate',
+        source: 'Paulhus & Williams, 2002'
+      },
+      {
+        id: 'dark-2',
+        title: 'Influence tricks, and how they get misused',
+        body: [
+          'Robert Cialdini identified a handful of powerful shortcuts in how people decide: reciprocity (we repay favours), commitment (we stay consistent with what we have said), social proof (we follow the crowd), authority, liking and scarcity. Used honestly, they help people make good choices. Used manipulatively, they push you into bad ones.',
+          'Common misuses: a “free gift” that creates a sense of debt; a tiny request that is followed by bigger ones once you have said yes (the foot-in-the-door effect); a huge request you refuse, followed by a smaller one that now feels reasonable (door-in-the-face); fake countdown timers and “only 2 left”; and fake testimonials or fake experts.',
+          'The defence is to slow down. Ask: “Would I choose this if there were no pressure, no deadline and no one watching?” If the answer is no, the pressure is doing the persuading, not the offer.'
+        ],
+        points: [
+          'The six levers: reciprocity, commitment, social proof, authority, liking, scarcity.',
+          'Urgency and small first steps are classic pressure tools.',
+          'Delay the decision and check the facts on your own.'
+        ],
+        action: 'The next time you feel rushed to decide, say: “I will let you know tomorrow.” Notice how the person reacts.',
+        evidence: 'strong',
+        source: 'Cialdini, 1984; Freedman & Fraser, 1966; Cialdini et al., 1975'
+      },
+      {
+        id: 'dark-3',
+        title: 'Gaslighting: when you are made to doubt yourself',
+        body: [
+          'The word comes from a 1944 film in which a husband dims the gas lights and insists his wife is imagining it. Today it describes a pattern in which someone repeatedly denies or rewrites what happened so that you doubt your memory, perception or sanity: “That never happened”, “You are too sensitive”, “You are imagining things”.',
+          'Everyone misremembers things now and then, and honest disagreements are not gaslighting. The warning sign is a pattern: denial plus blame, especially when it happens in a relationship with a power imbalance and when it leaves you more isolated and less sure of yourself.',
+          'Protect your reality: keep brief notes or messages about important events, check your memory with a trusted friend, and notice if you are apologising constantly for things you did not do. If it is serious or ongoing, a counsellor can help you see the pattern clearly.'
+        ],
+        points: [
+          'A pattern of denying and blaming, not a one-off disagreement.',
+          'It often leaves you doubting yourself and more isolated.',
+          'Keep records and reality-check with people you trust.'
+        ],
+        action: 'If something important keeps being “remembered” differently, write down what was said and when, in a private note.',
+        evidence: 'practical',
+        source: 'Sweet, 2019 (The Sociology of Gaslighting)'
+      },
+      {
+        id: 'dark-4',
+        title: 'Love bombing and the hot-cold cycle',
+        body: [
+          'Love bombing is an overwhelming rush of attention and affection at the very start: constant messages, big gifts, “you are my soulmate” within days, and pressure to commit fast. It feels wonderful, and that is the point. It creates attachment before you have had time to see who the person really is.',
+          'It is often followed by a shift: the warmth becomes unpredictable, criticism appears, and you find yourself working to win back the early attention. That mix of high rewards and sudden withdrawal is powerfully hooking, much like a slot machine.',
+          'Fast and intense is not automatically sinister, since plenty of people are just enthusiastic. What matters is whether the person respects your pace and stays consistent. Healthy love can handle “let us slow down” without punishing you for it.'
+        ],
+        points: [
+          'Too much, too fast is worth noticing.',
+          'Watch for the switch from warmth to criticism or withdrawal.',
+          'Test the pace: a safe person respects “slow down”.'
+        ],
+        action: 'If you are dating someone intense, say “I would like to take this a bit slower” and watch whether they respect it.',
+        evidence: 'practical',
+        source: 'Clinical and coercive-control literature. Direct research is still limited.'
+      },
+      {
+        id: 'dark-5',
+        title: 'Coercive control and isolation',
+        body: [
+          'Sociologist Evan Stark described coercive control as an ongoing pattern of domination in a relationship, rather than a series of separate incidents. It can include monitoring your phone and movements, controlling money, dictating what you wear or who you see, constant criticism, and threats.',
+          'A key feature is isolation. Step by step, the person may criticise your friends and family, make visits difficult or create drama until it feels easier to stop seeing them. As your support shrinks, their control grows. Physical violence is not required for it to be abuse.',
+          'If this sounds familiar: keep or rebuild contact with people you trust, tell someone what is happening, and keep important documents and some money somewhere safe. Contact a local domestic abuse helpline or support service, or emergency services if you are in danger. Leaving can be the riskiest time, so get advice on planning it safely.'
+        ],
+        points: [
+          'It is a pattern of control, not just arguments.',
+          'Isolation from friends and family is a major warning sign.',
+          'Reach out to a trusted person or a local support service.'
+        ],
+        action: 'Check in with a friend or family member you have not spoken to for a while. Keeping your connections strong protects you.',
+        evidence: 'moderate',
+        source: 'Stark, 2007 (Coercive Control)'
+      },
+      {
+        id: 'dark-6',
+        title: 'Guilt, fear and obligation: emotional blackmail',
+        body: [
+          'Therapist Susan Forward described emotional blackmail as threats, spoken or implied, that you will be punished if you do not comply. It often runs on three levers, nicknamed FOG: fear (of anger, loss or consequences), obligation (“after everything I have done for you”) and guilt (“you are so selfish”).',
+          'Typical forms include the silent treatment, threats to leave, playing the victim, or bringing up your past mistakes to win the current argument. It works because most of us care about being good and about the relationship.',
+          'When you notice it, pause and name it in your head: “This is pressure, not a request.” You can show care without giving in: “I can see you are upset, and I am not going to decide while we are like this. Let us talk again tomorrow.” Stay calm, repeat your position, and do not negotiate against threats.'
+        ],
+        points: [
+          'FOG: fear, obligation and guilt.',
+          'Silent treatment and threats are pressure tactics.',
+          'Pause, name it, and repeat your boundary calmly.'
+        ],
+        action: 'Practise one calm sentence you can use to postpone a decision under pressure, such as: “I will think about it and get back to you.”',
+        evidence: 'practical',
+        source: 'Forward & Frazier, 1997'
+      },
+      {
+        id: 'dark-7',
+        title: 'Dark patterns and online persuasion',
+        body: [
+          'Some apps and websites are designed to trick you: “dark patterns” such as hidden unsubscribe buttons, pre-ticked boxes that sign you up for extras, fake scarcity (“3 people are looking at this”), guilt-trip wording (“No thanks, I do not like saving money”), and endless feeds with no natural stopping point.',
+          'Repetition works on us too. In studies, statements we have heard many times feel more true, even when they are false, a phenomenon called the illusory truth effect. Outrage-driven posts spread quickly for similar reasons: strong emotion grabs attention and shares.',
+          'Defences: slow down before you click or share, read the small print, check whether a claim comes from a source you can verify, and be suspicious of anything designed to make you feel rushed, angry or afraid. Turning off non-essential notifications also removes many nudges.'
+        ],
+        points: [
+          'Hidden options, fake scarcity and guilt wording are dark patterns.',
+          'Repeated claims feel true even when they are not.',
+          'Pause before you click, buy or share.'
+        ],
+        action: 'Turn off notifications for one app that interrupts you, and cancel one subscription you no longer use.',
+        evidence: 'moderate',
+        source: 'Gray et al., 2018; Hasher, Goldstein & Toppino, 1977'
+      },
+      {
+        id: 'dark-8',
+        title: 'Your defence toolkit',
+        body: [
+          'You cannot prevent every attempt to manipulate you, but a few habits make you much harder to push around.',
+          'Notice: your body often knows first, with a tight chest, a rush, or a feeling of being cornered. Name the tactic: urgency, flattery, guilt, an isolating comment. Delay: use the 24-hour rule for big decisions, because manipulation depends on speed. Verify: check claims independently and ask for things in writing. Set boundaries: say what you will and will not do, and calmly repeat it. Build support: people who know your situation are your best protection.',
+          'Finally, hold yourself to the same standard. A simple transparency test for your own influence: “Would I be comfortable if this person saw exactly how and why I am doing this?” If not, you have crossed from persuasion into manipulation.'
+        ],
+        points: [
+          'Notice, name, delay, verify, set boundaries and build support.',
+          'Speed and pressure are the manipulator’s friends.',
+          'Use the transparency test on your own behaviour too.'
+        ],
+        action: 'Write your own rule for big decisions, such as “I do not agree to anything important on the same day it is asked.”',
+        evidence: 'practical',
+        source: 'Synthesis of the lessons above; common practice in coaching and counselling'
       }
     ]
   }
