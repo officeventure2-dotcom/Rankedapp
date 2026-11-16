@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AiAskBar } from './AiAskBar';
 import { useRanked } from '../context/RankedContext';
 import { getLevelProgress, getTierColor, CATEGORY_METADATA, MAX_XP } from '../utils/levelMath';
 import { HERO_CREST_PATH } from '../data/mockData';
@@ -104,6 +105,8 @@ export const OverviewView: React.FC = () => {
         </div>
       </div>
       
+      <AiAskBar />
+
       {/* Hero Level Progression Banner */}
       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm p-4 sm:p-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-center">

@@ -14,10 +14,15 @@ export interface MemoryItem {
   /** digits only: the part given for free, e.g. "3." for pi. */
   prefix?: string;
   note?: string;
+  /** Right-to-left script (Arabic). Changes how the text is shown and checked. */
+  rtl?: boolean;
+  /** Optional translation shown beside the text (e.g. English meaning of each Quran verse). */
+  meaning?: string;
   builtIn?: boolean;
   createdAt?: number;
 }
 
+export const ARABIC_FONT = "'Amiri','Noto Naskh Arabic','Scheherazade New','Traditional Arabic',serif";
 export const MAX_CONTENT_CHARS = 20000;
 export const DIGITS_PER_BLOCK = 20;
 
@@ -41,9 +46,12 @@ export function parseDigits(raw: string): { prefix: string; content: string } {
 
 // ---------- Blocks ----------
 
+/** A word: letters, combining marks (Arabic vowel signs), digits, inner apostrophes/hyphens. */
+export const WORD_PATTERN = /[\p{L}\p{M}\p{N}]+(?:['’-][\p{L}\p{M}\p{N}]+)*/gu;
+
 /** Words in a line (letters, digits and inner apostrophes/hyphens). */
 export function wordsOf(text: string): string[] {
-  return text.match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu) ?? [];
+  return text.match(WORD_PATTERN) ?? [];
 }
 
 /** Split text into blocks of about 20–30 words, never breaking a line. */
@@ -212,7 +220,29 @@ export interface TextResult {
   extra: string[];
 }
 
-const norm = (w: string) => w.toLowerCase().normalize('NFC').replace(/[’‘]/g, "'");
+const ARABIC = /[\u0600-\u06FF]/;
+
+/**
+ * Comparison form of a word. Latin: case, curly apostrophes. Arabic: vowel signs,
+ * Quranic marks and tatweel are dropped and alef/yaa/taa-marbuta variants merged,
+ * so typing without diacritics still counts as correct.
+ */
+export function normWord(w: string): string {
+  let out = w.toLowerCase().normalize('NFC').replace(/[’‘]/g, "'");
+  if (ARABIC.test(out)) {
+    out = out
+      .normalize('NFD')
+      .replace(/[\p{M}\u0640\u06D6-\u06ED]/gu, '')
+      .replace(/[\u0622\u0623\u0625\u0671]/g, '\u0627')
+      .replace(/\u0649/g, '\u064A')
+      .replace(/\u0629/g, '\u0647')
+      .replace(/\u06A9/g, '\u0643')
+      .replace(/\u06CC/g, '\u064A');
+  }
+  return out;
+}
+
+const norm = normWord;
 
 export function compareText(expected: string, typed: string): TextResult {
   const exp = wordsOf(expected);
