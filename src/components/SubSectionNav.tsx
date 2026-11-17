@@ -45,7 +45,7 @@ export const SubSectionNav: React.FC = () => {
     activeTab === 'chat' ||
     activeTab === 'badges'
   ) {
-    hubName = 'Polymath Community & Ranks';
+    hubName = 'Profile & Ranks';
     subTabs = [
       { id: 'leaderboard', label: 'Leaderboard', icon: <Trophy className="w-3.5 h-3.5" /> },
       { id: 'social', label: 'Social Feed', icon: <Globe className="w-3.5 h-3.5" /> },

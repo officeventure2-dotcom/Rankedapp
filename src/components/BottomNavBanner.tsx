@@ -118,7 +118,7 @@ export const BottomNavBanner: React.FC = () => {
 
   const colors = getThemeHighlight();
 
-  // Reordered navigation items: Home positioned in the exact CENTER (position 3 of 5)
+  // Navigation items: Home is the first (left-most) button
   const navItems: Array<{
     hub: MainNavHub;
     label: string;
@@ -126,6 +126,13 @@ export const BottomNavBanner: React.FC = () => {
     icon: React.ReactNode;
     isCenter?: boolean;
   }> = [
+    {
+      hub: 'home',
+      label: 'Home',
+      targetTab: 'overview',
+      icon: <Home className="w-5 h-5" />,
+      isCenter: true
+    },
     {
       hub: 'arena',
       label: 'Arena',
@@ -139,13 +146,6 @@ export const BottomNavBanner: React.FC = () => {
       icon: <Compass className="w-5 h-5" />
     },
     {
-      hub: 'home',
-      label: 'Home',
-      targetTab: 'overview',
-      icon: <Home className="w-5 h-5" />,
-      isCenter: true
-    },
-    {
       hub: 'knowledge',
       label: 'Knowledge',
       targetTab: 'library',
@@ -153,7 +153,7 @@ export const BottomNavBanner: React.FC = () => {
     },
     {
       hub: 'community',
-      label: 'Community',
+      label: 'Profile',
       targetTab: 'leaderboard',
       icon: <Users className="w-5 h-5" />
     }
@@ -214,7 +214,7 @@ export const BottomNavBanner: React.FC = () => {
             );
           }
 
-          // Flanking Side Navigation Buttons (Arena & Map on Left; Knowledge & Community on Right)
+          // Flanking Side Navigation Buttons (Arena & Map on Left; Knowledge & Profile on Right)
           return (
             <button
               key={item.hub}
