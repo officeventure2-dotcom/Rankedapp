@@ -1,11 +1,13 @@
 /**
- * Quran text for Memory Mode. The text is fetched from the free Al-Quran Cloud
- * API when the person picks a surah (never typed in by hand, so it cannot drift
- * from the source), then saved on the device as a normal Memory item.
+ * Quran text. Fetched from the QuranHub API (Misraj AI), falling back to Al-Quran Cloud
+ * (same paths) if QuranHub fails or answers in an unexpected shape.
+ * The text is fetched when the person picks a surah (never typed in by hand, so it cannot drift
+ * from the source), then saved on the device.
  */
 import { MAX_CONTENT_CHARS, normWord, wordsOf, type MemoryItem } from './memoryTools';
 
-const API = 'https://api.alquran.cloud/v1';
+// QuranHub is licensed for non-commercial use only: see https://github.com/misraj-ai/quranhub
+const APIS = ['https://api.quranhub.com/v1', 'https://api.alquran.cloud/v1'];
 export const ARABIC_EDITION = 'quran-uthmani';
 export const MEANING_EDITION = 'en.sahih';
 
@@ -25,11 +27,11 @@ export interface Verse {
 
 const isObj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object';
 
-async function getData(path: string): Promise<unknown> {
+async function getData(base: string, path: string): Promise<unknown> {
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), 15000);
   try {
-    const res = await fetch(`${API}${path}`, { signal: ctl.signal });
+    const res = await fetch(`${base}${path}`, { signal: ctl.signal });
     if (!res.ok) throw new Error(`status ${res.status}`);
     const body: unknown = await res.json();
     if (!isObj(body) || !('data' in body)) throw new Error('unexpected response');
@@ -39,11 +41,27 @@ async function getData(path: string): Promise<unknown> {
   }
 }
 
+type Get = (path: string) => Promise<unknown>;
+
+/** Run `use` against each API in turn; the first one that returns a usable result wins. */
+async function withFallback<T>(use: (get: Get) => Promise<T>): Promise<T> {
+  let last: unknown;
+  for (const base of APIS) {
+    try {
+      return await use((path) => getData(base, path));
+    } catch (e) {
+      last = e;
+    }
+  }
+  throw last;
+}
+
 let listCache: SurahInfo[] | null = null;
 
-export async function fetchSurahList(): Promise<SurahInfo[]> {
-  if (listCache) return listCache;
-  const data = await getData('/surah');
+export const fetchSurahList = async (): Promise<SurahInfo[]> => listCache ?? withFallback(loadSurahList);
+
+async function loadSurahList(get: Get): Promise<SurahInfo[]> {
+  const data = await get('/surah');
   if (!Array.isArray(data)) throw new Error('unexpected list');
   const list = data
     .filter(isObj)
@@ -72,8 +90,10 @@ export function stripBismillah(text: string, surah: number): string {
 }
 
 /** Fetch one surah in Arabic (Uthmani script) with its English meaning. */
-export async function fetchSurah(number: number): Promise<Verse[]> {
-  const data = await getData(`/surah/${number}/editions/${ARABIC_EDITION},${MEANING_EDITION}`);
+export const fetchSurah = (number: number): Promise<Verse[]> => withFallback((get) => loadSurah(get, number));
+
+async function loadSurah(get: Get, number: number): Promise<Verse[]> {
+  const data = await get(`/surah/${number}/editions/${ARABIC_EDITION},${MEANING_EDITION}`);
   if (!Array.isArray(data)) throw new Error('unexpected surah');
   const edition = (id: string) => {
     const e = data.find((d) => isObj(d) && isObj(d.edition) && d.edition.identifier === id);
@@ -109,7 +129,7 @@ export function quranItem(surah: SurahInfo, verses: Verse[], from: number, to: n
     rtl: true,
     meaning: chosen.map((v) => `${v.n}. ${v.en}`).join('\n'),
     note:
-      'Arabic text (Uthmani script) and English meaning (Sahih International) from Al-Quran Cloud. ' +
+      'Arabic text (Uthmani script) and English meaning (Sahih International) from QuranHub by Misraj AI. ' +
       'Learn recitation and tajweed with a qualified teacher; this app checks the words only.',
     createdAt: Date.now()
   };
