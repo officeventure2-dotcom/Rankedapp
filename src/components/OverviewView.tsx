@@ -476,7 +476,7 @@ export const OverviewView: React.FC = () => {
             Games
           </span>
           <span className="text-[10px] font-mono text-zinc-400">
-            5 head-to-head · 5 solo
+            5 head-to-head · 6 solo
           </span>
         </div>
         <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-none gap-3 pb-2 -mx-3.5 px-3.5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-5 sm:overflow-visible sm:pb-0">

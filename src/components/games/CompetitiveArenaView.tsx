@@ -8,6 +8,7 @@ import { TriviaDuelGame } from './TriviaDuelGame';
 import { SudokuGame } from './SudokuGame';
 import { Game24 } from './Game24';
 import { NonogramGame } from './NonogramGame';
+import { LogicRowsGame } from './LogicRowsGame';
 import { MindMatrixGame } from './MindMatrixGame';
 import { GuessWordGame } from './GuessWordGame';
 import {
@@ -25,6 +26,7 @@ import {
   Shield,
   Play,
   Grid,
+  Rows3,
   Calculator,
   Target,
   Crown,
@@ -42,7 +44,7 @@ export const CompetitiveArenaView: React.FC = () => {
 
   // Active game states
   const [multiplayerGame, setMultiplayerGame] = useState<'chess' | 'connect4' | 'speed_math' | 'trivia_duel' | 'word_duel'>('chess');
-  const [soloGame, setSoloGame] = useState<'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word'>('game24');
+  const [soloGame, setSoloGame] = useState<'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word' | 'logic_rows'>('game24');
 
   // Open the game another screen (Home) asked for, then bring it into view.
   useEffect(() => {
@@ -53,7 +55,7 @@ export const CompetitiveArenaView: React.FC = () => {
       setMultiplayerGame(pendingArenaGame as 'chess' | 'connect4' | 'speed_math' | 'trivia_duel' | 'word_duel');
     } else if (game?.mode === 'solo') {
       setArenaCategory('solo');
-      setSoloGame(pendingArenaGame as 'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word');
+      setSoloGame(pendingArenaGame as 'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word' | 'logic_rows');
     }
     setPendingArenaGame(null);
     // Wait for the chosen game's panel to render before scrolling to it. Not cancelled on cleanup:
@@ -520,6 +522,35 @@ export const CompetitiveArenaView: React.FC = () => {
               </div>
             </button>
 
+            {/* 6. Logic Rows */}
+            <button
+              onClick={() => setSoloGame('logic_rows')}
+              className={`p-4 rounded-2xl border text-left transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between ${
+                soloGame === 'logic_rows'
+                  ? 'border-orange-500 bg-orange-50/20 dark:bg-orange-950/20 ring-2 ring-orange-500/30 shadow-md'
+                  : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 hover:border-zinc-300 dark:hover:border-zinc-700'
+              }`}
+            >
+              <div>
+                <div className="flex items-start justify-between">
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-orange-500/15 text-orange-600 dark:text-orange-400"><Rows3 className="w-6 h-6" /></span>
+                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-600 dark:text-orange-400 font-bold">
+                    NEW SOLO
+                  </span>
+                </div>
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                  Logic Rows
+                </h3>
+                <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
+                  Place items in coloured rows using clues. Classic, Daily and Sprint modes.
+                </p>
+              </div>
+              <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-orange-600 dark:text-orange-400">
+                <span>Play Logic Rows</span>
+                <Play className="w-3 h-3 fill-current" />
+              </div>
+            </button>
+
           </div>
 
           {/* Active Solo Mind Game Component */}
@@ -529,6 +560,7 @@ export const CompetitiveArenaView: React.FC = () => {
             {soloGame === 'nonogram' && <NonogramGame />}
             {soloGame === 'mind_matrix' && <MindMatrixGame />}
             {soloGame === 'guess_word' && <GuessWordGame />}
+            {soloGame === 'logic_rows' && <LogicRowsGame />}
           </div>
         </div>
       )}
