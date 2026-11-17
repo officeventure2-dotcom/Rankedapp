@@ -23,6 +23,7 @@ import {
   GalleryVertical,
   BrainCircuit,
   HeartHandshake,
+  BookOpenText,
   Bell,
   Palette,
   SlidersHorizontal,
@@ -463,6 +464,32 @@ export const OverviewView: React.FC = () => {
             </div>
             <div className="flex items-center justify-between mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800/60 text-xs font-semibold text-rose-600 dark:text-rose-400">
               <span>Start Learning</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          <div
+            onClick={() => setActiveTab('quran')}
+            className="w-[240px] sm:w-auto shrink-0 snap-start p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm hover:border-emerald-500/70 dark:hover:border-emerald-500/70 transition-all cursor-pointer group flex flex-col justify-between touch-manipulation active:scale-[0.98]"
+          >
+            <div className="flex items-start gap-3">
+              <span className="flex items-center justify-center w-11 h-11 shrink-0 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+                <BookOpenText className="w-6 h-6" aria-hidden="true" />
+              </span>
+              <div className="space-y-1 min-w-0">
+              <span className="text-[11px] font-mono text-emerald-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
+                Memorize &amp; Level Up
+              </span>
+              <h3 className="text-sm sm:text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 group-hover:text-emerald-500 transition-colors">
+                Quran
+              </h3>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2">
+                Memorize verses and earn big XP for every one.
+              </p>
+              </div>
+            </div>
+            <div className="flex items-center justify-between mt-3 pt-2 border-t border-zinc-100 dark:border-zinc-800/60 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+              <span>Start Memorizing</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </div>
           </div>

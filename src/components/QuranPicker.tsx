@@ -26,10 +26,18 @@ const clampInt = (v: string, min: number, max: number, fallback: number) => {
 };
 
 /** Pick a surah and a range of verses to memorize. The text comes from Al-Quran Cloud. */
-export const QuranPicker: React.FC<{ onCancel: () => void; onSave: (item: MemoryItem) => void }> = ({
-  onCancel,
-  onSave
-}) => {
+export interface PickedPassage {
+  surah: SurahInfo;
+  verses: Verse[];
+  from: number;
+  to: number;
+}
+
+export const QuranPicker: React.FC<{
+  onCancel: () => void;
+  onSave: (item: MemoryItem, picked: PickedPassage) => void;
+  actionLabel?: string;
+}> = ({ onCancel, onSave, actionLabel = 'Add to my memory' }) => {
   const [list, setList] = useState<SurahInfo[]>([]);
   const [listError, setListError] = useState(false);
   const [reload, setReload] = useState(0);
@@ -90,7 +98,7 @@ export const QuranPicker: React.FC<{ onCancel: () => void; onSave: (item: Memory
         <div className="space-y-1">
           <h2 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">Quran</h2>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            Choose a surah and the verses to learn. You get the Arabic text, the English meaning and a daily plan.
+            Choose a surah and the verses to learn. You get the Arabic text, the English meaning and a daily plan, and every verse you recite from memory earns XP.
           </p>
         </div>
 
@@ -198,11 +206,11 @@ export const QuranPicker: React.FC<{ onCancel: () => void; onSave: (item: Memory
                   disabled={tooLong}
                   onClick={() => {
                     haptics.tap();
-                    onSave(quranItem(surah, verses, lo, hi));
+                    onSave(quranItem(surah, verses, lo, hi), { surah, verses: verses.filter((v) => v.n >= lo && v.n <= hi), from: lo, to: hi });
                   }}
                   className={`${primaryBtn} w-full inline-flex items-center justify-center gap-2`}
                 >
-                  <Plus className="w-4 h-4" aria-hidden="true" /> Add to my memory
+                  <Plus className="w-4 h-4" aria-hidden="true" /> {actionLabel}
                 </button>
               </>
             )}
