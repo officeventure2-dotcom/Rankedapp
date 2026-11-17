@@ -10,10 +10,10 @@ export type CategoryType =
 /** A section of the Challenges screen: one per pillar, plus the 1v1 mind-games arena. */
 export type ChallengeSubTab = CategoryType | 'competitive';
 
-/** The games inside the Arena (5 head-to-head, 5 solo). */
+/** The games inside the Arena (5 head-to-head, 6 solo). */
 export type ArenaGameId =
   | 'chess' | 'connect4' | 'speed_math' | 'trivia_duel' | 'word_duel'
-  | 'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word';
+  | 'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word' | 'logic_rows';
 
 export type TierType = 
   | 'Novice'       // 1 - 99
