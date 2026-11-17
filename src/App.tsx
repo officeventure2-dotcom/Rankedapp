@@ -23,6 +23,7 @@ import { ScienceCodexView } from './components/ScienceCodexView';
 import { ScrollModeView } from './components/ScrollModeView';
 import { PsychologyView } from './components/PsychologyView';
 import { MemoryModeView } from './components/MemoryModeView';
+import { QuranView } from './components/QuranView';
 import { PlayersMapView } from './components/PlayersMapView';
 import { DailyStreakModal } from './components/DailyStreakModal';
 import { BottomNavBanner } from './components/BottomNavBanner';
@@ -104,6 +105,7 @@ const AppContent: React.FC = () => {
           {activeTab === 'scroll' && <ScrollModeView />}
           {activeTab === 'memory' && <MemoryModeView />}
           {activeTab === 'psychology' && <PsychologyView />}
+          {activeTab === 'quran' && <QuranView />}
           {activeTab === 'science' && <ScienceCodexView />}
           {activeTab === 'leaderboard' && <LeaderboardView />}
           {activeTab === 'social' && <SocialFeedView />}

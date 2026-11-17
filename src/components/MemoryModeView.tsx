@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 import { useRanked } from '../context/RankedContext';
 import { MemoryAiSearch } from './MemoryAiSearch';
-import { QuranPicker } from './QuranPicker';
 import { PhotoMemoryView } from './PhotoMemoryView';
 import { MEMORY_LIBRARY } from '../data/memoryLibrary';
 import { haptics } from '../utils/haptics';
@@ -41,7 +40,7 @@ import {
 
 // ---------- Saved data (this device only) ----------
 
-interface Progress {
+export interface Progress {
   bestStreak?: number;
   bestAccuracy?: number;
   plan?: { start: string; days: number; minutes: number };
@@ -101,9 +100,9 @@ function describe(item: MemoryItem) {
 
 export const MemoryModeView: React.FC = () => {
   const { store, update, patchProgress } = useMemoryStore();
+  const { setActiveTab } = useRanked();
   const [openId, setOpenId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
-  const [quran, setQuran] = useState(false);
   const [photo, setPhoto] = useState(false);
 
   const items = useMemo(() => [...MEMORY_LIBRARY, ...store.custom], [store.custom]);
@@ -112,13 +111,10 @@ export const MemoryModeView: React.FC = () => {
   const saveCustom = (item: MemoryItem) => {
     update((prev) => ({ ...prev, custom: [item, ...prev.custom] }));
     setAdding(false);
-    setQuran(false);
     setOpenId(item.id);
   };
 
   if (photo) return <PhotoMemoryView onBack={() => setPhoto(false)} />;
-
-  if (quran) return <QuranPicker onCancel={() => setQuran(false)} onSave={saveCustom} />;
 
   if (adding) {
     return (
@@ -151,7 +147,7 @@ export const MemoryModeView: React.FC = () => {
         </p>
       </div>
 
-      <MemoryAiSearch onSave={saveCustom} onOpenQuran={() => setQuran(true)} />
+      <MemoryAiSearch onSave={saveCustom} onOpenQuran={() => setActiveTab('quran')} />
 
       <button
         onClick={() => {
@@ -167,24 +163,6 @@ export const MemoryModeView: React.FC = () => {
           <span className="block text-sm font-bold text-zinc-900 dark:text-zinc-100">Photo Memory</span>
           <span className="block text-xs text-zinc-500 dark:text-zinc-400">
             Train your visual memory with picture games.
-          </span>
-        </span>
-      </button>
-
-      <button
-        onClick={() => {
-          haptics.tap();
-          setQuran(true);
-        }}
-        className={`${card} w-full p-4 flex items-center gap-3 text-left cursor-pointer hover:border-emerald-500/60 transition-colors`}
-      >
-        <span className="flex items-center justify-center w-11 h-11 shrink-0 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-          <BookOpenText className="w-6 h-6" aria-hidden="true" />
-        </span>
-        <span className="min-w-0">
-          <span className="block text-sm font-bold text-zinc-900 dark:text-zinc-100">Quran</span>
-          <span className="block text-xs text-zinc-500 dark:text-zinc-400">
-            Pick a surah and verses. Arabic text, English meaning and a plan.
           </span>
         </span>
       </button>
@@ -432,12 +410,15 @@ const AddForm: React.FC<{ onCancel: () => void; onSave: (item: MemoryItem) => vo
 
 type Tab = 'plan' | 'study' | 'recite';
 
-const ItemDetail: React.FC<{
+export const ItemDetail: React.FC<{
   item: MemoryItem;
   progress: Progress;
   patch: (p: Partial<Progress>) => void;
   onBack: () => void;
-}> = ({ item, progress, patch, onBack }) => {
+  /** Called each time a typed recital is checked (used by the Quran section to award XP). */
+  onChecked?: (info: { expected: string; typed: string; accuracy: number }) => void;
+  backLabel?: string;
+}> = ({ item, progress, patch, onBack, onChecked, backLabel = 'Back to Memory Mode' }) => {
   const blocks = useMemo(() => blocksOf(item), [item]);
   const [tab, setTab] = useState<Tab>('plan');
   const [focus, setFocus] = useState<BlockRange | null>(null);
@@ -451,7 +432,7 @@ const ItemDetail: React.FC<{
   return (
     <div className="max-w-2xl mx-auto space-y-4 animate-in fade-in duration-300">
       <div className="flex items-center gap-2">
-        <button onClick={onBack} aria-label="Back to Memory Mode" className={`${softBtn} px-3`}>
+        <button onClick={onBack} aria-label={backLabel} className={`${softBtn} px-3`}>
           <ArrowLeft className="w-4 h-4" />
         </button>
         <div className="min-w-0">
@@ -512,7 +493,7 @@ const ItemDetail: React.FC<{
 
       {tab === 'plan' && <PlanTab item={item} blocks={blocks} progress={progress} patch={patch} practise={practise} />}
       {tab === 'study' && <StudyTab item={item} blocks={blocks} range={focus} />}
-      {tab === 'recite' && <ReciteTab item={item} blocks={blocks} range={focus} progress={progress} patch={patch} />}
+      {tab === 'recite' && <ReciteTab item={item} blocks={blocks} range={focus} progress={progress} patch={patch} onChecked={onChecked} />}
     </div>
   );
 };
@@ -953,7 +934,8 @@ const ReciteTab: React.FC<{
   range: BlockRange | null;
   progress: Progress;
   patch: (p: Partial<Progress>) => void;
-}> = ({ item, blocks, range, progress, patch }) => {
+  onChecked?: (info: { expected: string; typed: string; accuracy: number }) => void;
+}> = ({ item, blocks, range, progress, patch, onChecked }) => {
   const { list } = sliceRange(blocks, range);
   const expected = item.kind === 'digits' ? list.join('') : list.join('\n');
   const [typed, setTyped] = useState('');
@@ -973,6 +955,7 @@ const ReciteTab: React.FC<{
   const check = () => {
     haptics.tap();
     setChecked(true);
+    if (item.kind === 'text') onChecked?.({ expected, typed, accuracy: compareText(expected, typed).accuracy });
     if (!wholeItem) return;
     if (item.kind === 'digits') {
       const r = compareDigits(expected, typed);
