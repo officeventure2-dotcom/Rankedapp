@@ -242,3 +242,12 @@ html button.psy-read.psy-read.psy-read.psy-read.psy-read.psy-read {
   border-color: rgba(16, 185, 129, 0.6) !important;
   color: #059669 !important;
 }
+
+/* Sign in / topic screens sit on a plain page, so inputs and unselected chips need a solid outline. */
+html .auth-solid :is(input:not([type="checkbox"]), button.rounded-xl:not(.mem-on)) {
+  background-color: transparent !important;
+  border: 1px solid rgba(113, 113, 122, 0.5) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
