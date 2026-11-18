@@ -27,6 +27,7 @@ import { QuranView } from './components/QuranView';
 import { PlayersMapView } from './components/PlayersMapView';
 import { DailyStreakModal } from './components/DailyStreakModal';
 import { BottomNavBanner } from './components/BottomNavBanner';
+import { AuthGate } from './auth/AuthGate';
 import { TopBanner } from './components/TopBanner';
 import { SubSectionNav } from './components/SubSectionNav';
 import { AndroidInstallModal } from './components/AndroidInstallModal';
@@ -168,8 +169,10 @@ const AppContent: React.FC = () => {
 
 export default function App() {
   return (
-    <RankedProvider>
-      <AppContent />
-    </RankedProvider>
+    <AuthGate>
+      <RankedProvider>
+        <AppContent />
+      </RankedProvider>
+    </AuthGate>
   );
 }

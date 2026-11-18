@@ -7,11 +7,13 @@
  *   memory -> { title: string, text: string }
  */
 
+import { handleAuth, type AuthEnv } from './auth';
+
 // Minimal local types so the app's `tsc --noEmit` needs no extra packages.
 interface AiBinding {
   run(model: string, input: Record<string, unknown>): Promise<unknown>;
 }
-interface Env {
+interface Env extends AuthEnv {
   AI: AiBinding;
   ASSETS: { fetch(request: Request): Promise<Response> };
 }
@@ -136,6 +138,7 @@ export async function handleAsk(request: Request, env: Env): Promise<Response> {
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    if (url.pathname.startsWith('/api/auth/')) return handleAuth(request, env, sameOrigin);
     if (url.pathname === '/api/ask') return handleAsk(request, env);
     if (url.pathname.startsWith('/api/')) return json({ error: 'Not found.' }, 404);
     return env.ASSETS.fetch(request);
