@@ -168,7 +168,7 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
           tabIndex={0}
           onKeyDown={onKey}
           aria-label="Scrolling feed of facts"
-          className="h-[calc(100dvh-17rem)] min-h-[420px] overflow-y-auto snap-y snap-mandatory scroll-smooth [overflow-anchor:none] rounded-3xl scrollbar-none overscroll-contain focus:outline-none"
+          className="h-[calc(100dvh-19.5rem)] min-h-[420px] overflow-y-auto snap-y snap-mandatory scroll-smooth [overflow-anchor:none] rounded-3xl scrollbar-none overscroll-contain focus:outline-none"
         >
           {items.map(({ fact, key }, index) => {
             const liked = store.liked.includes(fact.id);
