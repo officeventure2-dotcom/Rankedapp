@@ -242,3 +242,17 @@ html button.psy-read.psy-read.psy-read.psy-read.psy-read.psy-read {
   border-color: rgba(16, 185, 129, 0.6) !important;
   color: #059669 !important;
 }
+
+/* Sign in and onboarding: plain outlined fields and a solid amber selected chip, as in the flat auth design. */
+html input.auth-field.auth-field.auth-field {
+  background-color: transparent !important;
+  border-color: rgba(113, 113, 122, 0.5) !important;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+html button.pick-on.pick-on.pick-on.pick-on {
+  background: #fbbf24 !important;
+  color: #09090b !important;
+  border-color: #fbbf24 !important;
+}

@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { Apple, Eye, EyeOff, Facebook, Loader2 } from 'lucide-react';
+import { Apple, Eye, EyeOff, Facebook, Loader2, Star } from 'lucide-react';
+import { InterestsScreen, loadInterests } from './Interests';
 
 export interface AuthUser { id: string; name: string; email: string }
 interface AuthCtx { user: AuthUser | null; isGuest: boolean; signOut: () => Promise<void> }
@@ -33,6 +34,7 @@ type Phase = 'loading' | 'unreachable' | 'signedout' | 'signedin' | 'guest';
 export const AuthGate: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [phase, setPhase] = useState<Phase>('loading');
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [asked, setAsked] = useState(() => loadInterests() !== null);
 
   const check = useCallback(async () => {
     if (guestFlag.get()) return setPhase('guest');
@@ -53,7 +55,10 @@ export const AuthGate: React.FC<{ children: React.ReactNode }> = ({ children }) 
     setPhase('signedout');
   }, [phase]);
 
-  if (phase === 'signedin' || phase === 'guest') return <Ctx.Provider value={{ user, isGuest: phase === 'guest', signOut }}>{children}</Ctx.Provider>;
+  if (phase === 'signedin' || phase === 'guest') {
+    if (!asked) return <InterestsScreen onDone={() => setAsked(true)} />;
+    return <Ctx.Provider value={{ user, isGuest: phase === 'guest', signOut }}>{children}</Ctx.Provider>;
+  }
   if (phase === 'loading') {
     return (
       <div className="min-h-dvh flex items-center justify-center bg-zinc-950 text-zinc-400" role="status" aria-label="Loading">
@@ -74,7 +79,7 @@ export const AuthGate: React.FC<{ children: React.ReactNode }> = ({ children }) 
 };
 
 const GoogleG: React.FC = () => (
-  <span aria-hidden="true" className="w-5 h-5 rounded-full bg-white text-[#4285F4] text-[13px] font-black flex items-center justify-center">G</span>
+  <span aria-hidden="true" className="w-5 h-5 text-[17px] leading-5 font-black text-center">G</span>
 );
 const XMark: React.FC = () => (
   <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor" aria-hidden="true">
@@ -83,9 +88,9 @@ const XMark: React.FC = () => (
 );
 
 const SOCIAL = [
-  { name: 'Apple', icon: <Apple className="w-5 h-5" aria-hidden="true" /> },
   { name: 'Google', icon: <GoogleG /> },
-  { name: 'Facebook', icon: <Facebook className="w-5 h-5" aria-hidden="true" /> },
+  { name: 'Facebook', icon: <Facebook className="w-5 h-5" fill="currentColor" aria-hidden="true" /> },
+  { name: 'Apple', icon: <Apple className="w-5 h-5" fill="currentColor" aria-hidden="true" /> },
   { name: 'X', icon: <XMark /> }
 ];
 
@@ -98,13 +103,14 @@ const AuthScreen: React.FC<{ onDone: (u: AuthUser) => void; onGuest: () => void 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const signup = mode === 'signup';
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(''); setNotice('');
     setBusy(true);
     try {
-      const { data } = await api(mode === 'signup' ? '/api/auth/signup' : '/api/auth/signin', mode === 'signup' ? { name, email, password } : { email, password });
+      const { data } = await api(signup ? '/api/auth/signup' : '/api/auth/signin', signup ? { name, email, password } : { email, password });
       if (data.user) onDone(data.user); else setError(data.error ?? 'Something went wrong. Try again.');
     } catch {
       setError("Can't reach the server. Check your connection.");
@@ -113,71 +119,65 @@ const AuthScreen: React.FC<{ onDone: (u: AuthUser) => void; onGuest: () => void 
     }
   };
 
-  const field = 'w-full min-h-touch px-4 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 outline-none focus:border-amber-500';
+  const field = 'auth-field w-full min-h-[52px] px-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 outline-none focus:border-amber-500';
+  const switchMode = () => { setMode(signup ? 'signin' : 'signup'); setError(''); setNotice(''); };
 
   return (
-    <main className="min-h-dvh flex items-start sm:items-center justify-center px-5 py-8 bg-zinc-50 dark:bg-zinc-950">
+    <main className="min-h-dvh flex justify-center px-6 pt-8 pb-8 bg-white dark:bg-zinc-950">
       <div className="w-full max-w-sm space-y-5">
-        <header className="text-center space-y-1">
-          <h1 className="text-3xl font-black font-['Outfit'] text-zinc-900 dark:text-zinc-50">Ranked</h1>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">Level up every part of your life.</p>
+        <span className="w-11 h-11 rounded-xl bg-amber-400 text-zinc-950 flex items-center justify-center" aria-hidden="true">
+          <Star className="w-6 h-6" fill="currentColor" />
+        </span>
+
+        <header className="space-y-2">
+          <h1 className="text-3xl font-bold font-['Outfit'] text-zinc-950 dark:text-zinc-50">{signup ? 'Create an account' : 'Welcome back,'}</h1>
+          <p className="text-sm text-zinc-400">
+            {signup ? 'Create your account, it takes less than a minute. Enter your name, email and password.' : 'Good to see you again. Enter your email address and password.'}
+          </p>
         </header>
 
-        <div role="tablist" className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-zinc-200/70 dark:bg-zinc-800/80">
-          {(['signup', 'signin'] as const).map((m) => (
-            <button
-              key={m}
-              role="tab"
-              aria-selected={mode === m}
-              onClick={() => { setMode(m); setError(''); setNotice(''); }}
-              className={`min-h-touch rounded-lg text-sm font-bold cursor-pointer ${mode === m ? 'bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-sm' : 'text-zinc-500 dark:text-zinc-400'}`}
-            >
-              {m === 'signup' ? 'Sign up' : 'Sign in'}
-            </button>
-          ))}
-        </div>
-
         <form onSubmit={submit} className="space-y-3">
-          {mode === 'signup' && (
-            <input className={field} placeholder="Your name" aria-label="Your name" autoComplete="name" maxLength={40} required value={name} onChange={(e) => setName(e.target.value)} />
+          {signup && (
+            <input className={field} placeholder="Name" aria-label="Your name" autoComplete="name" maxLength={40} required value={name} onChange={(e) => setName(e.target.value)} />
           )}
           <input className={field} type="email" placeholder="Email" aria-label="Email" autoComplete="email" inputMode="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
           <div className="relative">
             <input
               className={`${field} pr-12`}
               type={show ? 'text' : 'password'}
-              placeholder={mode === 'signup' ? 'Password (8+ characters)' : 'Password'}
+              placeholder="Password"
               aria-label="Password"
-              autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
-              minLength={mode === 'signup' ? 8 : undefined}
+              autoComplete={signup ? 'new-password' : 'current-password'}
+              minLength={signup ? 8 : undefined}
               maxLength={128}
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button type="button" onClick={() => setShow(!show)} aria-label={show ? 'Hide password' : 'Show password'} className="absolute right-1 top-1/2 -translate-y-1/2 min-h-touch min-w-touch flex items-center justify-center text-zinc-500 cursor-pointer">
+            <button type="button" onClick={() => setShow(!show)} aria-label={show ? 'Hide password' : 'Show password'} className="absolute right-1 top-1/2 -translate-y-1/2 min-h-touch min-w-touch flex items-center justify-center text-zinc-400 cursor-pointer">
               {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
+          {signup && <p className="text-[11px] text-zinc-400">Use 8 or more characters.</p>}
           {error && <p role="alert" className="text-sm text-rose-500">{error}</p>}
-          <button type="submit" disabled={busy} className="w-full min-h-touch rounded-xl bg-amber-500 text-zinc-950 font-bold disabled:opacity-60 cursor-pointer">
-            {busy ? 'Please wait…' : mode === 'signup' ? 'Create account' : 'Sign in'}
+          <button type="submit" disabled={busy} className="w-full min-h-[52px] rounded-2xl bg-amber-400 text-zinc-950 font-bold disabled:opacity-60 cursor-pointer">
+            {busy ? 'Please wait…' : signup ? 'Create an Account' : 'Log In'}
           </button>
         </form>
 
-        <div className="flex items-center gap-3 text-[11px] uppercase tracking-wider text-zinc-400">
-          <span className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" /> or continue with <span className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
+        <div className="flex items-center gap-3 text-xs text-zinc-400">
+          <span className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" /> or <span className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
         </div>
 
-        <div className="grid grid-cols-2 gap-2.5">
+        <div className="space-y-2.5">
           {SOCIAL.map((s) => (
             <button
               key={s.name}
               type="button"
               onClick={() => setNotice(`${s.name} sign-in is coming soon. Use your email for now.`)}
-              className="min-h-touch flex items-center justify-center gap-2 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm font-semibold text-zinc-900 dark:text-zinc-100 cursor-pointer"
+              className="w-full min-h-[52px] flex items-center justify-center gap-3 rounded-2xl bg-zinc-950 dark:bg-zinc-100 text-white dark:text-zinc-950 text-sm font-semibold cursor-pointer"
             >
-              {s.icon} {s.name}
+              {s.icon} Continue with {s.name}
             </button>
           ))}
         </div>
@@ -187,6 +187,11 @@ const AuthScreen: React.FC<{ onDone: (u: AuthUser) => void; onGuest: () => void 
           Continue as guest
         </button>
         <p className="text-center text-[11px] text-zinc-400 -mt-3">Guest progress stays on this device only.</p>
+
+        <p className="text-center text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+          {signup ? 'Already have an account? ' : 'New here? '}
+          <button type="button" onClick={switchMode} className="text-amber-500 cursor-pointer min-h-touch">{signup ? 'Log In' : 'Create an account'}</button>
+        </p>
       </div>
     </main>
   );
