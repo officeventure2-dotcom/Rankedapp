@@ -11,7 +11,9 @@ export const ROW_COLORS = [
   { name: 'Black', hex: '#18181b' },
   { name: 'Blue', hex: '#38bdf8' },
   { name: 'Purple', hex: '#8b5cf6' },
-  { name: 'Red', hex: '#ef4444' }
+  { name: 'Red', hex: '#ef4444' },
+  { name: 'Yellow', hex: '#eab308' },
+  { name: 'Teal', hex: '#14b8a6' }
 ] as const;
 
 export const THEMES: Record<string, string[]> = {
@@ -77,19 +79,21 @@ export function countSolutions(n: number, clues: Clue[], limit = 2): number {
   return found;
 }
 
-export type Level = 'easy' | 'medium' | 'hard' | 'expert';
+export type Level = 'starter' | 'easy' | 'medium' | 'hard' | 'expert' | 'master';
 export const LEVELS: Record<Level, { size: number; label: string; xp: number }> = {
+  starter: { size: 3, label: 'Starter', xp: 400 },
   easy: { size: 4, label: 'Easy', xp: 800 },
   medium: { size: 5, label: 'Medium', xp: 1500 },
   hard: { size: 6, label: 'Hard', xp: 2500 },
-  expert: { size: 7, label: 'Expert', xp: 4000 }
+  expert: { size: 7, label: 'Expert', xp: 4000 },
+  master: { size: 8, label: 'Master', xp: 6500 }
 };
 
 function randomClue(sol: Perm, rand: () => number, level: Level): Clue {
   const n = sol.length;
   const pick = () => Math.floor(rand() * n);
   const other = (x: number) => { let y = pick(); while (y === x) y = pick(); return y; };
-  const kinds = level === 'easy'
+  const kinds = level === 'starter' || level === 'easy'
     ? ['at', 'above', 'above', 'justAbove', 'first', 'last', 'notAt']
     : ['above', 'above', 'justAbove', 'between', 'next', 'edge', 'either', 'notAt', 'above', 'at'];
   const kind = kinds[Math.floor(rand() * kinds.length)];

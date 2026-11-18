@@ -6,7 +6,12 @@ import { sounds } from '../../utils/audio';
 import { todayKey } from '../../utils/memoryTools';
 import { LEVELS, ROW_COLORS, clueText, holds, makePuzzle, type Level, type Puzzle } from '../../utils/logicRows';
 
-type Mode = 'classic' | 'daily' | 'sprint';
+type Mode = 'classic' | 'daily' | 'sprint' | 'ladder' | 'strict';
+const LADDER: Level[] = ['starter', 'easy', 'medium', 'hard', 'expert', 'master'];
+const LADDER_BONUS = 5000;
+const STRICT_MULT = 2;
+const STRICT_CHECKS = 3;
+const MODE_LABEL: Record<Mode, string> = { classic: 'Classic', daily: 'Daily', sprint: 'Sprint', ladder: 'Ladder', strict: 'Strict' };
 const SPRINT_SECONDS = 180;
 const SPRINT_XP = 500;
 const DAILY_MULT = 2;
@@ -48,6 +53,8 @@ export const LogicRowsGame: React.FC = () => {
   const [run, setRun] = useState<'idle' | 'going' | 'over'>('idle');
   const [sprintSolved, setSprintSolved] = useState(0);
   const sprintRef = useRef(0);
+  const [rung, setRung] = useState(0);
+  const [checks, setChecks] = useState(STRICT_CHECKS);
 
   const save = (patch: Partial<Stats>) =>
     setStats((prev) => {
@@ -79,8 +86,12 @@ export const LogicRowsGame: React.FC = () => {
       setLeft(SPRINT_SECONDS);
       setRun('going');
       load(makePuzzle('easy', Date.now()));
+    } else if (m === 'ladder') {
+      setRung(0);
+      load(makePuzzle(LADDER[0], Date.now()));
     } else {
       setLevel(lvl);
+      setChecks(STRICT_CHECKS);
       load(makePuzzle(lvl, Date.now()));
     }
     if (m !== 'sprint') setRun('idle');
@@ -138,7 +149,12 @@ export const LogicRowsGame: React.FC = () => {
       if (stats.dailyDone === todayKey()) return showToast('Already counted today. Come back tomorrow for XP.');
       save({ dailyDone: todayKey() });
       gainXp(xp * DAILY_MULT, 'iq', 'Logic Rows Daily');
-    } else gainXp(xp, 'iq', `Logic Rows [${LEVELS[puzzle.level].label}]`);
+    } else if (mode === 'strict') {
+      gainXp(base * STRICT_MULT, 'iq', `Logic Rows Strict [${LEVELS[puzzle.level].label}]`);
+    } else {
+      gainXp(xp, 'iq', `Logic Rows ${mode === 'ladder' ? 'Ladder' : ''}[${LEVELS[puzzle.level].label}]`);
+      if (mode === 'ladder' && rung === LADDER.length - 1) gainXp(LADDER_BONUS, 'iq', 'Logic Rows Ladder complete');
+    }
   };
 
   const check = () => {
@@ -151,6 +167,12 @@ export const LogicRowsGame: React.FC = () => {
     else {
       sounds.playClick();
       setWrong(bad);
+      if (mode === 'strict') {
+        if (checks <= 1) {
+          showToast('Out of checks. Here is a new puzzle.');
+          start('strict', level);
+        } else setChecks(checks - 1);
+      }
     }
   };
 
@@ -178,21 +200,31 @@ export const LogicRowsGame: React.FC = () => {
       </div>
 
       <div className="flex flex-wrap gap-2" role="group" aria-label="Mode">
-        {(['classic', 'daily', 'sprint'] as Mode[]).map((m) => (
+        {(Object.keys(MODE_LABEL) as Mode[]).map((m) => (
           <button key={m} aria-pressed={mode === m} onClick={() => start(m)} className={`${chip} ${mode === m ? on : idle}`}>
-            {m === 'classic' ? 'Classic' : m === 'daily' ? `Daily${dailyDone ? ' ✓' : ''}` : 'Sprint'}
+            {MODE_LABEL[m]}{m === 'daily' && dailyDone ? ' ✓' : ''}
           </button>
         ))}
       </div>
 
-      {mode === 'classic' && (
+      {(mode === 'classic' || mode === 'strict') && (
         <div className="flex flex-wrap gap-2" role="group" aria-label="Difficulty">
           {(Object.keys(LEVELS) as Level[]).map((l) => (
-            <button key={l} aria-pressed={level === l} onClick={() => start('classic', l)} className={`${chip} ${level === l ? on : idle}`}>
+            <button key={l} aria-pressed={level === l} onClick={() => start(mode, l)} className={`${chip} ${level === l ? on : idle}`}>
               {LEVELS[l].label} · {LEVELS[l].size} rows
             </button>
           ))}
         </div>
+      )}
+      {mode === 'ladder' && (
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          Climb six rungs, 3 to 8 rows. Rung <b>{rung + 1}</b> of {LADDER.length}: {LEVELS[LADDER[rung]].label}. Finish the top for +{LADDER_BONUS.toLocaleString()} XP.
+        </p>
+      )}
+      {mode === 'strict' && (
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          No hints. <b>{checks}</b> check{checks === 1 ? '' : 's'} left, then the puzzle resets. Pays {STRICT_MULT}x XP.
+        </p>
       )}
       {mode === 'daily' && (
         <p className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -275,14 +307,22 @@ export const LogicRowsGame: React.FC = () => {
                 Check
               </button>
             )}
-            {!solved && mode !== 'sprint' && (
+            {!solved && mode !== 'sprint' && mode !== 'strict' && (
               <button onClick={hint} className={`${chip} ${idle} inline-flex items-center gap-1.5`}>
                 <Lightbulb className="w-4 h-4" aria-hidden="true" /> Hint (−25% XP)
               </button>
             )}
-            {mode === 'classic' && solved && (
-              <button onClick={() => start('classic')} className={`${chip} ${on} inline-flex items-center gap-1.5 flex-1`}>
-                <RotateCcw className="w-4 h-4" aria-hidden="true" /> Next puzzle
+            {(mode === 'classic' || mode === 'strict' || mode === 'ladder') && solved && (
+              <button
+                onClick={() => {
+                  if (mode !== 'ladder') return start(mode);
+                  const next = rung === LADDER.length - 1 ? 0 : rung + 1;
+                  setRung(next);
+                  load(makePuzzle(LADDER[next], Date.now()));
+                }}
+                className={`${chip} ${on} inline-flex items-center gap-1.5 flex-1`}
+              >
+                <RotateCcw className="w-4 h-4" aria-hidden="true" /> {mode === 'ladder' ? (rung === LADDER.length - 1 ? 'Climb again' : 'Next rung') : 'Next puzzle'}
               </button>
             )}
           </div>
