@@ -25,7 +25,7 @@ const clampInt = (v: string, min: number, max: number, fallback: number) => {
   return Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : fallback;
 };
 
-/** Pick a surah and a range of verses to memorize. The text comes from Al-Quran Cloud. */
+/** Pick a surah and a range of verses to memorize. The text comes from QuranHub (Misraj AI). */
 export interface PickedPassage {
   surah: SurahInfo;
   verses: Verse[];
@@ -218,7 +218,7 @@ export const QuranPicker: React.FC<{
         )}
       </div>
       <p className="text-[11px] text-zinc-400 text-center">
-        Text from Al-Quran Cloud. For recitation and tajweed, learn with a qualified teacher.
+        Text from QuranHub by Misraj AI. For recitation and tajweed, learn with a qualified teacher.
       </p>
     </div>
   );

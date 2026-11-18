@@ -300,7 +300,7 @@ export const QuranView: React.FC = () => {
         </ul>
       </details>
       <p className="text-[11px] text-zinc-400 text-center">
-        Text from Al-Quran Cloud. For recitation and tajweed, learn with a qualified teacher. Progress is saved on this device.
+        Text from QuranHub by Misraj AI. For recitation and tajweed, learn with a qualified teacher. Progress is saved on this device.
       </p>
     </div>
   );
