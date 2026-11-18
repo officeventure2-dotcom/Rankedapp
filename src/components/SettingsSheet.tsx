@@ -45,7 +45,7 @@ export const SettingsSheet: React.FC = () => {
     switchProfile
   } = useRanked();
 
-  const { user: authUser, signOut } = useAuth();
+  const { user: authUser, isGuest, signOut } = useAuth();
   const close = () => setSettingsSheetOpen(false);
 
   useEffect(() => {
@@ -161,8 +161,8 @@ export const SettingsSheet: React.FC = () => {
             <span className="flex items-center gap-2.5">
               <LogOut className="w-4 h-4 text-rose-500" />
               <span>
-                <span className="block font-semibold text-xs text-zinc-900 dark:text-zinc-100">Sign out</span>
-                <span className="block text-[10px] text-zinc-400">{authUser ? `Signed in as ${authUser.email}` : 'End this session'}</span>
+                <span className="block font-semibold text-xs text-zinc-900 dark:text-zinc-100">{isGuest ? 'Sign in or sign up' : 'Sign out'}</span>
+                <span className="block text-[10px] text-zinc-400">{isGuest ? 'You are browsing as a guest' : authUser ? `Signed in as ${authUser.email}` : 'End this session'}</span>
               </span>
             </span>
           </button>
