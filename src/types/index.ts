@@ -13,7 +13,7 @@ export type ChallengeSubTab = CategoryType | 'competitive';
 /** The games inside the Arena (5 head-to-head, 6 solo). */
 export type ArenaGameId =
   | 'chess' | 'connect4' | 'speed_math' | 'trivia_duel' | 'word_duel'
-  | 'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word' | 'logic_rows';
+  | 'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word' | 'logic_rows' | 'gut_check';
 
 export type TierType = 
   | 'Novice'       // 1 - 99
