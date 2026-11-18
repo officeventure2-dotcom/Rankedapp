@@ -27,6 +27,7 @@ import { QuranView } from './components/QuranView';
 import { PlayersMapView } from './components/PlayersMapView';
 import { DailyStreakModal } from './components/DailyStreakModal';
 import { BottomNavBanner } from './components/BottomNavBanner';
+import { TopBanner } from './components/TopBanner';
 import { SubSectionNav } from './components/SubSectionNav';
 import { AndroidInstallModal } from './components/AndroidInstallModal';
 import { FlutterExportModal } from './components/FlutterExportModal';
@@ -97,6 +98,7 @@ const AppContent: React.FC = () => {
         </main>
       ) : (
         <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 pt-[max(1rem,env(safe-area-inset-top))] sm:pt-6 pb-32 sm:pb-28">
+          {activeTab !== 'overview' && <TopBanner />}
           <SubSectionNav />
           {activeTab === 'overview' && <OverviewView />}
           {activeTab === 'challenges' && <ChallengesView />}

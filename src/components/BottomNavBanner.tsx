@@ -20,8 +20,10 @@ export const BottomNavBanner: React.FC = () => {
   // Map activeTab to its main hub
   const getActiveHub = (): MainNavHub => {
     switch (activeTab) {
-      case 'overview':
+      case 'scroll':
         return 'home';
+      case 'overview':
+        return 'community';
       case 'challenges':
       case 'science':
         return 'arena';
@@ -29,7 +31,6 @@ export const BottomNavBanner: React.FC = () => {
         return 'map';
       case 'library':
       case 'academy':
-      case 'scroll':
       case 'memory':
       case 'psychology':
       case 'quran':
@@ -122,14 +123,14 @@ export const BottomNavBanner: React.FC = () => {
   const navItems: Array<{
     hub: MainNavHub;
     label: string;
-    targetTab: 'overview' | 'challenges' | 'map' | 'library' | 'leaderboard';
+    targetTab: 'scroll' | 'overview' | 'challenges' | 'map' | 'library' | 'leaderboard';
     icon: React.ReactNode;
     isCenter?: boolean;
   }> = [
     {
       hub: 'home',
       label: 'Home',
-      targetTab: 'overview',
+      targetTab: 'scroll',
       icon: <Home className="w-5 h-5" />,
       isCenter: true
     },
@@ -154,7 +155,7 @@ export const BottomNavBanner: React.FC = () => {
     {
       hub: 'community',
       label: 'Profile',
-      targetTab: 'leaderboard',
+      targetTab: 'overview',
       icon: <Users className="w-5 h-5" />
     }
   ];
@@ -176,14 +177,14 @@ export const BottomNavBanner: React.FC = () => {
                 key={item.hub}
                 onClick={() => {
                   haptics.tap();
-                  if (activeTab === 'overview') {
+                  if (activeTab === 'scroll') {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   } else {
                     setActiveTab(item.targetTab);
                   }
                 }}
-                aria-label="Home Overview (Center Hub)"
-                title="Home: Polymath Overview & Mastery"
+                aria-label="Home (Scroll)"
+                title="Home: Scroll feed"
                 className={`relative flex flex-col items-center justify-center -my-2 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-2xl sm:rounded-full transition-all duration-200 cursor-pointer min-h-[48px] min-w-[48px] group ${
                   isActive
                     ? `${colors.text} scale-105 sm:scale-110`
