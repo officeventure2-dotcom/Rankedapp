@@ -11,6 +11,8 @@
   },
   // Workers AI powers the "Ask Ranked" bar and the Memory Mode AI search.
   "ai": { "binding": "AI" },
+  // Accounts and sessions (schema in db/schema.sql).
+  "d1_databases": [{ "binding": "DB", "database_name": "ranked-auth", "database_id": "9a52ae29-bcf7-4ff2-8f6c-2004520c8f32" }],
   // Required by Cloudflare's branch preview builds (`wrangler preview`); can stay empty.
   "previews": {}
 }

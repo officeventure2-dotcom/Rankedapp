@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import {
   Bell,
+  LogOut,
   ChevronRight,
   Moon,
   Palette,
@@ -15,6 +16,7 @@ import { useRanked } from '../context/RankedContext';
 import { getTierForLevel } from '../utils/levelMath';
 import { haptics } from '../utils/haptics';
 import { Avatar } from './Avatar';
+import { useAuth } from '../auth/AuthGate';
 
 const PERSONAS = [
   { id: 'usr_me', name: 'Alex H.', lvl: 342 },
@@ -43,6 +45,7 @@ export const SettingsSheet: React.FC = () => {
     switchProfile
   } = useRanked();
 
+  const { user: authUser, signOut } = useAuth();
   const close = () => setSettingsSheetOpen(false);
 
   useEffect(() => {
@@ -152,6 +155,16 @@ export const SettingsSheet: React.FC = () => {
               </span>
             </span>
             <ChevronRight className="w-4 h-4 text-zinc-400 shrink-0" />
+          </button>
+
+          <button onClick={() => { close(); void signOut(); }} className={neutralRow}>
+            <span className="flex items-center gap-2.5">
+              <LogOut className="w-4 h-4 text-rose-500" />
+              <span>
+                <span className="block font-semibold text-xs text-zinc-900 dark:text-zinc-100">Sign out</span>
+                <span className="block text-[10px] text-zinc-400">{authUser ? `Signed in as ${authUser.email}` : 'End this session'}</span>
+              </span>
+            </span>
           </button>
 
           <button onClick={() => go(setAndroidModalOpen)} className={`${row} bg-emerald-500/10 border-emerald-500/30`}>
