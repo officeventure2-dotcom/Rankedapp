@@ -167,7 +167,7 @@ export const RankedProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const [challengePillar, setChallengePillar] = useState<ChallengeSubTab>('competitive');
   const [pendingArenaGame, setPendingArenaGame] = useState<ArenaGameId | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'challenges' | 'library' | 'academy' | 'scroll' | 'memory' | 'psychology' | 'quran' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'challenges' | 'library' | 'academy' | 'scroll' | 'memory' | 'psychology' | 'quran' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges'>('scroll');
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number; city?: string } | null>({
     lat: 37.7749,
     lng: -122.4194,
