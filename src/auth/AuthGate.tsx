@@ -2,9 +2,16 @@ import React, { createContext, useCallback, useContext, useEffect, useState } fr
 import { Apple, Eye, EyeOff, Facebook, Loader2 } from 'lucide-react';
 
 export interface AuthUser { id: string; name: string; email: string }
-interface AuthCtx { user: AuthUser | null; signOut: () => Promise<void> }
+interface AuthCtx { user: AuthUser | null; isGuest: boolean; signOut: () => Promise<void> }
 
-const Ctx = createContext<AuthCtx>({ user: null, signOut: async () => {} });
+const Ctx = createContext<AuthCtx>({ user: null, isGuest: false, signOut: async () => {} });
+
+// A guest has no account; the flag only remembers the choice on this device.
+const GUEST_KEY = 'ranked.guest';
+const guestFlag = {
+  get: () => { try { return localStorage.getItem(GUEST_KEY) === '1'; } catch { return false; } },
+  set: (on: boolean) => { try { on ? localStorage.setItem(GUEST_KEY, '1') : localStorage.removeItem(GUEST_KEY); } catch { /* private mode: guest lasts until reload */ } }
+};
 export const useAuth = () => useContext(Ctx);
 
 /** Call the auth API. Throws if the server cannot be reached or does not answer JSON. */
@@ -20,7 +27,7 @@ async function api(path: string, body?: unknown): Promise<{ status: number; data
   return { status: res.status, data: await res.json() };
 }
 
-type Phase = 'loading' | 'unreachable' | 'signedout' | 'signedin';
+type Phase = 'loading' | 'unreachable' | 'signedout' | 'signedin' | 'guest';
 
 /** Shows the sign in / sign up screen until the visitor has a valid session. */
 export const AuthGate: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -28,6 +35,7 @@ export const AuthGate: React.FC<{ children: React.ReactNode }> = ({ children }) 
   const [user, setUser] = useState<AuthUser | null>(null);
 
   const check = useCallback(async () => {
+    if (guestFlag.get()) return setPhase('guest');
     setPhase('loading');
     try {
       const { data } = await api('/api/auth/me');
@@ -39,12 +47,13 @@ export const AuthGate: React.FC<{ children: React.ReactNode }> = ({ children }) 
   useEffect(() => { void check(); }, [check]);
 
   const signOut = useCallback(async () => {
-    try { await api('/api/auth/signout', {}); } catch { /* the cookie is cleared by the server when it is reachable */ }
+    try { if (!guestFlag.get() && phase === 'signedin') await api('/api/auth/signout', {}); } catch { /* the cookie is cleared by the server when it is reachable */ }
+    guestFlag.set(false);
     setUser(null);
     setPhase('signedout');
-  }, []);
+  }, [phase]);
 
-  if (phase === 'signedin') return <Ctx.Provider value={{ user, signOut }}>{children}</Ctx.Provider>;
+  if (phase === 'signedin' || phase === 'guest') return <Ctx.Provider value={{ user, isGuest: phase === 'guest', signOut }}>{children}</Ctx.Provider>;
   if (phase === 'loading') {
     return (
       <div className="min-h-dvh flex items-center justify-center bg-zinc-950 text-zinc-400" role="status" aria-label="Loading">
@@ -61,7 +70,7 @@ export const AuthGate: React.FC<{ children: React.ReactNode }> = ({ children }) 
       </div>
     );
   }
-  return <AuthScreen onDone={(u) => { setUser(u); setPhase('signedin'); }} />;
+  return <AuthScreen onDone={(u) => { setUser(u); setPhase('signedin'); }} onGuest={() => { guestFlag.set(true); setUser(null); setPhase('guest'); }} />;
 };
 
 const GoogleG: React.FC = () => (
@@ -80,7 +89,7 @@ const SOCIAL = [
   { name: 'X', icon: <XMark /> }
 ];
 
-const AuthScreen: React.FC<{ onDone: (u: AuthUser) => void }> = ({ onDone }) => {
+const AuthScreen: React.FC<{ onDone: (u: AuthUser) => void; onGuest: () => void }> = ({ onDone, onGuest }) => {
   const [mode, setMode] = useState<'signin' | 'signup'>('signup');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -173,6 +182,11 @@ const AuthScreen: React.FC<{ onDone: (u: AuthUser) => void }> = ({ onDone }) => 
           ))}
         </div>
         {notice && <p role="status" className="text-center text-xs text-amber-600 dark:text-amber-400">{notice}</p>}
+
+        <button type="button" onClick={onGuest} className="w-full min-h-touch rounded-xl text-sm font-semibold text-zinc-600 dark:text-zinc-300 underline underline-offset-4 cursor-pointer">
+          Continue as guest
+        </button>
+        <p className="text-center text-[11px] text-zinc-400 -mt-3">Guest progress stays on this device only.</p>
       </div>
     </main>
   );
