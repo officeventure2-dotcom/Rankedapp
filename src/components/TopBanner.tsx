@@ -1,15 +1,27 @@
 import React from 'react';
-import { SlidersHorizontal } from 'lucide-react';
+import { Activity, BookOpen, Brain, Check, Film, GraduationCap, Globe, SlidersHorizontal, Sparkles } from 'lucide-react';
+import type { CategoryType } from '../types';
 import { useRanked } from '../context/RankedContext';
 import { getLevelProgress } from '../utils/levelMath';
 import { HERO_CREST_PATH } from '../data/mockData';
 
 /** Slim banner pinned to the top of every screen: level, rank and XP bar. Tap to open the profile. */
+const QUEST_ICON: Record<CategoryType, React.ReactNode> = {
+  trivia: <Sparkles className="w-3.5 h-3.5" />,
+  language: <Globe className="w-3.5 h-3.5" />,
+  books: <BookOpen className="w-3.5 h-3.5" />,
+  movies: <Film className="w-3.5 h-3.5" />,
+  fitness: <Activity className="w-3.5 h-3.5" />,
+  degree: <GraduationCap className="w-3.5 h-3.5" />,
+  iq: <Brain className="w-3.5 h-3.5" />
+};
+
 export const TopBanner: React.FC = () => {
-  const { user, openUserProfile, setSettingsSheetOpen } = useRanked();
+  const { user, openUserProfile, setSettingsSheetOpen, dailyQuests, activeTab, setActiveTab, showToast } = useRanked();
   const progress = getLevelProgress(user.xp);
   return (
-    <div className="mb-3 flex items-center gap-2">
+    <div className="mb-3 space-y-2">
+    <div className="flex items-center gap-2">
       <button
         onClick={() => openUserProfile(user.id)}
         aria-label={`Open profile, level ${progress.currentLevel}`}
@@ -33,6 +45,29 @@ export const TopBanner: React.FC = () => {
       >
         <SlidersHorizontal className="w-5 h-5" />
       </button>
+    </div>
+    {activeTab === 'scroll' && dailyQuests.length > 0 && (
+      <div className="flex items-center gap-2 px-1" role="group" aria-label="Daily quests">
+        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mr-1">Daily</span>
+        {dailyQuests.map((q) => {
+          const pct = Math.min(100, Math.round((q.current / Math.max(1, q.target)) * 100));
+          return (
+            <button
+              key={q.id}
+              onClick={() => (q.completed ? showToast(`Done: ${q.title}`) : setActiveTab('challenges'))}
+              aria-label={`${q.title}: ${q.completed ? 'done' : `${q.current} of ${q.target} ${q.unit}`}`}
+              title={q.title}
+              className="w-8 h-8 rounded-full p-[2.5px] cursor-pointer shrink-0"
+              style={{ background: `conic-gradient(${q.completed ? '#10b981' : '#f59e0b'} ${q.completed ? 100 : pct}%, rgba(113,113,122,0.35) 0)` }}
+            >
+              <span className={`w-full h-full rounded-full flex items-center justify-center bg-white dark:bg-zinc-900 ${q.completed ? 'text-emerald-500' : 'text-zinc-700 dark:text-zinc-200'}`}>
+                {q.completed ? <Check className="w-3.5 h-3.5" /> : QUEST_ICON[q.category]}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    )}
     </div>
   );
 };

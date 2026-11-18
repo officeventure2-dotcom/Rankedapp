@@ -37,6 +37,7 @@ import { BOOK_CATALOG, BookCatalogItem, searchBookSuggestions } from '../data/bo
 import { BookVerificationQuizModal } from './BookVerificationQuizModal';
 import { TriviaArenaView } from './TriviaArenaView';
 import { BookCover } from './BookCover';
+import { QuickModules } from './QuickModules';
 
 export type { ChallengeSubTab };
 
@@ -171,7 +172,8 @@ export const ChallengesView: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-16">
-      
+      <QuickModules />
+
       {/* Pillar Selector Strip */}
       <div ref={pillarStripRef} className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
         {pillarsList.map(item => {
