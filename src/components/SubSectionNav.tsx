@@ -22,12 +22,14 @@ export const SubSectionNav: React.FC = () => {
   let subTabs: Array<{ id: string; label: string; icon: React.ReactNode }> | null = null;
   let hubName = '';
 
-  if (activeTab === 'library' || activeTab === 'academy' || activeTab === 'science' || activeTab === 'memory' || activeTab === 'psychology' || activeTab === 'quran') {
+  if (activeTab === 'library' || activeTab === 'academy' || activeTab === 'science' || activeTab === 'language' || activeTab === 'books' || activeTab === 'memory' || activeTab === 'psychology' || activeTab === 'quran') {
     hubName = 'Knowledge & Academy Hub';
     subTabs = [
       { id: 'library', label: 'Foundational Books', icon: <BookOpen className="w-3.5 h-3.5" /> },
       { id: 'academy', label: 'Video Masterclasses', icon: <Youtube className="w-3.5 h-3.5" /> },
       { id: 'science', label: 'Science Codex & Fact Cards', icon: <Atom className="w-3.5 h-3.5" /> },
+      { id: 'language', label: 'Language Lab', icon: <Globe className="w-3.5 h-3.5" /> },
+      { id: 'books', label: 'Books Read', icon: <BookOpenText className="w-3.5 h-3.5" /> },
       { id: 'memory', label: 'Memory', icon: <BrainCircuit className="w-3.5 h-3.5" /> },
       { id: 'psychology', label: 'Psychology', icon: <HeartHandshake className="w-3.5 h-3.5" /> },
       { id: 'quran', label: 'Quran', icon: <BookOpenText className="w-3.5 h-3.5" /> }

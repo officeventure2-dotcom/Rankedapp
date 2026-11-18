@@ -282,8 +282,11 @@ export const OverviewView: React.FC = () => {
                   type="button"
                   key={catKey}
                   onClick={() => {
-                    setChallengePillar(catKey);
-                    setActiveTab('challenges');
+                    if (catKey === 'language' || catKey === 'books') setActiveTab(catKey);
+                    else {
+                      setChallengePillar(catKey);
+                      setActiveTab('challenges');
+                    }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   aria-label={`Open ${meta.name}: ${score}% mastery`}

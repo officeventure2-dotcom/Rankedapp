@@ -37,11 +37,10 @@ import { BOOK_CATALOG, BookCatalogItem, searchBookSuggestions } from '../data/bo
 import { BookVerificationQuizModal } from './BookVerificationQuizModal';
 import { TriviaArenaView } from './TriviaArenaView';
 import { BookCover } from './BookCover';
-import { QuickModules } from './QuickModules';
 
 export type { ChallengeSubTab };
 
-export const ChallengesView: React.FC = () => {
+export const ChallengesView: React.FC<{ only?: ChallengeSubTab }> = ({ only }) => {
   const {
     user,
     gainXp,
@@ -65,7 +64,8 @@ export const ChallengesView: React.FC = () => {
   } = useRanked();
 
   // Active sub-pillar (shared, so the Home screen can open a specific one)
-  const { challengePillar: activePillar, setChallengePillar: setActivePillar } = useRanked();
+  const { challengePillar, setChallengePillar: setActivePillar } = useRanked();
+  const activePillar = only ?? challengePillar;
 
   // Trivia state
   const [triviaIndex, setTriviaIndex] = useState(0);
@@ -172,11 +172,9 @@ export const ChallengesView: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-16">
-      <QuickModules />
-
-      {/* Pillar Selector Strip */}
-      <div ref={pillarStripRef} className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-        {pillarsList.map(item => {
+      {/* Pillar Selector Strip (Language Lab and Books Read live in Knowledge) */}
+      {!only && <div ref={pillarStripRef} className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+        {pillarsList.filter(item => item.id !== 'language' && item.id !== 'books').map(item => {
           const isActive = activePillar === item.id;
           return (
             <button
@@ -194,7 +192,7 @@ export const ChallengesView: React.FC = () => {
             </button>
           );
         })}
-      </div>
+      </div>}
 
       {/* 0. 1V1 MIND GAMES & CHESS ARENA */}
       {activePillar === 'competitive' && (
