@@ -25,12 +25,12 @@ export const BottomNavBanner: React.FC = () => {
       case 'overview':
         return 'community';
       case 'challenges':
-      case 'science':
         return 'arena';
       case 'map':
         return 'map';
       case 'library':
       case 'academy':
+      case 'science':
       case 'memory':
       case 'psychology':
       case 'quran':
@@ -136,7 +136,7 @@ export const BottomNavBanner: React.FC = () => {
     },
     {
       hub: 'arena',
-      label: 'Arena',
+      label: 'Challenges',
       targetTab: 'challenges',
       icon: <Swords className="w-5 h-5" />
     },

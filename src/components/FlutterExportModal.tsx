@@ -168,7 +168,7 @@ class GlassBottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final items = [
       {'icon': LucideIcons.home, 'label': 'Home'},
-      {'icon': LucideIcons.swords, 'label': 'Arena'},
+      {'icon': LucideIcons.swords, 'label': 'Challenges'},
       {'icon': LucideIcons.compass, 'label': 'Radar'},
       {'icon': LucideIcons.bookOpen, 'label': 'Codex'},
       {'icon': LucideIcons.trophy, 'label': 'Ranks'},
