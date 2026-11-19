@@ -186,7 +186,7 @@ export const ChallengesView: React.FC<{ only?: ChallengeSubTab }> = ({ only }) =
               data-active={isActive}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap shrink-0 transition-colors ${
                 isActive
-                  ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-sm'
+                  ? 'mem-on bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-sm'
                   : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 border border-zinc-200 dark:border-zinc-800'
               }`}
             >
