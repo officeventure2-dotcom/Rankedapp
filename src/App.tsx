@@ -103,6 +103,8 @@ const AppContent: React.FC = () => {
           <SubSectionNav />
           {activeTab === 'overview' && <OverviewView />}
           {activeTab === 'challenges' && <ChallengesView />}
+          {activeTab === 'language' && <ChallengesView only="language" />}
+          {activeTab === 'books' && <ChallengesView only="books" />}
           {activeTab === 'library' && <OnlineLibraryView />}
           {activeTab === 'academy' && <EducationalVideosView />}
           {activeTab === 'scroll' && <ScrollModeView />}
