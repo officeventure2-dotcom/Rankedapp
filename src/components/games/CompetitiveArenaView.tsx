@@ -9,6 +9,7 @@ import { SudokuGame } from './SudokuGame';
 import { Game24 } from './Game24';
 import { NonogramGame } from './NonogramGame';
 import { LogicRowsGame } from './LogicRowsGame';
+import { GutCheckGame } from './GutCheckGame';
 import { MindMatrixGame } from './MindMatrixGame';
 import { GuessWordGame } from './GuessWordGame';
 import {
@@ -26,6 +27,7 @@ import {
   Shield,
   Play,
   Grid,
+  Eye,
   Rows3,
   Calculator,
   Target,
@@ -44,7 +46,7 @@ export const CompetitiveArenaView: React.FC = () => {
 
   // Active game states
   const [multiplayerGame, setMultiplayerGame] = useState<'chess' | 'connect4' | 'speed_math' | 'trivia_duel' | 'word_duel'>('chess');
-  const [soloGame, setSoloGame] = useState<'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word' | 'logic_rows'>('game24');
+  const [soloGame, setSoloGame] = useState<'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word' | 'logic_rows' | 'gut_check'>('game24');
 
   // Open the game another screen (Home) asked for, then bring it into view.
   useEffect(() => {
@@ -55,7 +57,7 @@ export const CompetitiveArenaView: React.FC = () => {
       setMultiplayerGame(pendingArenaGame as 'chess' | 'connect4' | 'speed_math' | 'trivia_duel' | 'word_duel');
     } else if (game?.mode === 'solo') {
       setArenaCategory('solo');
-      setSoloGame(pendingArenaGame as 'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word' | 'logic_rows');
+      setSoloGame(pendingArenaGame as 'game24' | 'sudoku' | 'nonogram' | 'mind_matrix' | 'guess_word' | 'logic_rows' | 'gut_check');
     }
     setPendingArenaGame(null);
     // Wait for the chosen game's panel to render before scrolling to it. Not cancelled on cleanup:
@@ -188,7 +190,7 @@ export const CompetitiveArenaView: React.FC = () => {
           }`}
         >
           <Brain className="w-4 h-4 text-indigo-500" />
-          <span>Solo Mind & Puzzle Lab (5 Games)</span>
+          <span>Solo Mind & Puzzle Lab (7 Games)</span>
           <span className="hidden sm:inline-block text-[10px] font-mono font-normal px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
             Cognitive Logic · Daily Streaks
           </span>
@@ -551,6 +553,35 @@ export const CompetitiveArenaView: React.FC = () => {
               </div>
             </button>
 
+            {/* 7. Gut Check */}
+            <button
+              onClick={() => setSoloGame('gut_check')}
+              className={`p-4 rounded-2xl border text-left transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between ${
+                soloGame === 'gut_check'
+                  ? 'border-sky-500 bg-sky-50/20 dark:bg-sky-950/20 ring-2 ring-sky-500/30 shadow-md'
+                  : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 hover:border-zinc-300 dark:hover:border-zinc-700'
+              }`}
+            >
+              <div>
+                <div className="flex items-start justify-between">
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-sky-500/15 text-sky-600 dark:text-sky-400"><Eye className="w-6 h-6" /></span>
+                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-600 dark:text-sky-400 font-bold">
+                    NEW SOLO
+                  </span>
+                </div>
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                  Gut Check
+                </h3>
+                <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
+                  Five quick sense tests: count, track, angle, tempo, split. Daily run and free play.
+                </p>
+              </div>
+              <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-sky-600 dark:text-sky-400">
+                <span>Play Gut Check</span>
+                <Play className="w-3 h-3 fill-current" />
+              </div>
+            </button>
+
           </div>
 
           {/* Active Solo Mind Game Component */}
@@ -561,6 +592,7 @@ export const CompetitiveArenaView: React.FC = () => {
             {soloGame === 'mind_matrix' && <MindMatrixGame />}
             {soloGame === 'guess_word' && <GuessWordGame />}
             {soloGame === 'logic_rows' && <LogicRowsGame />}
+            {soloGame === 'gut_check' && <GutCheckGame />}
           </div>
         </div>
       )}

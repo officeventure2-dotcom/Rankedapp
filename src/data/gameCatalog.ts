@@ -5,6 +5,7 @@ import {
   Crown,
   Grid,
   Hash,
+  Eye,
   Rows3,
   Languages,
   Target,
@@ -39,7 +40,8 @@ export const ARENA_GAMES: ArenaGameInfo[] = [
   { id: 'nonogram', title: 'Nonogram Picross', mode: 'solo', icon: Grid, tile: 'bg-teal-500/15 text-teal-600 dark:text-teal-400' },
   { id: 'mind_matrix', title: 'Mind Matrix', mode: 'solo', icon: Brain, tile: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400' },
   { id: 'guess_word', title: 'Wordle Deduction', mode: 'solo', icon: Type, tile: 'bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-400' },
-  { id: 'logic_rows', title: 'Logic Rows', mode: 'solo', icon: Rows3, tile: 'bg-orange-500/15 text-orange-600 dark:text-orange-400' }
+  { id: 'logic_rows', title: 'Logic Rows', mode: 'solo', icon: Rows3, tile: 'bg-orange-500/15 text-orange-600 dark:text-orange-400' },
+  { id: 'gut_check', title: 'Gut Check', mode: 'solo', icon: Eye, tile: 'bg-sky-500/15 text-sky-600 dark:text-sky-400' }
 ];
 
 export function getArenaGame(id: ArenaGameId): ArenaGameInfo | undefined {
