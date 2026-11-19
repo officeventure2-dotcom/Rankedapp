@@ -6,6 +6,7 @@ import {
   WEARABLE_PREVIEW_PATH
 } from '../data/mockData';
 import {
+  Flame,
   Sparkles,
   Globe,
   BookOpen,
@@ -31,6 +32,7 @@ import {
   Layers
 } from 'lucide-react';
 import { CategoryType, AcademicMilestone, FitnessActivity, ChallengeSubTab } from '../types';
+import { RoomsView } from './RoomsView';
 import { CompetitiveArenaView } from './games/CompetitiveArenaView';
 import { LanguageLabView } from './LanguageLabView';
 import { BOOK_CATALOG, BookCatalogItem, searchBookSuggestions } from '../data/bookCatalogData';
@@ -161,6 +163,7 @@ export const ChallengesView: React.FC = () => {
 
   const pillarsList: Array<{ id: ChallengeSubTab; label: string; icon: React.ReactNode }> = [
     { id: 'competitive', label: '1v1 & Solo Mind Games', icon: <Swords className="w-4 h-4 text-amber-500" /> },
+    { id: 'rooms', label: 'Rooms & Streaks', icon: <Flame className="w-4 h-4 text-orange-500" /> },
     { id: 'trivia', label: 'Trivia Arena', icon: <Sparkles className="w-4 h-4" /> },
     { id: 'iq', label: 'IQ & Logic', icon: <Brain className="w-4 h-4" /> },
     { id: 'language', label: 'Language Lab', icon: <Globe className="w-4 h-4" /> },
@@ -200,6 +203,8 @@ export const ChallengesView: React.FC = () => {
       {activePillar === 'competitive' && (
         <CompetitiveArenaView />
       )}
+
+      {activePillar === 'rooms' && <RoomsView />}
 
       {/* 1. TRIVIA ARENA */}
       {activePillar === 'trivia' && (

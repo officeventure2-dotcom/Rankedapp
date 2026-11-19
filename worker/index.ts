@@ -7,13 +7,14 @@
  *   memory -> { title: string, text: string }
  */
 
-import { handleAuth, type AuthEnv } from './auth';
+import { handleAuth } from './auth';
+import { handleRooms, sendReminders, type RoomsEnv } from './rooms';
 
 // Minimal local types so the app's `tsc --noEmit` needs no extra packages.
 interface AiBinding {
   run(model: string, input: Record<string, unknown>): Promise<unknown>;
 }
-interface Env extends AuthEnv {
+interface Env extends RoomsEnv {
   AI: AiBinding;
   ASSETS: { fetch(request: Request): Promise<Response> };
 }
@@ -139,8 +140,13 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname.startsWith('/api/auth/')) return handleAuth(request, env, sameOrigin);
+    if (/^\/api\/(rooms|quiz|push)\//.test(url.pathname)) return handleRooms(request, env, sameOrigin);
     if (url.pathname === '/api/ask') return handleAsk(request, env);
     if (url.pathname.startsWith('/api/')) return json({ error: 'Not found.' }, 404);
     return env.ASSETS.fetch(request);
+  },
+  // Daily cron (wrangler.jsonc triggers): push reminders to room members who have not played.
+  async scheduled(_event: unknown, env: Env, ctx: { waitUntil(p: Promise<unknown>): void }): Promise<void> {
+    ctx.waitUntil(sendReminders(env));
   }
 };

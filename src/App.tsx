@@ -145,7 +145,7 @@ const AppContent: React.FC = () => {
       <footer className="border-t border-zinc-200 dark:border-zinc-800/80 py-6 text-center text-xs text-zinc-400 dark:text-zinc-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>Ranked &copy; 2026 · Multidisciplinary Life Mastery System (Levels 1–1,000)</span>
-          <div className="flex items-center gap-4 text-zinc-500 dark:text-zinc-400">
+          <div className="flex flex-wrap justify-center items-center gap-x-4 text-zinc-500 dark:text-zinc-400">
             <span>Trivia</span>
             <span>·</span>
             <span>Languages</span>

@@ -12,7 +12,7 @@ interface D1Result<T> { results?: T[] }
 interface D1Statement {
   bind(...values: unknown[]): D1Statement;
   first<T = Record<string, unknown>>(): Promise<T | null>;
-  run(): Promise<unknown>;
+  run(): Promise<{ meta?: { changes?: number } }>;
   all<T = Record<string, unknown>>(): Promise<D1Result<T>>;
 }
 export interface AuthEnv { DB: { prepare(sql: string): D1Statement } }
@@ -26,7 +26,7 @@ const enc = new TextEncoder();
 const hex = (b: ArrayBuffer | Uint8Array) => [...new Uint8Array(b as ArrayBuffer)].map((x) => x.toString(16).padStart(2, '0')).join('');
 const unhex = (h: string) => new Uint8Array(h.match(/../g)!.map((x) => parseInt(x, 16)));
 
-function json(body: unknown, status = 200, headers: Record<string, string> = {}): Response {
+export function json(body: unknown, status = 200, headers: Record<string, string> = {}): Response {
   return new Response(JSON.stringify(body), {
     status,
     headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...headers }
@@ -68,7 +68,7 @@ async function startSession(env: AuthEnv, userId: string): Promise<string> {
   return sessionCookie(token, SESSION_DAYS * 86_400);
 }
 
-async function currentUser(request: Request, env: AuthEnv): Promise<{ id: string; name: string; email: string } | null> {
+export async function currentUser(request: Request, env: AuthEnv): Promise<{ id: string; name: string; email: string } | null> {
   const token = readCookie(request);
   if (!token) return null;
   return env.DB.prepare(
@@ -76,7 +76,7 @@ async function currentUser(request: Request, env: AuthEnv): Promise<{ id: string
   ).bind(await sha256(token), Date.now()).first<{ id: string; name: string; email: string }>();
 }
 
-async function readBody(request: Request): Promise<Record<string, unknown> | null> {
+export async function readBody(request: Request): Promise<Record<string, unknown> | null> {
   try {
     const text = await request.text();
     if (text.length > 2048) return null;
@@ -87,7 +87,7 @@ async function readBody(request: Request): Promise<Record<string, unknown> | nul
   }
 }
 
-const str = (v: unknown) => (typeof v === 'string' ? v : '');
+export const str = (v: unknown) => (typeof v === 'string' ? v : '');
 
 export async function handleAuth(request: Request, env: AuthEnv, sameOrigin: (r: Request) => boolean): Promise<Response> {
   const path = new URL(request.url).pathname;

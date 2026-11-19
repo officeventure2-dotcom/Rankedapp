@@ -11,6 +11,9 @@
   },
   // Workers AI powers the "Ask Ranked" bar and the Memory Mode AI search.
   "ai": { "binding": "AI" },
+  // 16:00 UTC = 19:00 in Baghdad. Reminds room members who have not played the daily quiz. Needs the VAPID_PRIVATE_KEY secret.
+  "triggers": { "crons": ["0 16 * * *"] },
+  "vars": { "VAPID_PUBLIC_KEY": "BJtpy8g-ms1zwLMxlosAc6CbFB_tfu1V8q2T2-jn0nMNJQRuUjDIou-YLY46NNZhHZW38cuLLLbb7QZOh9VwYkY", "VAPID_SUBJECT": "https://rankedapp.officeventure2.workers.dev" },
   // Accounts and sessions (schema in db/schema.sql).
   "d1_databases": [{ "binding": "DB", "database_name": "ranked-auth", "database_id": "9a52ae29-bcf7-4ff2-8f6c-2004520c8f32" }],
   // Required by Cloudflare's branch preview builds (`wrangler preview`); can stay empty.
