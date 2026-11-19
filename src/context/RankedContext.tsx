@@ -63,14 +63,14 @@ interface RankedContextType {
   movies: MovieEntry[];
   academics: AcademicMilestone[];
   leaderboard: LeaderboardUser[];
-  activeTab: 'overview' | 'challenges' | 'library' | 'academy' | 'scroll' | 'memory' | 'psychology' | 'quran' | 'language' | 'books' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges';
+  activeTab: 'overview' | 'challenges' | 'knowledge' | 'library' | 'academy' | 'scroll' | 'memory' | 'psychology' | 'quran' | 'language' | 'books' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges';
   /** Which Challenges section is open (so other screens can deep-link into one). */
-  challengePillar: ChallengeSubTab;
+  challengePillar: ChallengeSubTab | null;
   /** A game another screen wants the Arena to open; the Arena clears it once handled. */
   pendingArenaGame: ArenaGameId | null;
   setPendingArenaGame: (game: ArenaGameId | null) => void;
-  setChallengePillar: (pillar: ChallengeSubTab) => void;
-  setActiveTab: (tab: 'overview' | 'challenges' | 'library' | 'academy' | 'scroll' | 'memory' | 'psychology' | 'quran' | 'language' | 'books' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges') => void;
+  setChallengePillar: (pillar: ChallengeSubTab | null) => void;
+  setActiveTab: (tab: 'overview' | 'challenges' | 'knowledge' | 'library' | 'academy' | 'scroll' | 'memory' | 'psychology' | 'quran' | 'language' | 'books' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges') => void;
   userLocation: { lat: number; lng: number; city?: string } | null;
   locationEnabled: boolean;
   enableLocation: () => Promise<void>;
@@ -165,9 +165,9 @@ export const RankedProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return saved !== null ? saved === 'true' : true;
   });
 
-  const [challengePillar, setChallengePillar] = useState<ChallengeSubTab>('competitive');
+  const [challengePillar, setChallengePillar] = useState<ChallengeSubTab | null>(null);
   const [pendingArenaGame, setPendingArenaGame] = useState<ArenaGameId | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'challenges' | 'library' | 'academy' | 'scroll' | 'memory' | 'psychology' | 'quran' | 'language' | 'books' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges'>('scroll');
+  const [activeTab, setActiveTab] = useState<'overview' | 'challenges' | 'knowledge' | 'library' | 'academy' | 'scroll' | 'memory' | 'psychology' | 'quran' | 'language' | 'books' | 'science' | 'leaderboard' | 'map' | 'social' | 'chat' | 'badges'>('scroll');
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number; city?: string } | null>({
     lat: 37.7749,
     lng: -122.4194,

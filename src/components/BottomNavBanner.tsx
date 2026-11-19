@@ -28,6 +28,7 @@ export const BottomNavBanner: React.FC = () => {
         return 'arena';
       case 'map':
         return 'map';
+      case 'knowledge':
       case 'library':
       case 'academy':
       case 'science':
@@ -125,7 +126,7 @@ export const BottomNavBanner: React.FC = () => {
   const navItems: Array<{
     hub: MainNavHub;
     label: string;
-    targetTab: 'scroll' | 'overview' | 'challenges' | 'map' | 'library' | 'leaderboard';
+    targetTab: 'scroll' | 'overview' | 'challenges' | 'map' | 'knowledge' | 'leaderboard';
     icon: React.ReactNode;
     isCenter?: boolean;
   }> = [
@@ -151,7 +152,7 @@ export const BottomNavBanner: React.FC = () => {
     {
       hub: 'knowledge',
       label: 'Knowledge',
-      targetTab: 'library',
+      targetTab: 'knowledge',
       icon: <BookOpen className="w-5 h-5" />
     },
     {
