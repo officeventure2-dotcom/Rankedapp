@@ -8,7 +8,7 @@ export type CategoryType =
   | 'iq';
 
 /** A section of the Challenges screen: one per pillar, plus the 1v1 mind-games arena. */
-export type ChallengeSubTab = CategoryType | 'competitive';
+export type ChallengeSubTab = CategoryType | 'competitive' | 'rooms';
 
 /** The games inside the Arena (5 head-to-head, 6 solo). */
 export type ArenaGameId =
