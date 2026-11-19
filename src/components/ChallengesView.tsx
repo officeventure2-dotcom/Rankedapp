@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { HubTiles, BackBar, HubItem } from './HubTiles';
 import { useRanked } from '../context/RankedContext';
 import {
   TRIVIA_BANK,
@@ -151,51 +152,21 @@ export const ChallengesView: React.FC<{ only?: ChallengeSubTab }> = ({ only }) =
     setIqSubmitted(false);
   };
 
-  // Keep the selected tab visible when a section is opened from elsewhere (e.g. Home).
-  const pillarStripRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const strip = pillarStripRef.current;
-    const tab = strip?.querySelector<HTMLElement>('[data-active="true"]');
-    if (!strip || !tab) return;
-    // Scroll only the strip sideways; scrollIntoView would also move the whole page.
-    strip.scrollTo({ left: tab.offsetLeft - (strip.clientWidth - tab.offsetWidth) / 2 });
-  }, [activePillar]);
-
-  const pillarsList: Array<{ id: ChallengeSubTab; label: string; icon: React.ReactNode }> = [
-    { id: 'competitive', label: '1v1 & Solo Mind Games', icon: <Swords className="w-4 h-4 text-amber-500" /> },
-    { id: 'rooms', label: 'Rooms & Streaks', icon: <Flame className="w-4 h-4 text-orange-500" /> },
-    { id: 'trivia', label: 'Trivia Arena', icon: <Sparkles className="w-4 h-4" /> },
-    { id: 'iq', label: 'IQ & Logic', icon: <Brain className="w-4 h-4" /> },
-    { id: 'language', label: 'Language Lab', icon: <Globe className="w-4 h-4" /> },
-    { id: 'books', label: 'Books Read', icon: <BookOpen className="w-4 h-4" /> },
-    { id: 'movies', label: 'Movies Watched', icon: <Film className="w-4 h-4" /> },
-    { id: 'fitness', label: 'Fitness & Strava', icon: <Activity className="w-4 h-4" /> },
-    { id: 'degree', label: 'Degrees & Honors', icon: <GraduationCap className="w-4 h-4" /> }
+  const tileItems: HubItem[] = [
+    { id: 'competitive', label: '1v1 & Solo Mind Games', blurb: 'Chess, Connect 4, Sudoku, puzzles', icon: <Swords />, tone: 'text-amber-500' },
+    { id: 'rooms', label: 'Rooms & Streaks', blurb: 'Daily quiz with friends', icon: <Flame />, tone: 'text-orange-500' },
+    { id: 'trivia', label: 'Trivia Arena', blurb: 'Test your general knowledge', icon: <Sparkles />, tone: 'text-sky-500' },
+    { id: 'iq', label: 'IQ & Logic', blurb: 'Pattern and reasoning tests', icon: <Brain />, tone: 'text-violet-500' },
+    { id: 'movies', label: 'Movies Watched', blurb: 'Track films and earn XP', icon: <Film />, tone: 'text-pink-500' },
+    { id: 'fitness', label: 'Fitness & Strava', blurb: 'Workouts and activity', icon: <Activity />, tone: 'text-emerald-500' },
+    { id: 'degree', label: 'Degrees & Honors', blurb: 'Your academic milestones', icon: <GraduationCap />, tone: 'text-yellow-500' }
   ];
 
   return (
     <div className="space-y-6 pb-16">
-      {/* Pillar Selector Strip (Language Lab and Books Read live in Knowledge) */}
-      {!only && <div ref={pillarStripRef} className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-        {pillarsList.filter(item => item.id !== 'language' && item.id !== 'books').map(item => {
-          const isActive = activePillar === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => setActivePillar(item.id)}
-              data-active={isActive}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap shrink-0 transition-colors ${
-                isActive
-                  ? 'mem-on bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-sm'
-                  : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 border border-zinc-200 dark:border-zinc-800'
-              }`}
-            >
-              {item.icon}
-              <span>{item.label}</span>
-            </button>
-          );
-        })}
-      </div>}
+      {/* Pick a type of challenge first; the back button returns to the tiles. */}
+      {!only && activePillar === null && <HubTiles title="Challenges" items={tileItems} onPick={id => setActivePillar(id as ChallengeSubTab)} />}
+      {!only && activePillar !== null && <BackBar label="Challenges" onBack={() => setActivePillar(null)} />}
 
       {/* 0. 1V1 MIND GAMES & CHESS ARENA */}
       {activePillar === 'competitive' && (
