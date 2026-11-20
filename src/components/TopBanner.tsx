@@ -1,9 +1,20 @@
-import React from 'react';
-import { Activity, BookOpen, Brain, Check, Film, GraduationCap, Globe, SlidersHorizontal, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { Activity, BookOpen, Brain, Check, Film, GraduationCap, Globe, MessageCircle, Search, SlidersHorizontal, Sparkles } from 'lucide-react';
 import type { CategoryType } from '../types';
 import { useRanked } from '../context/RankedContext';
 import { getLevelProgress } from '../utils/levelMath';
 import { HERO_CREST_PATH } from '../data/mockData';
+import { CHALLENGE_ITEMS } from './ChallengesView';
+import { KNOWLEDGE_ITEMS } from './KnowledgeHub';
+
+// Search jumps to a section: every Challenges and Knowledge tile plus the main pages.
+// shortcut: matches section names only, not content inside them; add content search when asked.
+const SEARCH_TARGETS = [
+  ...CHALLENGE_ITEMS.map(i => ({ label: i.label, where: 'Challenges', go: () => ({ tab: 'challenges' as const, pillar: i.id }) })),
+  ...KNOWLEDGE_ITEMS.map(i => ({ label: i.label, where: 'Knowledge', go: () => ({ tab: i.id }) })),
+  ...[['Leaderboard', 'leaderboard'], ['Social Feed', 'social'], ['Direct Messages', 'chat'], ['Badges', 'badges'], ['Radar Map', 'map']]
+    .map(([label, tab]) => ({ label, where: 'Go to', go: () => ({ tab }) }))
+];
 
 /** Slim banner pinned to the top of every screen: level, rank and XP bar. Tap to open the profile. */
 const QUEST_ICON: Record<CategoryType, React.ReactNode> = {
@@ -17,26 +28,52 @@ const QUEST_ICON: Record<CategoryType, React.ReactNode> = {
 };
 
 export const TopBanner: React.FC = () => {
-  const { user, openUserProfile, setSettingsSheetOpen, dailyQuests, activeTab, setActiveTab, showToast } = useRanked();
+  const { user, openUserProfile, setSettingsSheetOpen, dailyQuests, activeTab, setActiveTab, showToast, setChallengePillar } = useRanked();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const q = query.trim().toLowerCase();
+  const results = q ? SEARCH_TARGETS.filter(t => t.label.toLowerCase().includes(q)).slice(0, 6) : [];
+  const open = (t: typeof SEARCH_TARGETS[number]) => {
+    const r = t.go() as { tab: any; pillar?: any };
+    if (r.pillar) setChallengePillar(r.pillar);
+    setActiveTab(r.tab);
+    setQuery('');
+    setSearchOpen(false);
+  };
   const progress = getLevelProgress(user.xp);
   return (
     <div className="mb-3 space-y-2">
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-0.5">
       <button
         onClick={() => openUserProfile(user.id)}
         aria-label={`Open profile, level ${progress.currentLevel}`}
-        className="flex-1 min-w-0 min-h-touch flex items-center gap-3 px-3 py-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 text-left cursor-pointer"
+        className="flex-1 min-w-0 mr-1.5 min-h-touch flex items-center gap-3 px-3 py-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 text-left cursor-pointer"
       >
         <img src={HERO_CREST_PATH} alt="" referrerPolicy="no-referrer" className="w-9 h-9 rounded-lg object-cover shrink-0 border border-zinc-200 dark:border-zinc-700" />
         <span className="flex-1 min-w-0">
           <span className="flex items-baseline justify-between gap-2">
-            <span className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50 truncate">Level {progress.currentLevel} · {progress.tier}</span>
+            <span className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50 truncate">Level {progress.currentLevel}<span className="hidden min-[420px]:inline"> · {progress.tier}</span></span>
             <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 shrink-0">{progress.percent.toFixed(0)}%</span>
           </span>
           <span className="mt-1 block h-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
             <span className="block h-full rounded-full bg-gradient-to-r from-amber-500 to-yellow-400" style={{ width: `${Math.max(2, progress.percent)}%` }} />
           </span>
         </span>
+      </button>
+      <button
+        onClick={() => setSearchOpen(o => !o)}
+        aria-label="Search"
+        aria-expanded={searchOpen}
+        className="min-h-touch min-w-touch flex items-center justify-center rounded-full text-zinc-600 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
+      >
+        <Search className="w-5 h-5" />
+      </button>
+      <button
+        onClick={() => setActiveTab('chat')}
+        aria-label="Direct messages"
+        className="min-h-touch min-w-touch flex items-center justify-center rounded-full text-zinc-600 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
+      >
+        <MessageCircle className="w-5 h-5" />
       </button>
       <button
         onClick={() => setSettingsSheetOpen(true)}
@@ -46,6 +83,31 @@ export const TopBanner: React.FC = () => {
         <SlidersHorizontal className="w-5 h-5" />
       </button>
     </div>
+    {searchOpen && (
+      <div>
+        <input
+          autoFocus
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          onKeyDown={e => { if (e.key === 'Enter' && results[0]) open(results[0]); if (e.key === 'Escape') setSearchOpen(false); }}
+          placeholder="Search games, books, sections…"
+          aria-label="Search sections"
+          className="w-full px-4 py-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-base text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-amber-500"
+        />
+        {q && (
+          <ul className="mt-1 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xl p-1">
+            {results.length === 0 && <li className="px-3 py-2 text-xs text-zinc-500">No match</li>}
+            {results.map(t => (
+              <li key={t.where + t.label}>
+                <button onClick={() => open(t)} className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl text-sm text-left text-zinc-900 dark:text-zinc-100 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer">
+                  <span>{t.label}</span><span className="text-[10px] font-mono text-zinc-500">{t.where}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    )}
     {activeTab === 'scroll' && dailyQuests.length > 0 && (
       <div className="flex items-center gap-2 px-1" role="group" aria-label="Daily quests">
         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mr-1">Daily</span>

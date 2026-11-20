@@ -43,6 +43,16 @@ import { BookCover } from './BookCover';
 
 export type { ChallengeSubTab };
 
+export const CHALLENGE_ITEMS: HubItem[] = [
+  { id: 'competitive', label: '1v1 & Solo Mind Games', blurb: 'Chess, Connect 4, Sudoku, puzzles', icon: <Swords />, tone: 'text-amber-500' },
+  { id: 'rooms', label: 'Rooms & Streaks', blurb: 'Daily quiz with friends', icon: <Flame />, tone: 'text-orange-500' },
+  { id: 'trivia', label: 'Trivia Arena', blurb: 'Test your general knowledge', icon: <Sparkles />, tone: 'text-sky-500' },
+  { id: 'iq', label: 'IQ & Logic', blurb: 'Pattern and reasoning tests', icon: <Brain />, tone: 'text-violet-500' },
+  { id: 'movies', label: 'Movies Watched', blurb: 'Track films and earn XP', icon: <Film />, tone: 'text-pink-500' },
+  { id: 'fitness', label: 'Fitness & Strava', blurb: 'Workouts and activity', icon: <Activity />, tone: 'text-emerald-500' },
+  { id: 'degree', label: 'Degrees & Honors', blurb: 'Your academic milestones', icon: <GraduationCap />, tone: 'text-yellow-500' }
+];
+
 export const ChallengesView: React.FC<{ only?: ChallengeSubTab }> = ({ only }) => {
   const {
     user,
@@ -152,20 +162,10 @@ export const ChallengesView: React.FC<{ only?: ChallengeSubTab }> = ({ only }) =
     setIqSubmitted(false);
   };
 
-  const tileItems: HubItem[] = [
-    { id: 'competitive', label: '1v1 & Solo Mind Games', blurb: 'Chess, Connect 4, Sudoku, puzzles', icon: <Swords />, tone: 'text-amber-500' },
-    { id: 'rooms', label: 'Rooms & Streaks', blurb: 'Daily quiz with friends', icon: <Flame />, tone: 'text-orange-500' },
-    { id: 'trivia', label: 'Trivia Arena', blurb: 'Test your general knowledge', icon: <Sparkles />, tone: 'text-sky-500' },
-    { id: 'iq', label: 'IQ & Logic', blurb: 'Pattern and reasoning tests', icon: <Brain />, tone: 'text-violet-500' },
-    { id: 'movies', label: 'Movies Watched', blurb: 'Track films and earn XP', icon: <Film />, tone: 'text-pink-500' },
-    { id: 'fitness', label: 'Fitness & Strava', blurb: 'Workouts and activity', icon: <Activity />, tone: 'text-emerald-500' },
-    { id: 'degree', label: 'Degrees & Honors', blurb: 'Your academic milestones', icon: <GraduationCap />, tone: 'text-yellow-500' }
-  ];
-
   return (
     <div className="space-y-6 pb-16">
       {/* Pick a type of challenge first; the back button returns to the tiles. */}
-      {!only && activePillar === null && <HubTiles title="Challenges" items={tileItems} onPick={id => setActivePillar(id as ChallengeSubTab)} />}
+      {!only && activePillar === null && <HubTiles title="Challenges" items={CHALLENGE_ITEMS} onPick={id => setActivePillar(id as ChallengeSubTab)} />}
       {!only && activePillar !== null && <BackBar label="Challenges" onBack={() => setActivePillar(null)} />}
 
       {/* 0. 1V1 MIND GAMES & CHESS ARENA */}
