@@ -3,6 +3,7 @@ import { useRanked } from '../context/RankedContext';
 import { getTierForLevel, getTierColor } from '../utils/levelMath';
 import { Send, Circle, Sparkles, MessageCircle } from 'lucide-react';
 import { Avatar } from './Avatar';
+import { DailyRate } from './DailyRate';
 
 export const ChatView: React.FC = () => {
   const {
@@ -38,6 +39,7 @@ export const ChatView: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto pb-16">
+      <DailyRate />
       
       <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[580px]">
         

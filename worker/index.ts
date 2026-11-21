@@ -8,6 +8,7 @@
  */
 
 import { handleAuth } from './auth';
+import { handleDaily } from './daily';
 import { handleRooms, sendReminders, type RoomsEnv } from './rooms';
 
 // Minimal local types so the app's `tsc --noEmit` needs no extra packages.
@@ -141,6 +142,7 @@ export default {
     const url = new URL(request.url);
     if (url.pathname.startsWith('/api/auth/')) return handleAuth(request, env, sameOrigin);
     if (/^\/api\/(rooms|quiz|push)\//.test(url.pathname)) return handleRooms(request, env, sameOrigin);
+    if (url.pathname.startsWith('/api/daily/')) return handleDaily(request, env, sameOrigin);
     if (url.pathname === '/api/ask') return handleAsk(request, env);
     if (url.pathname.startsWith('/api/')) return json({ error: 'Not found.' }, 404);
     return env.ASSETS.fetch(request);
