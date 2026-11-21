@@ -144,7 +144,9 @@ export const DailyRate: React.FC = () => {
     const r = await api<{ analysis: Analysis }>('/api/daily/guest', m);
     if (!r.ok) return r.data.error ?? 'Something went wrong.';
     const a = r.data.analysis;
-    const next = [...mine, { id: crypto.randomUUID(), created: Date.now(), ...m, rate: a?.rate ?? null, summary: a?.summary ?? '', sections: a?.sections }].slice(-5);
+    const next = [...mine, { id: crypto.randomUUID(), created: Date.now(), ...m, rate: a?.rate ?? null, summary: a?.summary ?? '', sections: a?.sections }]
+      .slice(-10) // same daily cap as members, so the day's rate counts every post
+      .map((x, i, all) => (i < all.length - 3 ? { ...x, photo: '', audio: '' } : x)); // keep media only for the newest 3 to stay within storage
     setMine(next); saveGuest(next);
     return '';
   };
