@@ -15,3 +15,7 @@ CREATE INDEX IF NOT EXISTS pushes_user ON pushes(user_id);
 ALTER TABLE rooms ADD COLUMN chat INTEGER NOT NULL DEFAULT 1;
 CREATE TABLE IF NOT EXISTS messages (id TEXT PRIMARY KEY, room_id TEXT NOT NULL, user_id TEXT NOT NULL, body TEXT NOT NULL, created INTEGER NOT NULL, pinned INTEGER NOT NULL DEFAULT 0);
 CREATE INDEX IF NOT EXISTS messages_room ON messages(room_id, created);
+
+-- Daily Rate moments: visible to friends until `expires` (poster's local midnight); rate/sections come from the AI.
+CREATE TABLE IF NOT EXISTS moments (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, created INTEGER NOT NULL, expires INTEGER NOT NULL, kind TEXT NOT NULL, text TEXT NOT NULL, photo TEXT NOT NULL, audio TEXT NOT NULL, rate INTEGER, sections TEXT NOT NULL, summary TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS moments_user ON moments(user_id, expires);
