@@ -30,7 +30,8 @@ import {
   ShieldCheck,
   Check,
   RefreshCw,
-  Layers
+  Layers,
+  Eye
 } from 'lucide-react';
 import { CategoryType, AcademicMilestone, FitnessActivity, ChallengeSubTab } from '../types';
 import { RoomsView } from './RoomsView';
@@ -45,6 +46,7 @@ export type { ChallengeSubTab };
 
 export const CHALLENGE_ITEMS: HubItem[] = [
   { id: 'competitive', label: '1v1 & Solo Mind Games', blurb: 'Chess, Connect 4, Sudoku, puzzles', icon: <Swords />, tone: 'text-amber-500' },
+  { id: 'perception', label: 'Gut Check', blurb: 'Perception tests: count, track, angle, tempo', icon: <Eye />, tone: 'text-fuchsia-500' },
   { id: 'rooms', label: 'Rooms & Streaks', blurb: 'Daily quiz with friends', icon: <Flame />, tone: 'text-orange-500' },
   { id: 'trivia', label: 'Trivia Arena', blurb: 'Test your general knowledge', icon: <Sparkles />, tone: 'text-sky-500' },
   { id: 'iq', label: 'IQ & Logic', blurb: 'Pattern and reasoning tests', icon: <Brain />, tone: 'text-violet-500' },
@@ -77,7 +79,7 @@ export const ChallengesView: React.FC<{ only?: ChallengeSubTab }> = ({ only }) =
   } = useRanked();
 
   // Active sub-pillar (shared, so the Home screen can open a specific one)
-  const { challengePillar, setChallengePillar: setActivePillar } = useRanked();
+  const { challengePillar, setChallengePillar: setActivePillar, setPendingArenaGame } = useRanked();
   const activePillar = only ?? challengePillar;
 
   // Trivia state
@@ -165,7 +167,10 @@ export const ChallengesView: React.FC<{ only?: ChallengeSubTab }> = ({ only }) =
   return (
     <div className="space-y-6 pb-16">
       {/* Pick a type of challenge first; the back button returns to the tiles. */}
-      {!only && activePillar === null && <HubTiles title="Challenges" items={CHALLENGE_ITEMS} onPick={id => setActivePillar(id as ChallengeSubTab)} />}
+      {!only && activePillar === null && <HubTiles title="Challenges" items={CHALLENGE_ITEMS} onPick={id => {
+        // Gut Check lives in the solo puzzle lab: open it there directly.
+        if (id === 'perception') { setPendingArenaGame('gut_check'); setActivePillar('competitive'); } else setActivePillar(id as ChallengeSubTab);
+      }} />}
       {!only && activePillar !== null && <BackBar label="Challenges" onBack={() => setActivePillar(null)} />}
 
       {/* 0. 1V1 MIND GAMES & CHESS ARENA */}
