@@ -3,7 +3,7 @@ import { Camera, Loader2, Mic, Plus, Square, X } from 'lucide-react';
 import { useAuth } from '../auth/AuthGate';
 
 interface Circle { id: string; name: string; you: boolean; rate: number | null; count: number }
-interface Moment { id: string; created: number; text: string; photo: string; audio: string; rate: number | null; summary: string }
+interface Moment { id: string; created: number; text: string; photo: string; audio: string; rate: number | null; summary: string; sections?: Record<string, number> }
 interface Detail { name: string; you: boolean; rate: number | null; sections: Record<string, number> | null; moments: Moment[] }
 
 const SECTION_LABEL: Record<string, string> = { mood: 'Mood', energy: 'Energy', focus: 'Focus', connection: 'Connection', growth: 'Growth' };
@@ -11,6 +11,18 @@ const tone = (r: number | null) => (r === null ? '#71717a' : r >= 70 ? '#10b981'
 const input = 'w-full min-h-touch px-3 py-2 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-transparent text-base';
 const btn = 'min-h-touch px-4 rounded-xl border text-sm font-semibold cursor-pointer disabled:opacity-50 border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-200 inline-flex items-center justify-center gap-1.5';
 const MAX_VOICE_SECONDS = 20;
+const GUEST_KEY = 'ranked.daily.guest';
+const midnightMs = () => { const d = new Date(); d.setHours(24, 0, 0, 0); return d.getTime(); };
+type Analysis = { rate: number; sections: Record<string, number>; summary: string } | null;
+
+/** Guests keep their moments in this browser until local midnight; nothing is stored on the server. */
+const loadGuest = (): Moment[] => {
+  try {
+    const v = JSON.parse(localStorage.getItem(GUEST_KEY) ?? 'null') as { expires: number; moments: (Moment & { sections?: Record<string, number> })[] } | null;
+    return v && v.expires > Date.now() ? v.moments : [];
+  } catch { return []; }
+};
+const saveGuest = (moments: Moment[]) => { try { localStorage.setItem(GUEST_KEY, JSON.stringify({ expires: midnightMs(), moments })); } catch { /* storage full: this session only */ } };
 
 async function api<T>(path: string, body?: unknown): Promise<{ ok: boolean; data: T & { error?: string } }> {
   const res = await fetch(path, body === undefined ? undefined : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
@@ -37,7 +49,8 @@ const Ring: React.FC<{ rate: number | null; size?: number; children?: React.Reac
   </span>
 );
 
-const Composer: React.FC<{ onDone: () => void; onCancel: () => void }> = ({ onDone, onCancel }) => {
+/** `submit` returns an error message, or '' when the moment was shared. */
+const Composer: React.FC<{ submit: (m: { text: string; photo: string; audio: string }) => Promise<string>; onDone: () => void; onCancel: () => void; note: string }> = ({ submit, onDone, onCancel, note }) => {
   const [text, setText] = useState('');
   const [photo, setPhoto] = useState('');
   const [audio, setAudio] = useState('');
@@ -73,16 +86,15 @@ const Composer: React.FC<{ onDone: () => void; onCancel: () => void }> = ({ onDo
   };
   const post = async () => {
     setBusy(true); setErr('');
-    const midnight = new Date(); midnight.setHours(24, 0, 0, 0);
     try {
-      const r = await api<{ analysed: boolean }>('/api/daily/post', { text, photo, audio, expires: midnight.getTime() });
-      if (!r.ok) setErr(r.data.error ?? 'Something went wrong.'); else onDone();
+      const e = await submit({ text, photo, audio });
+      if (e) setErr(e); else onDone();
     } catch { setErr("Can't reach the server."); } finally { setBusy(false); }
   };
 
   return (
     <div className="mt-3 space-y-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-3" aria-label="Add to your daily rate">
-      <p className="text-xs text-zinc-500 dark:text-zinc-400">Share what you are doing right now. AI rates your day from it, and friends can see it until midnight.</p>
+      <p className="text-xs text-zinc-500 dark:text-zinc-400">{note}</p>
       <textarea className={input} rows={3} maxLength={600} placeholder="A quote, a thought, a poem…" aria-label="Your words" value={text} onChange={(e) => setText(e.target.value)} />
       {photo && <img src={photo} alt="Your photo" className="max-h-48 rounded-xl" />}
       {audio && <audio controls src={audio} className="w-full" />}
@@ -110,6 +122,7 @@ export const DailyRate: React.FC = () => {
   const [detail, setDetail] = useState<Detail | null>(null);
   const [adding, setAdding] = useState(false);
   const [err, setErr] = useState('');
+  const [mine, setMine] = useState<Moment[]>(loadGuest);
 
   const load = useCallback(async () => {
     try {
@@ -119,28 +132,41 @@ export const DailyRate: React.FC = () => {
   }, []);
   useEffect(() => { if (!isGuest) void load(); }, [isGuest, load]);
 
+  const rated = mine.filter((m) => m.rate !== null && m.sections);
+  const avg = (f: (m: Moment) => number) => Math.round(rated.reduce((t, m) => t + f(m), 0) / rated.length);
+  const guestDetail: Detail = {
+    name: 'You', you: true, moments: mine,
+    rate: rated.length ? avg((m) => m.rate as number) : null,
+    sections: rated.length ? Object.fromEntries(Object.keys(SECTION_LABEL).map((k) => [k, avg((m) => m.sections![k] ?? 50)])) : null
+  };
+  const shown: Circle[] | null = isGuest ? [{ id: 'guest', name: 'You', you: true, rate: guestDetail.rate, count: mine.length }] : circles;
+  const submitGuest = async (m: { text: string; photo: string; audio: string }) => {
+    const r = await api<{ analysis: Analysis }>('/api/daily/guest', m);
+    if (!r.ok) return r.data.error ?? 'Something went wrong.';
+    const a = r.data.analysis;
+    const next = [...mine, { id: crypto.randomUUID(), created: Date.now(), ...m, rate: a?.rate ?? null, summary: a?.summary ?? '', sections: a?.sections }].slice(-5);
+    setMine(next); saveGuest(next);
+    return '';
+  };
+  const submitMember = async (m: { text: string; photo: string; audio: string }) => {
+    const r = await api<{ analysed: boolean }>('/api/daily/post', { ...m, expires: midnightMs() });
+    return r.ok ? '' : r.data.error ?? 'Something went wrong.';
+  };
+
   const open = async (id: string) => {
+    if (isGuest) { setDetail(guestDetail); return; }
     try {
       const r = await api<Detail>(`/api/daily/user?id=${id}`);
       if (r.ok) setDetail(r.data); else setErr(r.data.error ?? '');
     } catch { setErr("Can't reach the server."); }
   };
 
-  if (isGuest) return (
-    <section className="mb-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 p-4 flex items-center justify-between gap-3" aria-label="Daily rate">
-      <div className="min-w-0">
-        <h3 className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">Daily rate</h3>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">Sign in to share your day and see your friends' rates.</p>
-      </div>
-      <button onClick={() => void signOut()} className={`${btn} shrink-0`}>Sign in</button>
-    </section>
-  );
   return (
     <section className="mb-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 p-4" aria-label="Daily rate">
       <h3 className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 mb-3">Daily rate</h3>
-      {circles === null && !err && <Loader2 className="w-5 h-5 animate-spin text-zinc-400" aria-label="Loading" />}
+      {shown === null && !err && <Loader2 className="w-5 h-5 animate-spin text-zinc-400" aria-label="Loading" />}
       <div className="flex gap-4 overflow-x-auto pb-1 scrollbar-none">
-        {circles?.map((c) => (
+        {shown?.map((c) => (
           <div key={c.id} className="flex flex-col items-center gap-1 shrink-0 w-16 relative">
             <button onClick={() => void open(c.id)} aria-label={`${c.you ? 'Your' : c.name + "'s"} daily rate: ${c.rate ?? 'not rated yet'}`} className="cursor-pointer"><Ring rate={c.rate} /></button>
             {c.you && <button onClick={() => setAdding(true)} aria-label="Add to your daily rate" className="absolute top-11 right-0 w-6 h-6 rounded-full bg-amber-500 text-zinc-950 flex items-center justify-center cursor-pointer"><Plus className="w-4 h-4" /></button>}
@@ -148,9 +174,15 @@ export const DailyRate: React.FC = () => {
           </div>
         ))}
       </div>
-      {circles && circles.length === 1 && <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">Friends who share a room with you show up here when they post.</p>}
+      {isGuest
+        ? <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">Test mode: your moments stay on this device until midnight. <button className="underline cursor-pointer" onClick={() => void signOut()}>Sign in</button> to share with friends.</p>
+        : circles && circles.length === 1 && <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">Friends who share a room with you show up here when they post.</p>}
       {err && <p role="alert" className="text-xs text-rose-500 mt-2">{err}</p>}
-      {adding && <Composer onCancel={() => setAdding(false)} onDone={() => { setAdding(false); void load(); }} />}
+      {adding && <Composer
+        submit={isGuest ? submitGuest : submitMember}
+        note={isGuest ? 'Share what you are doing right now. AI rates your day from it. As a guest it stays on this device until midnight.' : 'Share what you are doing right now. AI rates your day from it, and friends can see it until midnight.'}
+        onCancel={() => setAdding(false)}
+        onDone={() => { setAdding(false); if (isGuest) setDetail(null); else void load(); }} />}
       {detail && (
         <div className="mt-3 space-y-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-3" aria-label="Daily rate analysis">
           <div className="flex items-center gap-3">

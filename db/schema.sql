@@ -19,3 +19,6 @@ CREATE INDEX IF NOT EXISTS messages_room ON messages(room_id, created);
 -- Daily Rate moments: visible to friends until `expires` (poster's local midnight); rate/sections come from the AI.
 CREATE TABLE IF NOT EXISTS moments (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, created INTEGER NOT NULL, expires INTEGER NOT NULL, kind TEXT NOT NULL, text TEXT NOT NULL, photo TEXT NOT NULL, audio TEXT NOT NULL, rate INTEGER, sections TEXT NOT NULL, summary TEXT NOT NULL);
 CREATE INDEX IF NOT EXISTS moments_user ON moments(user_id, expires);
+
+-- Guest Daily Rate tries per connection per day (limits unauthenticated AI use).
+CREATE TABLE IF NOT EXISTS guest_uses (ip TEXT NOT NULL, day TEXT NOT NULL, n INTEGER NOT NULL, PRIMARY KEY (ip, day));

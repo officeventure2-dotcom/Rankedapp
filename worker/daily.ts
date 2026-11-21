@@ -4,6 +4,7 @@
  *   GET  /api/daily/feed             circles: me + friends with an active moment {id, name, you, rate, count}
  *   GET  /api/daily/user?id=         one person's active moments with their analysis (self or a friend)
  *   POST /api/daily/post {text?, photo?, audio?, expires}   add a moment; AI analyses it
+ *   POST /api/daily/guest {text?, photo?, audio?}            guests: analysis only, nothing stored; 10 per connection per day
  */
 import { currentUser, json, str, type AuthEnv } from './auth';
 
@@ -18,6 +19,7 @@ const MAX_TEXT = 600;
 const MAX_PHOTO = 160_000;
 const MAX_AUDIO = 420_000;
 const MAX_ACTIVE = 10;
+const GUEST_PER_DAY = 10;
 export const SECTIONS = ['mood', 'energy', 'focus', 'connection', 'growth'] as const;
 type Sections = Record<(typeof SECTIONS)[number], number>;
 export interface Analysis { rate: number; sections: Sections; summary: string }
@@ -67,11 +69,44 @@ function summarise(rows: Row[]) {
   return { rate: avg((r) => r.rate as number), sections: Object.fromEntries(SECTIONS.map((k) => [k, Math.round(sec.reduce((s, x) => s + x[k], 0) / sec.length)])) };
 }
 
+/** Parse and validate the body shared by member and guest posts. */
+async function readMoment(request: Request): Promise<{ text: string; photo: string; audio: string; expires: unknown } | Response> {
+  let b: Record<string, unknown>;
+  try {
+    const t = await request.text();
+    if (t.length > MAX_BODY) return json({ error: 'That is too large. Try a shorter voice note or a smaller photo.' }, 413);
+    b = JSON.parse(t);
+  } catch { return json({ error: 'Send JSON.' }, 400); }
+  const text = str(b.text).trim();
+  const photo = str(b.photo);
+  const audio = str(b.audio);
+  if (!text && !photo && !audio) return json({ error: 'Add a photo, some words or a voice note.' }, 400);
+  if (text.length > MAX_TEXT) return json({ error: `Keep the text under ${MAX_TEXT} characters.` }, 400);
+  if (photo && (!photo.startsWith('data:image/jpeg;base64,') || photo.length > MAX_PHOTO)) return json({ error: 'That photo is not usable.' }, 400);
+  if (audio && (!/^data:audio\/[\w.+-]+(;[\w=.+-]+)*;base64,/.test(audio) || audio.length > MAX_AUDIO)) return json({ error: 'That voice note is not usable.' }, 400);
+  return { text, photo, audio, expires: b.expires };
+}
+
 export async function handleDaily(request: Request, env: DailyEnv, sameOrigin: (r: Request) => boolean): Promise<Response> {
   const url = new URL(request.url);
+  const now = Date.now();
+
+  if (url.pathname === '/api/daily/guest' && request.method === 'POST') {
+    if (!sameOrigin(request)) return json({ error: 'Not allowed.' }, 403);
+    // shortcut: keyed by IP (shared networks share the limit); move to accounts-only when testing is over.
+    const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+    const day = new Date(now).toISOString().slice(0, 10);
+    const used = await env.DB.prepare('SELECT n FROM guest_uses WHERE ip = ? AND day = ?').bind(ip, day).first<{ n: number }>();
+    if ((used?.n ?? 0) >= GUEST_PER_DAY) return json({ error: `Guests can rate ${GUEST_PER_DAY} moments a day. Sign in for more.` }, 429);
+    const m = await readMoment(request);
+    if (m instanceof Response) return m;
+    await env.DB.prepare('INSERT INTO guest_uses (ip, day, n) VALUES (?, ?, 1) ON CONFLICT(ip, day) DO UPDATE SET n = n + 1').bind(ip, day).run();
+    const a = await analyse(env.AI, m);
+    return json({ ok: true, analysis: a });
+  }
+
   const user = await currentUser(request, env);
   if (!user) return json({ error: 'Sign in first.' }, 401);
-  const now = Date.now();
   const active = async (id: string) => (await env.DB.prepare('SELECT * FROM moments WHERE user_id = ? AND expires > ? ORDER BY created').bind(id, now).all<Row>()).results ?? [];
 
   if (url.pathname === '/api/daily/feed' && request.method === 'GET') {
@@ -99,20 +134,10 @@ export async function handleDaily(request: Request, env: DailyEnv, sameOrigin: (
 
   if (url.pathname === '/api/daily/post' && request.method === 'POST') {
     if (!sameOrigin(request)) return json({ error: 'Not allowed.' }, 403);
-    let b: Record<string, unknown>;
-    try {
-      const t = await request.text();
-      if (t.length > MAX_BODY) return json({ error: 'That is too large. Try a shorter voice note or a smaller photo.' }, 413);
-      b = JSON.parse(t);
-    } catch { return json({ error: 'Send JSON.' }, 400); }
-    const text = str(b.text).trim();
-    const photo = str(b.photo);
-    const audio = str(b.audio);
-    const expires = Number(b.expires);
-    if (!text && !photo && !audio) return json({ error: 'Add a photo, some words or a voice note.' }, 400);
-    if (text.length > MAX_TEXT) return json({ error: `Keep the text under ${MAX_TEXT} characters.` }, 400);
-    if (photo && (!photo.startsWith('data:image/jpeg;base64,') || photo.length > MAX_PHOTO)) return json({ error: 'That photo is not usable.' }, 400);
-    if (audio && (!/^data:audio\/[\w.+-]+(;[\w=.+-]+)*;base64,/.test(audio) || audio.length > MAX_AUDIO)) return json({ error: 'That voice note is not usable.' }, 400);
+    const m = await readMoment(request);
+    if (m instanceof Response) return m;
+    const { text, photo, audio } = m;
+    const expires = Number(m.expires);
     if (!(expires > now && expires <= now + 26 * 3_600_000)) return json({ error: 'Bad expiry.' }, 400);
     if ((await active(user.id)).length >= MAX_ACTIVE) return json({ error: `You can share ${MAX_ACTIVE} moments a day.` }, 400);
     const a = await analyse(env.AI, { text, photo, audio });
