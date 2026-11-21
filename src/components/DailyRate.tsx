@@ -105,7 +105,7 @@ const Composer: React.FC<{ onDone: () => void; onCancel: () => void }> = ({ onDo
 
 /** Stories-style strip at the top of Messages: everyone's daily rate in a ring, tap for the AI analysis. */
 export const DailyRate: React.FC = () => {
-  const { isGuest } = useAuth();
+  const { isGuest, signOut } = useAuth();
   const [circles, setCircles] = useState<Circle[] | null>(null);
   const [detail, setDetail] = useState<Detail | null>(null);
   const [adding, setAdding] = useState(false);
@@ -126,7 +126,15 @@ export const DailyRate: React.FC = () => {
     } catch { setErr("Can't reach the server."); }
   };
 
-  if (isGuest) return null;
+  if (isGuest) return (
+    <section className="mb-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 p-4 flex items-center justify-between gap-3" aria-label="Daily rate">
+      <div className="min-w-0">
+        <h3 className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">Daily rate</h3>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">Sign in to share your day and see your friends' rates.</p>
+      </div>
+      <button onClick={() => void signOut()} className={`${btn} shrink-0`}>Sign in</button>
+    </section>
+  );
   return (
     <section className="mb-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 p-4" aria-label="Daily rate">
       <h3 className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 mb-3">Daily rate</h3>
