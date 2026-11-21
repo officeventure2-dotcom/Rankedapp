@@ -1,7 +1,11 @@
 /**
  * Rooms, daily quiz results, room streaks and push reminders.
  *   GET  /api/rooms/mine?day=YYYY-MM-DD      my rooms, members and today's results
- *   POST /api/rooms/create {name} | /join {code} | /leave {roomId}
+ *   POST /api/rooms/create {name, chat?} | /join {code} | /leave {roomId}
+ *   GET  /api/rooms/messages?roomId=            chat messages (members only; empty when chat is off)
+ *   POST /api/rooms/message {roomId, body}      send a message
+ *   POST /api/rooms/chat {roomId, on}           owner turns chat on/off
+ *   POST /api/rooms/pin {roomId, messageId, pinned}   owner pins/unpins (max 3)
  *   POST /api/quiz/submit {day, score, total}   one result per user per day
  *   GET  /api/quiz/me?day=                      today's result and my personal streak
  *   GET  /api/push/key, POST /api/push/subscribe {endpoint, keys}, /unsubscribe {endpoint}
@@ -20,6 +24,8 @@ const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const MAX_ROOMS_PER_USER = 10;
 const MAX_OWNED = 5;
 const MAX_MEMBERS = 30;
+const MAX_PINS = 3;
+const MAX_MSG = 500;
 const DAY_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 export const addDays = (day: string, n: number): string => new Date(Date.parse(`${day}T00:00:00Z`) + n * 86_400_000).toISOString().slice(0, 10);
@@ -28,11 +34,11 @@ const utcToday = () => new Date().toISOString().slice(0, 10);
 const dayOk = (d: string) => DAY_RE.test(d) && Math.abs(Date.parse(`${d}T00:00:00Z`) - Date.parse(`${utcToday()}T00:00:00Z`)) <= 86_400_000;
 const effective = (streak: number, lastDay: string, day: string) => (lastDay === day || lastDay === addDays(day, -1) ? streak : 0);
 
-interface RoomRow { id: string; code: string; name: string; owner: string; streak: number; last_day: string }
+interface RoomRow { id: string; code: string; name: string; owner: string; streak: number; last_day: string; chat: number }
 
 async function myRooms(env: RoomsEnv, userId: string): Promise<RoomRow[]> {
   const r = await env.DB.prepare(
-    'SELECT r.id, r.code, r.name, r.owner, r.streak, r.last_day FROM rooms r JOIN room_members m ON m.room_id = r.id WHERE m.user_id = ? ORDER BY m.joined'
+    'SELECT r.id, r.code, r.name, r.owner, r.streak, r.last_day, r.chat FROM rooms r JOIN room_members m ON m.room_id = r.id WHERE m.user_id = ? ORDER BY m.joined'
   ).bind(userId).all<RoomRow>();
   return r.results ?? [];
 }
@@ -51,7 +57,7 @@ async function roomView(env: RoomsEnv, room: RoomRow, day: string, me: string) {
     'SELECT u.id, u.name, p.score, p.total FROM room_members m JOIN users u ON u.id = m.user_id LEFT JOIN plays p ON p.user_id = u.id AND p.day = ? WHERE m.room_id = ? ORDER BY u.name'
   ).bind(day, room.id).all<{ id: string; name: string; score: number | null; total: number | null }>();
   const members = (m.results ?? []).map((x) => ({ name: x.name, you: x.id === me, played: x.score !== null, score: x.score, total: x.total }));
-  return { id: room.id, code: room.code, name: room.name, owner: room.owner === me, streak: effective(room.streak, room.last_day, day), members };
+  return { id: room.id, code: room.code, name: room.name, owner: room.owner === me, chat: room.chat === 1, streak: effective(room.streak, room.last_day, day), members };
 }
 
 async function bumpRoomStreaks(env: RoomsEnv, userId: string, day: string): Promise<void> {
@@ -86,6 +92,18 @@ export async function handleRooms(request: Request, env: RoomsEnv, sameOrigin: (
     return json({ rooms: await Promise.all(rooms.map((r) => roomView(env, r, day, user.id))) });
   }
 
+  if (path === '/api/rooms/messages' && request.method === 'GET') {
+    const roomId = url.searchParams.get('roomId') ?? '';
+    const room = (await myRooms(env, user.id)).find((r) => r.id === roomId);
+    if (!room) return json({ error: 'Not found.' }, 404);
+    if (room.chat !== 1) return json({ enabled: false, messages: [] });
+    const m = await env.DB.prepare(
+      'SELECT g.id, g.user_id, u.name, g.body, g.created, g.pinned FROM messages g JOIN users u ON u.id = g.user_id WHERE g.room_id = ? ORDER BY g.created DESC LIMIT 100'
+    ).bind(roomId).all<{ id: string; user_id: string; name: string; body: string; created: number; pinned: number }>();
+    const messages = (m.results ?? []).reverse().map((x) => ({ id: x.id, name: x.name, you: x.user_id === user.id, body: x.body, created: x.created, pinned: x.pinned === 1 }));
+    return json({ enabled: true, messages });
+  }
+
   if (path === '/api/quiz/me' && request.method === 'GET') {
     if (!dayOk(day)) return json({ error: 'Bad day.' }, 400);
     const p = await env.DB.prepare('SELECT score, total FROM plays WHERE user_id = ? AND day = ?').bind(user.id, day).first<{ score: number; total: number }>();
@@ -106,7 +124,7 @@ export async function handleRooms(request: Request, env: RoomsEnv, sameOrigin: (
     const id = crypto.randomUUID();
     for (let i = 0; i < 5; i++) {
       try {
-        await env.DB.prepare('INSERT INTO rooms (id, code, name, owner, created) VALUES (?, ?, ?, ?, ?)').bind(id, newCode(), name, user.id, Date.now()).run();
+        await env.DB.prepare('INSERT INTO rooms (id, code, name, owner, created, chat) VALUES (?, ?, ?, ?, ?, ?)').bind(id, newCode(), name, user.id, Date.now(), body.chat === false ? 0 : 1).run();
         await env.DB.prepare('INSERT INTO room_members (room_id, user_id, joined) VALUES (?, ?, ?)').bind(id, user.id, Date.now()).run();
         return json({ ok: true }, 201);
       } catch (e) {
@@ -131,8 +149,38 @@ export async function handleRooms(request: Request, env: RoomsEnv, sameOrigin: (
     const id = str(body.roomId);
     await env.DB.prepare('DELETE FROM room_members WHERE room_id = ? AND user_id = ?').bind(id, user.id).run();
     const left = await env.DB.prepare('SELECT COUNT(*) AS n FROM room_members WHERE room_id = ?').bind(id).first<{ n: number }>();
-    if ((left?.n ?? 0) === 0) await env.DB.prepare('DELETE FROM rooms WHERE id = ?').bind(id).run();
+    if ((left?.n ?? 0) === 0) {
+      await env.DB.prepare('DELETE FROM rooms WHERE id = ?').bind(id).run();
+      await env.DB.prepare('DELETE FROM messages WHERE room_id = ?').bind(id).run();
+    }
     return json({ ok: true });
+  }
+
+  if (path === '/api/rooms/message') {
+    const room = (await myRooms(env, user.id)).find((r) => r.id === str(body.roomId));
+    if (!room) return json({ error: 'Not found.' }, 404);
+    if (room.chat !== 1) return json({ error: 'Chat is off in this room.' }, 403);
+    const text = str(body.body).trim();
+    if (text.length < 1 || text.length > MAX_MSG) return json({ error: `Messages are 1 to ${MAX_MSG} characters.` }, 400);
+    await env.DB.prepare('INSERT INTO messages (id, room_id, user_id, body, created) VALUES (?, ?, ?, ?, ?)').bind(crypto.randomUUID(), room.id, user.id, text, Date.now()).run();
+    return json({ ok: true }, 201);
+  }
+
+  if (path === '/api/rooms/chat' || path === '/api/rooms/pin') {
+    const room = (await myRooms(env, user.id)).find((r) => r.id === str(body.roomId));
+    if (!room) return json({ error: 'Not found.' }, 404);
+    if (room.owner !== user.id) return json({ error: 'Only the room owner can do that.' }, 403);
+    if (path === '/api/rooms/chat') {
+      await env.DB.prepare('UPDATE rooms SET chat = ? WHERE id = ?').bind(body.on === true ? 1 : 0, room.id).run();
+      return json({ ok: true });
+    }
+    const pinned = body.pinned === true;
+    if (pinned) {
+      const n = await env.DB.prepare('SELECT COUNT(*) AS n FROM messages WHERE room_id = ? AND pinned = 1').bind(room.id).first<{ n: number }>();
+      if ((n?.n ?? 0) >= MAX_PINS) return json({ error: `You can pin ${MAX_PINS} messages at most. Unpin one first.` }, 400);
+    }
+    const r = await env.DB.prepare('UPDATE messages SET pinned = ? WHERE id = ? AND room_id = ?').bind(pinned ? 1 : 0, str(body.messageId), room.id).run();
+    return (r.meta?.changes ?? 0) > 0 ? json({ ok: true }) : json({ error: 'Not found.' }, 404);
   }
 
   if (path === '/api/quiz/submit') {

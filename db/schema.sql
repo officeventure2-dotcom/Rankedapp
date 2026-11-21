@@ -10,3 +10,8 @@ CREATE INDEX IF NOT EXISTS room_members_user ON room_members(user_id);
 CREATE TABLE IF NOT EXISTS plays (user_id TEXT NOT NULL, day TEXT NOT NULL, score INTEGER NOT NULL, total INTEGER NOT NULL, PRIMARY KEY (user_id, day));
 CREATE TABLE IF NOT EXISTS pushes (endpoint TEXT PRIMARY KEY, user_id TEXT NOT NULL, p256dh TEXT NOT NULL, auth TEXT NOT NULL);
 CREATE INDEX IF NOT EXISTS pushes_user ON pushes(user_id);
+
+-- Room chat: owner can switch it on/off and pin up to 3 messages.
+ALTER TABLE rooms ADD COLUMN chat INTEGER NOT NULL DEFAULT 1;
+CREATE TABLE IF NOT EXISTS messages (id TEXT PRIMARY KEY, room_id TEXT NOT NULL, user_id TEXT NOT NULL, body TEXT NOT NULL, created INTEGER NOT NULL, pinned INTEGER NOT NULL DEFAULT 0);
+CREATE INDEX IF NOT EXISTS messages_room ON messages(room_id, created);

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Bell, BellOff, Check, Copy, Flame, Loader2, LogOut, Plus, Users } from 'lucide-react';
+import { Bell, BellOff, Check, Copy, Flame, Loader2, LogOut, MessageCircle, Pin, PinOff, Plus, RefreshCw, Send, Users } from 'lucide-react';
 import { useRanked } from '../context/RankedContext';
 import { useAuth } from '../auth/AuthGate';
 import { TRIVIA_BANK } from '../data/mockData';
@@ -8,7 +8,7 @@ import { disablePush, enablePush, pushEnabled, pushSupported } from '../utils/pu
 import { todayKey } from '../utils/memoryTools';
 
 interface Member { name: string; you: boolean; played: boolean; score: number | null; total: number | null }
-interface Room { id: string; code: string; name: string; owner: boolean; streak: number; members: Member[] }
+interface Room { id: string; code: string; name: string; owner: boolean; chat: boolean; streak: number; members: Member[] }
 interface Me { played: boolean; score: number | null; total: number | null; streak: number }
 
 const card = 'rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 p-4';
@@ -27,6 +27,70 @@ const Streak: React.FC<{ n: number; label: string }> = ({ n, label }) => (
     <Flame className="w-4 h-4" fill={n > 0 ? 'currentColor' : 'none'} aria-hidden="true" /> {n}
   </span>
 );
+
+interface Msg { id: string; name: string; you: boolean; body: string; pinned: boolean }
+
+/** Room chat: members talk, the owner pins up to 3 messages. Refreshes on open and after each action (no live push). */
+const RoomChat: React.FC<{ room: Room }> = ({ room }) => {
+  const [open, setOpen] = useState(false);
+  const [msgs, setMsgs] = useState<Msg[]>([]);
+  const [text, setText] = useState('');
+  const [err, setErr] = useState('');
+  const refresh = useCallback(async () => {
+    try {
+      const r = await call<{ messages: Msg[] }>(`/api/rooms/messages?roomId=${room.id}`);
+      if (r.ok) setMsgs(r.data.messages); else setErr(r.data.error ?? 'Could not load messages.');
+    } catch { setErr("Can't reach the server."); }
+  }, [room.id]);
+  useEffect(() => { if (open && room.chat) void refresh(); }, [open, room.chat, refresh]);
+  const post = async (path: string, body: unknown) => {
+    setErr('');
+    try {
+      const r = await call(path, body);
+      if (!r.ok) setErr(r.data.error ?? 'Something went wrong.');
+      await refresh();
+      return r.ok;
+    } catch { setErr("Can't reach the server."); return false; }
+  };
+  const pinned = msgs.filter((m) => m.pinned);
+  const row = (m: Msg) => (
+    <li key={m.id} className="flex items-start gap-2 text-sm">
+      <span className="flex-1 min-w-0 break-words text-zinc-800 dark:text-zinc-100"><b>{m.you ? 'You' : m.name}</b> {m.body}</span>
+      {room.owner && (
+        <button aria-label={m.pinned ? 'Unpin message' : 'Pin message'} className="shrink-0 min-h-touch min-w-touch flex items-center justify-center text-zinc-500 cursor-pointer" onClick={() => void post('/api/rooms/pin', { roomId: room.id, messageId: m.id, pinned: !m.pinned })}>
+          {m.pinned ? <PinOff className="w-4 h-4" /> : <Pin className="w-4 h-4" />}
+        </button>
+      )}
+    </li>
+  );
+  return (
+    <div className="space-y-2">
+      <div className="flex gap-2">
+        {room.chat && <button className={`${ghost} flex-1 inline-flex items-center justify-center gap-1.5`} aria-expanded={open} onClick={() => setOpen((o) => !o)}><MessageCircle className="w-4 h-4" /> {open ? 'Hide chat' : 'Chat'}</button>}
+        {room.owner && <button className={`${ghost} ${room.chat ? '' : 'flex-1'}`} onClick={() => void post('/api/rooms/chat', { roomId: room.id, on: !room.chat }).then(() => window.dispatchEvent(new Event('rooms:reload')))}>{room.chat ? 'Turn chat off' : 'Turn chat on'}</button>}
+      </div>
+      {!room.chat && <p className="text-xs text-zinc-500 dark:text-zinc-400">Chat is off in this room.</p>}
+      {room.chat && open && (
+        <div className="space-y-2">
+          {pinned.length > 0 && (
+            <ul className="space-y-1 rounded-xl border border-amber-500/40 bg-amber-500/10 p-2" aria-label="Pinned messages">{pinned.map(row)}</ul>
+          )}
+          <ul className="space-y-1.5 max-h-56 overflow-y-auto" aria-label="Messages">
+            {msgs.length === 0 && <li className="text-xs text-zinc-500 dark:text-zinc-400">No messages yet. Say hi.</li>}
+            {msgs.filter((m) => !m.pinned).map(row)}
+          </ul>
+          {err && <p role="alert" className="text-xs text-rose-500">{err}</p>}
+          <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); void post('/api/rooms/message', { roomId: room.id, body: text }).then((ok) => ok && setText('')); }}>
+            <input className={input} aria-label="Message" placeholder="Message the room" maxLength={500} value={text} onChange={(e) => setText(e.target.value)} required />
+            <button type="submit" className={`${primary} inline-flex items-center`} aria-label="Send"><Send className="w-4 h-4" /></button>
+            <button type="button" className={`${ghost} inline-flex items-center`} aria-label="Refresh messages" onClick={() => void refresh()}><RefreshCw className="w-4 h-4" /></button>
+          </form>
+        </div>
+      )}
+      {!open && err && <p role="alert" className="text-xs text-rose-500">{err}</p>}
+    </div>
+  );
+};
 
 const Quiz: React.FC<{ day: string; streak: number; onFinish: (score: number) => void }> = ({ day, streak, onFinish }) => {
   const questions = React.useMemo(() => pickQuestions(TRIVIA_BANK, day), [day]);
@@ -73,6 +137,7 @@ export const RoomsView: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [playing, setPlaying] = useState(false);
   const [name, setName] = useState('');
+  const [chatOn, setChatOn] = useState(true);
   const [code, setCode] = useState('');
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState('');
@@ -91,6 +156,11 @@ export const RoomsView: React.FC = () => {
       setLoading(false);
     }
   }, [day]);
+
+  useEffect(() => {
+    window.addEventListener('rooms:reload', load);
+    return () => window.removeEventListener('rooms:reload', load);
+  }, [load]);
 
   useEffect(() => {
     if (isGuest) return;
@@ -189,6 +259,7 @@ export const RoomsView: React.FC = () => {
               </li>
             ))}
           </ul>
+          <RoomChat room={r} />
           <div className="flex gap-2">
             <button className={`${ghost} flex-1 inline-flex items-center justify-center gap-1.5`} onClick={() => void share(r)}><Copy className="w-4 h-4" /> {copied === r.id ? 'Copied' : 'Invite'}</button>
             <button className={`${ghost} inline-flex items-center gap-1.5`} disabled={busy} onClick={() => void act('/api/rooms/leave', { roomId: r.id })}><LogOut className="w-4 h-4" /> Leave</button>
@@ -197,10 +268,13 @@ export const RoomsView: React.FC = () => {
       ))}
 
       <section className={`${card} space-y-3`} aria-label="Create or join a room">
-        <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); void act('/api/rooms/create', { name }, () => setName('')); }}>
+        <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); void act('/api/rooms/create', { name, chat: chatOn }, () => setName('')); }}>
           <input className={input} aria-label="New room name" placeholder="New room name" maxLength={30} value={name} onChange={(e) => setName(e.target.value)} required />
           <button type="submit" className={`${primary} inline-flex items-center gap-1.5`} disabled={busy}><Plus className="w-4 h-4" /> Create</button>
         </form>
+        <label className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-300 cursor-pointer">
+          <input type="checkbox" checked={chatOn} onChange={(e) => setChatOn(e.target.checked)} /> Enable room chat (you can change this later)
+        </label>
         <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); void act('/api/rooms/join', { code }, () => setCode('')); }}>
           <input className={`${input} uppercase font-mono`} aria-label="Room code" placeholder="Room code" maxLength={6} value={code} onChange={(e) => setCode(e.target.value)} required />
           <button type="submit" className={ghost} disabled={busy}>Join</button>
