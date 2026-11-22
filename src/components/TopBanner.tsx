@@ -119,11 +119,13 @@ export const TopBanner: React.FC = () => {
               onClick={() => (q.completed ? showToast(`Done: ${q.title}`) : setActiveTab('challenges'))}
               aria-label={`${q.title}: ${q.completed ? 'done' : `${q.current} of ${q.target} ${q.unit}`}`}
               title={q.title}
-              className="w-8 h-8 rounded-full p-[2.5px] cursor-pointer shrink-0"
-              style={{ background: `conic-gradient(${q.completed ? '#10b981' : '#f59e0b'} ${q.completed ? 100 : pct}%, rgba(113,113,122,0.35) 0)` }}
+              className="w-11 h-11 flex items-center justify-center cursor-pointer shrink-0"
             >
-              <span className={`w-full h-full rounded-full flex items-center justify-center bg-white dark:bg-zinc-900 ${q.completed ? 'text-emerald-500' : 'text-zinc-700 dark:text-zinc-200'}`}>
-                {q.completed ? <Check className="w-3.5 h-3.5" /> : QUEST_ICON[q.category]}
+              {/* 32px ring inside a 44px tap area */}
+              <span className="w-8 h-8 rounded-full p-[2.5px]" style={{ background: `conic-gradient(${q.completed ? '#10b981' : '#f59e0b'} ${q.completed ? 100 : pct}%, rgba(113,113,122,0.35) 0)` }}>
+                <span className={`w-full h-full rounded-full flex items-center justify-center bg-white dark:bg-zinc-900 ${q.completed ? 'text-emerald-500' : 'text-zinc-700 dark:text-zinc-200'}`}>
+                  {q.completed ? <Check className="w-3.5 h-3.5" /> : QUEST_ICON[q.category]}
+                </span>
               </span>
             </button>
           );

@@ -86,7 +86,7 @@ export const AiAskBar: React.FC = () => {
                 setQuestion(s);
                 void ask(s);
               }}
-              className="min-h-[36px] px-3 rounded-full border border-zinc-200 dark:border-white/10 text-xs text-zinc-600 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
+              className="min-h-touch px-3.5 rounded-full border border-zinc-200 dark:border-white/10 text-xs text-zinc-600 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
             >
               {s}
             </button>

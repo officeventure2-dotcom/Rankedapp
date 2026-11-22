@@ -143,7 +143,7 @@ export const OverviewView: React.FC = () => {
               </p>
               <button
                 onClick={() => openUserProfile(user.id)}
-                className="mt-1.5 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline inline-flex items-center gap-1 touch-manipulation py-1"
+                className="mt-1.5 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline inline-flex items-center gap-1 touch-manipulation py-3.5 -my-3.5"
               >
                 <span>View Profile & Stats</span>
                 <ArrowRight className="w-3 h-3" />
@@ -177,7 +177,7 @@ export const OverviewView: React.FC = () => {
                   <span className="hidden sm:inline">Goal: {MAX_XP.toLocaleString()} XP ·</span>
                   <button
                     onClick={() => setShowArchModal(true)}
-                    className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 font-semibold hover:underline cursor-pointer touch-manipulation py-0.5"
+                    className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 font-semibold hover:underline cursor-pointer touch-manipulation py-3.5 -my-3.5"
                   >
                     <Hourglass className="w-3 h-3 text-amber-500 shrink-0" />
                     <span>Leveling Curve Guide</span>
