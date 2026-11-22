@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Bookmark, ChevronDown, ChevronUp, Heart, Share2 } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Bookmark, Heart, Share2 } from 'lucide-react';
 import { useRanked } from '../context/RankedContext';
 import { FACT_TOPICS, FEED_FACTS, type FeedFact } from '../data/factsFeed';
 import { factArt, type FactTopic } from '../utils/artwork';
@@ -31,7 +31,7 @@ function shuffled(list: FeedFact[]): FeedFact[] {
   return copy;
 }
 
-/** Endless, snap-scrolling feed of facts with a picture on every card. */
+/** Endless feed of facts with a picture on every card. Scrolls freely with the page and loads more as you go. */
 export const ScrollModeView: React.FC = () => {
   const [topic, setTopic] = useState<TopicFilter>('all');
 
@@ -72,7 +72,7 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
   const [store, setStore] = useState(readStore);
   const [active, setActive] = useState(0);
   const [seen, setSeen] = useState<Set<string>>(() => new Set());
-  const scroller = useRef<HTMLDivElement>(null);
+  const list = useRef<HTMLDivElement>(null);
 
   const pool = useMemo(
     () => (topic === 'all' ? FEED_FACTS : FEED_FACTS.filter((fact) => fact.topic === topic)),
@@ -125,7 +125,7 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
 
   // Track which card is on screen.
   useEffect(() => {
-    const root = scroller.current;
+    const root = list.current;
     if (!root) return;
     const observer = new IntersectionObserver(
       (entries) => {
@@ -138,38 +138,15 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
           }
         }
       },
-      { root, threshold: 0.6 }
+      { threshold: 0.5 }
     );
     root.querySelectorAll('[data-index]').forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, [items.length]);
 
-  const go = useCallback((dir: 1 | -1) => {
-    const root = scroller.current;
-    if (!root) return;
-    root.scrollBy({ top: dir * root.clientHeight, behavior: 'smooth' });
-  }, []);
-
-  const onKey = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-      e.preventDefault();
-      go(1);
-    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-      e.preventDefault();
-      go(-1);
-    }
-  };
-
   return (
     <div className="space-y-3">
-      <div className="relative">
-        <div
-          ref={scroller}
-          tabIndex={0}
-          onKeyDown={onKey}
-          aria-label="Scrolling feed of facts"
-          className="h-[calc(100dvh-22rem)] min-h-[340px] overflow-y-auto snap-y snap-mandatory scroll-smooth [overflow-anchor:none] rounded-3xl scrollbar-none overscroll-contain focus:outline-none"
-        >
+      <div ref={list} aria-label="Scrolling feed of facts" className="space-y-3">
           {items.map(({ fact, key }, index) => {
             const liked = store.liked.includes(fact.id);
             const saved = store.saved.includes(fact.id);
@@ -178,10 +155,9 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
                 key={key}
                 data-index={index}
                 data-fact={fact.id}
-                className="snap-start snap-always h-full pb-3"
               >
-                <div className="h-full flex flex-col rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm">
-                  <div className="relative basis-[46%] min-h-0 shrink-0">
+                <div className="flex flex-col rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm">
+                  <div className="relative aspect-[16/10] shrink-0">
                     <img
                       src={factArt(fact.topic, fact.id)}
                       alt={`Illustration for ${fact.title}`}
@@ -193,14 +169,14 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
                       {fact.field}
                     </span>
                   </div>
-                  <div className="flex-1 min-h-0 p-4 flex flex-col">
+                  <div className="p-4 flex flex-col">
                     <h3 className="text-lg font-bold font-['Outfit'] leading-snug text-zinc-900 dark:text-zinc-50">
                       {fact.title}
                     </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 overflow-y-auto">
+                    <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
                       {fact.body}
                     </p>
-                    <div className="mt-auto pt-3 flex items-center gap-1">
+                    <div className="pt-3 flex items-center gap-1">
                       <button
                         onClick={() => toggle('liked', fact.id)}
                         aria-pressed={liked}
@@ -229,7 +205,7 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
                         <Share2 className="w-5 h-5 text-zinc-500 dark:text-zinc-400" />
                       </button>
                       <span className="ml-auto text-[10px] font-mono text-zinc-400">
-                        Swipe up for more
+                        Keep scrolling
                       </span>
                     </div>
                   </div>
@@ -238,25 +214,6 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
             );
           })}
         </div>
-
-        <div className="hidden sm:flex flex-col gap-2 absolute -right-14 top-1/2 -translate-y-1/2">
-          <button
-            onClick={() => go(-1)}
-            aria-label="Previous fact"
-            className="min-h-touch min-w-touch rounded-full border border-zinc-200 dark:border-white/10 bg-white/70 dark:bg-zinc-900/70 flex items-center justify-center cursor-pointer"
-          >
-            <ChevronUp className="w-5 h-5" />
-          </button>
-          <button
-            onClick={() => go(1)}
-            aria-label="Next fact"
-            className="min-h-touch min-w-touch rounded-full border border-zinc-200 dark:border-white/10 bg-white/70 dark:bg-zinc-900/70 flex items-center justify-center cursor-pointer"
-          >
-            <ChevronDown className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
-
       <p className="text-center text-[11px] font-mono text-zinc-400">
         {seen.size} viewed · {store.saved.length} saved · {store.liked.length} liked
       </p>
