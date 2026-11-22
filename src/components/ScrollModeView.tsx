@@ -8,6 +8,7 @@ import { haptics } from '../utils/haptics';
 type TopicFilter = FactTopic | 'all';
 
 const STORE_KEY = 'ranked.scroll.v1';
+const BATCH = 5; // cards drawn at first, and added each time the reader nears the bottom
 
 function readStore(): { liked: string[]; saved: string[] } {
   try {
@@ -70,7 +71,8 @@ export const ScrollModeView: React.FC = () => {
 const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
   const { showToast } = useRanked();
   const [store, setStore] = useState(readStore);
-  const [active, setActive] = useState(0);
+  const [shown, setShown] = useState(BATCH);
+  const sentinel = useRef<HTMLDivElement>(null);
   const [seen, setSeen] = useState<Set<string>>(() => new Set());
   const list = useRef<HTMLDivElement>(null);
 
@@ -82,16 +84,27 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
   // Each "page" of the feed is one shuffled pass through the pool; more pages are added as you near the end.
   const [pages, setPages] = useState<FeedFact[][]>(() => [shuffled(pool)]);
 
-  const items = useMemo(
+  const all = useMemo(
     () => pages.flatMap((page, p) => page.map((fact) => ({ fact, key: `${p}-${fact.id}` }))),
     [pages]
   );
+  const items = all.slice(0, shown);
 
+  // Keep a spare pass of facts ready so the feed never runs out.
   useEffect(() => {
-    if (items.length > 0 && active >= items.length - 3) {
-      setPages((prev) => [...prev, shuffled(pool)]);
-    }
-  }, [active, items.length, pool]);
+    if (all.length > 0 && shown >= all.length - BATCH) setPages((prev) => [...prev, shuffled(pool)]);
+  }, [shown, all.length, pool]);
+
+  // Draw the next batch when the end of the list comes within ~1 screen.
+  useEffect(() => {
+    const el = sentinel.current;
+    if (!el) return;
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) setShown((n) => n + BATCH);
+    }, { rootMargin: '0px 0px 600px 0px' });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [shown]);
 
   const persist = (next: { liked: string[]; saved: string[] }) => {
     setStore(next);
@@ -132,7 +145,6 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             const el = entry.target as HTMLElement;
-            setActive(Number(el.dataset.index));
             const id = el.dataset.fact;
             if (id) setSeen((prev) => (prev.has(id) ? prev : new Set(prev).add(id)));
           }
@@ -214,6 +226,7 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
             );
           })}
         </div>
+      <div ref={sentinel} aria-hidden="true" />
       <p className="text-center text-[11px] font-mono text-zinc-400">
         {seen.size} viewed · {store.saved.length} saved · {store.liked.length} liked
       </p>
