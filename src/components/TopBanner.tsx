@@ -29,7 +29,6 @@ const QUEST_ICON: Record<CategoryType, React.ReactNode> = {
 
 export const TopBanner: React.FC = () => {
   const { user, openUserProfile, setSettingsSheetOpen, dailyQuests, activeTab, setActiveTab, showToast, setChallengePillar } = useRanked();
-  const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
   const q = query.trim().toLowerCase();
   const results = q ? SEARCH_TARGETS.filter(t => t.label.toLowerCase().includes(q)).slice(0, 6) : [];
@@ -38,7 +37,6 @@ export const TopBanner: React.FC = () => {
     if (r.pillar) setChallengePillar(r.pillar);
     setActiveTab(r.tab);
     setQuery('');
-    setSearchOpen(false);
   };
   const progress = getLevelProgress(user.xp);
   return (
@@ -61,14 +59,6 @@ export const TopBanner: React.FC = () => {
         </span>
       </button>
       <button
-        onClick={() => setSearchOpen(o => !o)}
-        aria-label="Search"
-        aria-expanded={searchOpen}
-        className="min-h-touch min-w-touch flex items-center justify-center rounded-full text-zinc-600 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
-      >
-        <Search className="w-5 h-5" />
-      </button>
-      <button
         onClick={() => setActiveTab('chat')}
         aria-label="Direct messages"
         className="min-h-touch min-w-touch flex items-center justify-center rounded-full text-zinc-600 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
@@ -83,17 +73,20 @@ export const TopBanner: React.FC = () => {
         <SlidersHorizontal className="w-5 h-5" />
       </button>
     </div>
-    {searchOpen && (
-      <div>
+    <div>
+      <label className="flex items-center gap-2 px-3 min-h-touch rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 focus-within:ring-1 focus-within:ring-amber-500">
+        <Search className="w-4 h-4 shrink-0 text-zinc-500" aria-hidden="true" />
         <input
-          autoFocus
+          type="search"
+          enterKeyHint="search"
           value={query}
           onChange={e => setQuery(e.target.value)}
-          onKeyDown={e => { if (e.key === 'Enter' && results[0]) open(results[0]); if (e.key === 'Escape') setSearchOpen(false); }}
+          onKeyDown={e => { if (e.key === 'Enter' && results[0]) open(results[0]); if (e.key === 'Escape') setQuery(''); }}
           placeholder="Search games, books, sections…"
           aria-label="Search sections"
-          className="w-full px-4 py-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-base text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-amber-500"
+          className="bare-input flex-1 min-w-0 bg-transparent text-base py-2 outline-none text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400"
         />
+      </label>
         {q && (
           <ul className="mt-1 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xl p-1">
             {results.length === 0 && <li className="px-3 py-2 text-xs text-zinc-500">No match</li>}
@@ -106,8 +99,7 @@ export const TopBanner: React.FC = () => {
             ))}
           </ul>
         )}
-      </div>
-    )}
+    </div>
     {activeTab === 'scroll' && dailyQuests.length > 0 && (
       <div className="flex items-center gap-2 px-1" role="group" aria-label="Daily quests">
         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mr-1">Daily</span>

@@ -168,6 +168,14 @@ html :is(input, textarea, select):not([type="checkbox"]):not([type="radio"]):not
   backdrop-filter: blur(10px);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
 }
+/* A field that sits inside a bordered wrapper (search box): no fill, border or blur of its own. */
+html input.bare-input.bare-input.bare-input {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
 html :is(button, a, span, div).rounded-full:is(.bg-zinc-100, .bg-zinc-50, [class*="dark:bg-zinc-800"]):not([class*="bg-zinc-900"]),
 html button:is(.bg-zinc-100, .bg-zinc-50):is(.rounded-lg, .rounded-xl) {
   background-color: var(--lg-fill-control) !important;
