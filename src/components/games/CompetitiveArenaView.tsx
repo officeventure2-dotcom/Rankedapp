@@ -95,7 +95,7 @@ export const CompetitiveArenaView: React.FC = () => {
               Mind Games & Intellectual Arenas
             </h1>
             <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
-              Choose between competitive **1v1 Multiplayer Duels** (against friends or smart AI opponents) and dedicated **Solo Mind Puzzles** (arithmetic logic, Sudoku, Picross Nonograms, and cognitive matrices).
+              Choose between competitive 1v1 Multiplayer Duels (against friends or smart AI opponents) and dedicated Solo Mind Puzzles (arithmetic logic, Sudoku, Picross Nonograms, and cognitive matrices).
             </p>
           </div>
 
@@ -125,13 +125,13 @@ export const CompetitiveArenaView: React.FC = () => {
         {/* Multiplayer Lobby Room Quick Bar */}
         {arenaCategory === 'multiplayer' && (
           <div className="mt-6 pt-6 border-t border-zinc-800 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <span className="text-xs text-zinc-400 font-medium">Multiplayer Room Code:</span>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 font-mono text-xs font-bold text-amber-400">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span className="text-xs text-zinc-400 font-medium whitespace-nowrap">Multiplayer Room Code:</span>
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 font-mono text-xs font-bold text-amber-400 whitespace-nowrap">
                 <span>{roomCode}</span>
                 <button
                   onClick={copyRoomCode}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors p-2 -m-2"
                   title="Copy Room Code"
                 >
                   {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}

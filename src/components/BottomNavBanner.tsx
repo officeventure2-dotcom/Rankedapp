@@ -129,14 +129,12 @@ export const BottomNavBanner: React.FC = () => {
     label: string;
     targetTab: 'scroll' | 'overview' | 'challenges' | 'map' | 'knowledge' | 'leaderboard';
     icon: React.ReactNode;
-    isCenter?: boolean;
   }> = [
     {
       hub: 'home',
       label: 'Home',
       targetTab: 'scroll',
-      icon: <Home className="w-5 h-5" />,
-      isCenter: true
+      icon: <Home className="w-5 h-5" />
     },
     {
       hub: 'arena',
@@ -174,50 +172,6 @@ export const BottomNavBanner: React.FC = () => {
         {navItems.map(item => {
           const isActive = currentHub === item.hub;
 
-          // Special Center Home Button Styling (Raised, Signature Core Hub)
-          if (item.isCenter) {
-            return (
-              <button
-                key={item.hub}
-                onClick={() => {
-                  haptics.tap();
-                  if (activeTab === 'scroll') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  } else {
-                    setActiveTab(item.targetTab);
-                  }
-                }}
-                aria-label="Home (Scroll)"
-                title="Home: Scroll feed"
-                className={`relative flex flex-col items-center justify-center -my-2 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-2xl sm:rounded-full transition-all duration-200 cursor-pointer min-h-[48px] min-w-[48px] group ${
-                  isActive
-                    ? `${colors.text} scale-105 sm:scale-110`
-                    : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100'
-                }`}
-              >
-                {/* Elevated Center Hero Capsule / Ring */}
-                <div className={`relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full transition-all duration-200 shadow-md ${
-                  isActive
-                    ? `${colors.centerBg} ring-2 ${colors.centerRing} border border-white/20`
-                    : 'bg-zinc-100/90 dark:bg-zinc-900/90 border border-zinc-200/70 dark:border-zinc-800/70 group-hover:border-zinc-400'
-                }`}>
-                  <Home className={`w-5 h-5 transition-transform group-hover:scale-110 ${isActive ? colors.text : ''}`} />
-                  
-                  {/* Active pulsing micro core */}
-                  {isActive && (
-                    <span className={`absolute -bottom-0.5 w-1.5 h-1.5 rounded-full ${colors.dot} animate-pulse`} />
-                  )}
-                </div>
-
-                {/* Micro Label */}
-                <span className={`text-[9px] sm:text-[10px] font-mono font-bold tracking-tight mt-0.5 transition-colors ${
-                  isActive ? colors.text : 'text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-700 dark:group-hover:text-zinc-300'
-                }`}>
-                  {item.label}
-                </span>
-              </button>
-            );
-          }
 
           // Flanking Side Navigation Buttons (Arena & Map on Left; Knowledge & Profile on Right)
           return (
@@ -225,7 +179,8 @@ export const BottomNavBanner: React.FC = () => {
               key={item.hub}
               onClick={() => {
                 haptics.tap();
-                setActiveTab(item.targetTab);
+                if (item.hub === 'home' && activeTab === 'scroll') window.scrollTo({ top: 0, behavior: 'smooth' });
+                else setActiveTab(item.targetTab);
               }}
               aria-label={item.label}
               title={item.label}
