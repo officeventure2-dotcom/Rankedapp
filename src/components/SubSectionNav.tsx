@@ -18,7 +18,21 @@ export const SubSectionNav: React.FC = () => {
   let hubName = '';
 
   if (activeTab === 'knowledge') return null;
-  if (activeTab === 'library' || activeTab === 'store' || activeTab === 'academy' || activeTab === 'science' || activeTab === 'language' || activeTab === 'books' || activeTab === 'memory' || activeTab === 'psychology' || activeTab === 'quran') {
+  if (activeTab === 'books' || activeTab === 'library' || activeTab === 'store') {
+    const tabs = [['books', 'My Books'], ['library', 'Read'], ['store', 'Store']] as const;
+    return (
+      <div className="mb-4 space-y-3">
+        <BackBar label="Knowledge" onBack={() => setActiveTab('knowledge')} />
+        <div className="grid grid-cols-3 gap-2" role="tablist" aria-label="Books sections">
+          {tabs.map(([id, label]) => (
+            <button key={id} role="tab" aria-selected={activeTab === id} onClick={() => setActiveTab(id)}
+              className={`min-h-touch rounded-xl text-sm font-semibold cursor-pointer border ${activeTab === id ? 'mem-on bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-transparent' : 'border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-200'}`}>{label}</button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  if (activeTab === 'academy' || activeTab === 'science' || activeTab === 'language' || activeTab === 'memory' || activeTab === 'psychology' || activeTab === 'quran') {
     return <BackBar label="Knowledge" onBack={() => setActiveTab('knowledge')} />;
   } else if (
     activeTab === 'overview' ||
