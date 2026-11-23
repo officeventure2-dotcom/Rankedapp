@@ -29,6 +29,7 @@ export const OnlineReaderModal: React.FC = () => {
   if (!activeBookForReading) return null;
 
   const chapters = activeBookForReading.chapters;
+  const earnsXp = activeBookForReading.totalXp > 0; // free store books are not in the XP library
   const chapter = chapters[currentChapter] || chapters[0];
 
   const handleNext = () => {
@@ -157,7 +158,7 @@ export const OnlineReaderModal: React.FC = () => {
           </div>
 
           <span className="font-mono opacity-60 shrink-0">
-            ~{chapter.estimatedMinutes} min read · +{Math.round(activeBookForReading.totalXp / chapters.length)} XP
+            ~{chapter.estimatedMinutes} min read{earnsXp && ` · +${Math.round(activeBookForReading.totalXp / chapters.length)} XP`}
           </span>
         </div>
 
@@ -200,12 +201,12 @@ export const OnlineReaderModal: React.FC = () => {
                     className="inline-flex items-center gap-2 px-6 py-2.5 text-xs font-bold rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 shadow-lg shadow-amber-500/20 transition-all"
                   >
                     <CheckCircle className="w-4 h-4" />
-                    <span>Complete Chapter & Claim XP</span>
+                    <span>{earnsXp ? 'Complete Chapter & Claim XP' : 'Mark Chapter Read'}</span>
                   </button>
                 ) : (
                   <div className="px-5 py-2 text-xs font-bold rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 flex items-center gap-1.5">
                     <CheckCircle className="w-4 h-4" />
-                    <span>Chapter Completed! (+{Math.round(activeBookForReading.totalXp / chapters.length)} XP Claimed)</span>
+                    <span>{earnsXp ? `Chapter Completed! (+${Math.round(activeBookForReading.totalXp / chapters.length)} XP Claimed)` : 'Chapter read'}</span>
                   </div>
                 )}
 

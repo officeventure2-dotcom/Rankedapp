@@ -8,6 +8,7 @@
  */
 
 import { handleAuth } from './auth';
+import { handleBooks } from './books';
 import { handleDaily } from './daily';
 import { handleRooms, sendReminders, type RoomsEnv } from './rooms';
 
@@ -16,6 +17,7 @@ interface AiBinding {
   run(model: string, input: Record<string, unknown>): Promise<unknown>;
 }
 interface Env extends RoomsEnv {
+  AFFILIATE_QUERY?: string;
   AI: AiBinding;
   ASSETS: { fetch(request: Request): Promise<Response> };
 }
@@ -142,6 +144,7 @@ export default {
     const url = new URL(request.url);
     if (url.pathname.startsWith('/api/auth/')) return handleAuth(request, env, sameOrigin);
     if (/^\/api\/(rooms|quiz|push)\//.test(url.pathname)) return handleRooms(request, env, sameOrigin);
+    if (url.pathname.startsWith('/api/books/')) return handleBooks(request, env);
     if (url.pathname.startsWith('/api/daily/')) return handleDaily(request, env, sameOrigin);
     if (url.pathname === '/api/ask') return handleAsk(request, env);
     if (url.pathname.startsWith('/api/')) return json({ error: 'Not found.' }, 404);
