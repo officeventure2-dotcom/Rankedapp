@@ -247,7 +247,7 @@ export const ConnectFourGame: React.FC = () => {
             <Trophy className="w-3.5 h-3.5" />
             <span>Gravity Strategy 1v1 Arena</span>
           </div>
-          <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100">
             Connect 4 Tactical Grid
           </h2>
           <p className="text-xs text-zinc-500">

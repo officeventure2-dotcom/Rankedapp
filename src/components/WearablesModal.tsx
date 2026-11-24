@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRanked } from '../context/RankedContext';
-import { THEME_PRESETS, WEARABLE_PREVIEW_PATH } from '../data/mockData';
+import { WEARABLE_PREVIEW_PATH } from '../data/mockData';
 import {
   X,
   Check,
@@ -15,12 +15,13 @@ import {
   Palette,
   Sun,
   Moon,
+  Monitor,
   Zap,
   Flame,
   Shield,
   Eye
 } from 'lucide-react';
-import { UserProfile, ThemeMode, ThemePreset } from '../types';
+import { UserProfile } from '../types';
 import { haptics } from '../utils/haptics';
 
 type SettingsTab = 'theme' | 'reading' | 'movies' | 'fitness';
@@ -30,7 +31,7 @@ export const WearablesModal: React.FC = () => {
     wearablesModalOpen,
     setWearablesModalOpen,
     user,
-    theme,
+    themePref,
     setTheme,
     showToast,
     syncWearables,
@@ -43,7 +44,6 @@ export const WearablesModal: React.FC = () => {
   } = useRanked();
 
   const [activeTab, setActiveTab] = useState<SettingsTab>('theme');
-  const [themeCategoryFilter, setThemeCategoryFilter] = useState<'All' | 'Standard' | 'Neo-Brutalism' | 'Anime & Gaming'>('All');
 
   if (!wearablesModalOpen) return null;
 
@@ -173,11 +173,6 @@ export const WearablesModal: React.FC = () => {
     }
   ];
 
-  const filteredThemes = THEME_PRESETS.filter(preset => {
-    if (themeCategoryFilter === 'All') return true;
-    return preset.category === themeCategoryFilter;
-  });
-
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-5 sm:p-6 space-y-4 sm:space-y-5 shadow-2xl pb-safe">
@@ -192,7 +187,7 @@ export const WearablesModal: React.FC = () => {
               <Palette className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <h3 className="text-sm sm:text-base font-extrabold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+              <h3 className="text-sm sm:text-base font-extrabold text-zinc-900 dark:text-zinc-100 font-display">
                 Settings & Aesthetics
               </h3>
               <p className="text-[11px] sm:text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 sm:line-clamp-none">
@@ -276,157 +271,34 @@ export const WearablesModal: React.FC = () => {
             TAB 1: APP APPEARANCE & THEME SELECTOR
             ========================================================================== */}
         {activeTab === 'theme' && (
-          <div className="space-y-4 animate-in fade-in-50 duration-150">
-            {/* Banner Overview */}
-            <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-amber-500" />
-                  <span className="text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider">
-                    Interface Theme Engine
-                  </span>
-                </div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-                  Switch between Daylight Light Mode, Obsidian Dark, High-Contrast Dark Neo, or legendary Anime Themes.
-                </p>
-              </div>
-
-              {/* Current Active Theme Indicator */}
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-200/60 dark:bg-zinc-800/80 border border-zinc-300/60 dark:border-zinc-700/60 shrink-0">
-                <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400">ACTIVE:</span>
-                <span className="text-xs font-bold font-mono text-amber-500">
-                  {THEME_PRESETS.find(p => p.id === theme)?.name || theme}
-                </span>
-              </div>
-            </div>
-
-            {/* Filter Chips */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-xs">
-              {(['All', 'Standard', 'Neo-Brutalism', 'Anime & Gaming'] as const).map(cat => (
+          <div className="space-y-3 animate-in fade-in-50 duration-150">
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Choose how Ranked looks. System follows your phone's setting.
+            </p>
+            <div role="radiogroup" aria-label="Appearance" className="grid grid-cols-3 gap-2">
+              {([
+                { id: 'system', label: 'System', Icon: Monitor },
+                { id: 'light', label: 'Light', Icon: Sun },
+                { id: 'dark', label: 'Dark', Icon: Moon }
+              ] as const).map(({ id, label, Icon }) => (
                 <button
-                  key={cat}
+                  key={id}
+                  role="radio"
+                  aria-checked={themePref === id}
                   onClick={() => {
-                    haptics.tap();
-                    setThemeCategoryFilter(cat);
+                    haptics.success();
+                    setTheme(id);
                   }}
-                  className={`px-3 py-1.5 rounded-lg font-mono text-xs font-semibold whitespace-nowrap transition-colors ${
-                    themeCategoryFilter === cat
-                      ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-sm'
-                      : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100'
+                  className={`flex flex-col items-center gap-2 min-h-[88px] justify-center rounded-xl border text-sm font-semibold transition-colors touch-manipulation ${
+                    themePref === id
+                      ? 'border-amber-500 bg-amber-500/10 text-amber-500'
+                      : 'border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400'
                   }`}
                 >
-                  {cat}
+                  <Icon className="w-6 h-6" />
+                  {label}
                 </button>
               ))}
-            </div>
-
-            {/* Grid of Theme Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[480px] overflow-y-auto pr-1">
-              {filteredThemes.map(preset => {
-                const isSelected = theme === preset.id;
-
-                return (
-                  <div
-                    key={preset.id}
-                    onClick={() => {
-                      haptics.success();
-                      setTheme(preset.id);
-                      showToast(`✨ Switched to "${preset.name}" theme!`);
-                    }}
-                    className={`group relative p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
-                      isSelected
-                        ? `ring-2 ring-amber-500 dark:ring-amber-400 border-transparent shadow-lg bg-zinc-50 dark:bg-zinc-800/90 ${preset.glowClass}`
-                        : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 hover:border-zinc-400 dark:hover:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-850'
-                    }`}
-                  >
-                    <div>
-                      {/* Top Row: Theme Name + Badge */}
-                      <div className="flex items-start justify-between gap-2 mb-1.5">
-                        <div className="flex items-center gap-2">
-                          <h4 className="text-xs font-extrabold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
-                            {preset.name}
-                          </h4>
-                        </div>
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${
-                          isSelected
-                            ? 'bg-amber-500/15 border-amber-500/40 text-amber-500'
-                            : 'bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400'
-                        }`}>
-                          {preset.badge}
-                        </span>
-                      </div>
-
-                      {/* Subtitle */}
-                      <p className="text-[11px] font-medium text-zinc-500 dark:text-zinc-400 mb-2.5">
-                        {preset.subtitle}
-                      </p>
-
-                      {/* Visual Palette Preview Bar */}
-                      <div className="flex items-center gap-2 mb-2 p-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-950/60 border border-zinc-200/50 dark:border-zinc-800/50">
-                        <div className="flex items-center gap-1.5">
-                          {/* Background swatch */}
-                          <div
-                            className="w-4 h-4 rounded-full border border-white/20 shadow-xs"
-                            style={{ backgroundColor: preset.bgHex }}
-                            title={`Background: ${preset.bgHex}`}
-                          />
-                          {/* Primary accent swatch */}
-                          <div
-                            className="w-4 h-4 rounded-full border border-white/20 shadow-xs"
-                            style={{ backgroundColor: preset.accentHex }}
-                            title={`Accent: ${preset.accentHex}`}
-                          />
-                          {/* Secondary swatch */}
-                          <div
-                            className="w-4 h-4 rounded-full border border-white/20 shadow-xs"
-                            style={{ backgroundColor: preset.secondaryHex }}
-                            title={`Secondary: ${preset.secondaryHex}`}
-                          />
-                        </div>
-
-                        {/* Mini UI pill simulation */}
-                        <div
-                          className="ml-auto text-[10px] font-mono font-bold px-2 py-0.5 rounded-md border text-center"
-                          style={{
-                            backgroundColor: `${preset.accentHex}18`,
-                            borderColor: `${preset.accentHex}40`,
-                            color: preset.accentHex
-                          }}
-                        >
-                          UI PREVIEW
-                        </div>
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-[11px] text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                        {preset.description}
-                      </p>
-                    </div>
-
-                    {/* Bottom Status / Select Button */}
-                    <div className="mt-3 pt-2.5 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
-                      <span className="text-[10px] font-mono text-zinc-400">
-                        {preset.category}
-                      </span>
-
-                      {isSelected ? (
-                        <div className="flex items-center gap-1 text-[11px] font-bold text-amber-500 font-mono">
-                          <Check className="w-3.5 h-3.5" />
-                          <span>Active Theme</span>
-                        </div>
-                      ) : (
-                        <button
-                          type="button"
-                          className="text-[11px] font-bold text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 font-mono flex items-center gap-1 transition-colors"
-                        >
-                          <span>Apply</span>
-                          <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
             </div>
           </div>
         )}
@@ -469,7 +341,7 @@ export const WearablesModal: React.FC = () => {
                       <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{item.name}</h4>
                       <span className="text-[11px] text-zinc-400">· {item.category}</span>
                       {item.badge && (
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold">
+                        <span className="px-1.5 py-0.5 rounded text-[11px] font-mono bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold">
                           {item.badge}
                         </span>
                       )}
@@ -546,7 +418,7 @@ export const WearablesModal: React.FC = () => {
                       <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{item.name}</h4>
                       <span className="text-[11px] text-zinc-400">· {item.category}</span>
                       {item.badge && (
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-pink-500/10 text-pink-600 dark:text-pink-400 font-bold">
+                        <span className="px-1.5 py-0.5 rounded text-[11px] font-mono bg-pink-500/10 text-pink-600 dark:text-pink-400 font-bold">
                           {item.badge}
                         </span>
                       )}

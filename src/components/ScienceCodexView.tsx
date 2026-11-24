@@ -121,7 +121,7 @@ export const ScienceCodexView: React.FC = () => {
               <Atom className="w-3.5 h-3.5 animate-spin-slow" />
               <span>Science & Empirical Discovery Deck</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold font-['Outfit'] tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold font-display tracking-tight">
               Science Codex: Words, Breakthroughs & Facts
             </h1>
             <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
@@ -139,7 +139,7 @@ export const ScienceCodexView: React.FC = () => {
               <div className="text-xl font-extrabold font-mono text-white">
                 {masteredScienceCardIds.length} <span className="text-xs font-normal text-zinc-400 font-sans">/ {SCIENCE_CARDS_DATABASE.length} Cards</span>
               </div>
-              <div className="text-[10px] text-cyan-400 mt-0.5 font-mono">
+              <div className="text-[11px] text-cyan-400 mt-0.5 font-mono">
                 {Math.round((masteredScienceCardIds.length / SCIENCE_CARDS_DATABASE.length) * 100)}% Mastered
               </div>
             </div>
@@ -204,11 +204,11 @@ export const ScienceCodexView: React.FC = () => {
                 {/* Header: Field tag, Pronounce, and Bookmark */}
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${getFieldColor(card.field)}`}>
+                    <span className={`text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${getFieldColor(card.field)}`}>
                       {card.field}
                     </span>
                     {card.discoveryYear && (
-                      <span className="text-[10px] text-zinc-400 font-mono">
+                      <span className="text-[11px] text-zinc-400 font-mono">
                         {card.discoveryYear} {card.discoverer ? `· ${card.discoverer}` : ''}
                       </span>
                     )}
@@ -238,7 +238,7 @@ export const ScienceCodexView: React.FC = () => {
 
                 {/* Term & Pronunciation */}
                 <div>
-                  <h3 className="text-xl font-extrabold font-['Outfit'] text-zinc-900 dark:text-zinc-50">
+                  <h3 className="text-xl font-extrabold font-display text-zinc-900 dark:text-zinc-50">
                     {card.term}
                   </h3>
                   <div className="flex items-center gap-2 mt-0.5 text-xs text-zinc-400 font-mono">

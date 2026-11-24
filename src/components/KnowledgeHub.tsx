@@ -15,5 +15,5 @@ export const KNOWLEDGE_ITEMS: HubItem[] = [
 
 export const KnowledgeHub: React.FC = () => {
   const { setActiveTab } = useRanked();
-  return <HubTiles title="Knowledge" items={KNOWLEDGE_ITEMS} onPick={id => setActiveTab(id as any)} />;
+  return <HubTiles title="Knowledge" items={KNOWLEDGE_ITEMS} storageKey="ranked.picks.knowledge" pickTitle="Learn" onPick={id => setActiveTab(id as any)} />;
 };

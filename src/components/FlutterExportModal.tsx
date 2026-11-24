@@ -304,10 +304,10 @@ export const FlutterExportModal: React.FC<FlutterExportModalProps> = ({ isOpen, 
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-['Outfit'] font-bold text-lg text-white">
+                <h3 className="font-display font-bold text-lg text-white">
                   Flutter App Architecture
                 </h3>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
                   Dart 3.2+ / Android & iOS
                 </span>
               </div>
@@ -346,7 +346,7 @@ export const FlutterExportModal: React.FC<FlutterExportModalProps> = ({ isOpen, 
         <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
           {/* File sidebar */}
           <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-zinc-800/80 bg-zinc-900/30 p-3 space-y-1 overflow-y-auto">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 px-3 py-1 block">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 px-3 py-1 block">
               Project Files
             </span>
             {FLUTTER_FILES.map((file, idx) => {

@@ -132,7 +132,7 @@ const Overview: React.FC<{ read: string[]; onOpen: (c: PsychCategory) => void }>
   return (
     <div className="max-w-2xl mx-auto space-y-4 animate-in fade-in duration-300">
       <div className="space-y-1">
-        <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">Psychology</h2>
+        <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-50">Psychology</h2>
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
           Short, practical lessons on confidence, love, leadership and more, based on psychology research. Each one ends with something to try today.
         </p>
@@ -167,7 +167,7 @@ const Overview: React.FC<{ read: string[]; onOpen: (c: PsychCategory) => void }>
               <span className="min-w-0 flex-1">
                 <span className="block text-sm font-bold text-zinc-900 dark:text-zinc-100">{c.title}</span>
                 <span className="block text-xs text-zinc-500 dark:text-zinc-400">{c.tagline}</span>
-                <span className="block mt-1 text-[10px] font-mono text-zinc-400">
+                <span className="block mt-1 text-[11px] font-mono text-zinc-400">
                   {c.lessons.length} lessons · {n} read
                 </span>
               </span>
@@ -203,7 +203,7 @@ const CategoryView: React.FC<{
           <Icon className="w-5 h-5" aria-hidden="true" />
         </span>
         <div className="min-w-0">
-          <h2 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50 truncate">{category.title}</h2>
+          <h2 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-50 truncate">{category.title}</h2>
           <p className="text-xs text-zinc-500 dark:text-zinc-400">{category.tagline}</p>
         </div>
       </div>
@@ -231,9 +231,9 @@ const CategoryView: React.FC<{
                 className="w-24 sm:w-32 shrink-0 object-cover"
               />
               <span className="flex-1 min-w-0 p-3.5">
-                <span className="block text-[10px] font-mono text-zinc-400">LESSON {i + 1}</span>
+                <span className="block text-[11px] font-mono text-zinc-400">LESSON {i + 1}</span>
                 <span className="block text-sm font-bold text-zinc-900 dark:text-zinc-100 leading-snug">{l.title}</span>
-                <span className="mt-1.5 flex flex-wrap items-center gap-2 text-[10px] font-mono">
+                <span className="mt-1.5 flex flex-wrap items-center gap-2 text-[11px] font-mono">
                   <span className="inline-flex items-center gap-1 text-zinc-400">
                     <Clock className="w-3 h-3" aria-hidden="true" /> {readMinutes(l)} min
                   </span>
@@ -280,7 +280,7 @@ const LessonReader: React.FC<{
         <img src={art} alt="" className="w-full aspect-[16/8] object-cover" decoding="async" />
         <div className="p-4 sm:p-6 space-y-4">
           <div className="space-y-2">
-            <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono">
+            <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
               <span className="text-zinc-400">
                 LESSON {index + 1} OF {category.lessons.length}
               </span>
@@ -288,7 +288,7 @@ const LessonReader: React.FC<{
                 <Clock className="w-3 h-3" aria-hidden="true" /> {readMinutes(lesson)} min
               </span>
             </div>
-            <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50 leading-snug">{lesson.title}</h2>
+            <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-50 leading-snug">{lesson.title}</h2>
           </div>
 
           <div className="space-y-3 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-200">
@@ -315,7 +315,7 @@ const LessonReader: React.FC<{
           </div>
 
           <div className="text-xs text-zinc-500 dark:text-zinc-400 space-y-1">
-            <span className={`inline-block px-2 py-0.5 rounded font-mono text-[10px] ${evidenceTone[lesson.evidence]}`}>
+            <span className={`inline-block px-2 py-0.5 rounded font-mono text-[11px] ${evidenceTone[lesson.evidence]}`}>
               {ev.label}
             </span>
             <p>{ev.hint}</p>

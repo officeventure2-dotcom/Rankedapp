@@ -175,7 +175,7 @@ export const PlayersMapView: React.FC = () => {
               <Radio className="w-4 h-4 animate-pulse" />
               <span>Real-Time Polymath Geolocation Network</span>
             </div>
-            <h2 className="text-2xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">
+            <h2 className="text-2xl font-bold font-display text-zinc-900 dark:text-zinc-50">
               Global Polymath Radar & Player Map
             </h2>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
@@ -250,7 +250,7 @@ export const PlayersMapView: React.FC = () => {
 
                         {/* Level Badge Pin */}
                         <div
-                          className={`absolute -bottom-2.5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded font-mono text-[9px] font-extrabold whitespace-nowrap border shadow-md ${tierColor.badgeBg} ${tierColor.badgeBorder} ${tierColor.badgeText}`}
+                          className={`absolute -bottom-2.5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded font-mono text-[11px] font-extrabold whitespace-nowrap border shadow-md ${tierColor.badgeBg} ${tierColor.badgeBorder} ${tierColor.badgeText}`}
                         >
                           Lv.{player.level}
                         </div>
@@ -271,16 +271,16 @@ export const PlayersMapView: React.FC = () => {
                     <div className="flex items-center gap-2.5">
                       <Avatar src={selectedPlayer.avatar} name={selectedPlayer.name} className="w-10 h-10 rounded-xl object-cover border border-zinc-300" />
                       <div className="min-w-0">
-                        <h4 className="text-xs font-bold font-['Outfit'] text-zinc-900 truncate">
+                        <h4 className="text-xs font-bold font-display text-zinc-900 truncate">
                           {selectedPlayer.name}
                         </h4>
-                        <span className="text-[10px] font-mono text-zinc-500 block">
+                        <span className="text-[11px] font-mono text-zinc-500 block">
                           {selectedPlayer.handle} · {selectedPlayer.location.city}
                         </span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2 text-[10px] font-mono font-semibold pt-1 border-t border-zinc-100">
+                    <div className="flex items-center gap-2 text-[11px] font-mono font-semibold pt-1 border-t border-zinc-100">
                       <span className="px-2 py-0.5 rounded bg-zinc-100 text-zinc-800">
                         Level {selectedPlayer.level}
                       </span>
@@ -301,7 +301,7 @@ export const PlayersMapView: React.FC = () => {
                     <div className="flex items-center gap-1.5 pt-2 border-t border-zinc-100">
                       <button
                         onClick={() => openUserProfile(selectedPlayer.id)}
-                        className="flex-1 py-1.5 px-2 rounded-lg bg-zinc-900 text-white text-[10px] font-semibold hover:bg-zinc-800 transition-colors text-center"
+                        className="flex-1 py-1.5 px-2 rounded-lg bg-zinc-900 text-white text-[11px] font-semibold hover:bg-zinc-800 transition-colors text-center"
                       >
                         View Profile
                       </button>
@@ -454,7 +454,7 @@ export const PlayersMapView: React.FC = () => {
         {isDrawerOpen && (
           <div className="absolute top-20 left-4 bottom-24 z-20 w-80 max-w-[85vw] rounded-3xl bg-zinc-950/80 backdrop-blur-2xl border border-white/15 p-4 shadow-[0_16px_50px_rgba(0,0,0,0.6)] flex flex-col space-y-3 animate-in slide-in-from-left duration-200">
             <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-              <div className="flex items-center gap-2 text-white text-xs font-bold font-['Outfit']">
+              <div className="flex items-center gap-2 text-white text-xs font-bold font-display">
                 <Users className="w-4 h-4 text-amber-500" />
                 <span>Polymath Directory ({filteredPlayers.length})</span>
               </div>
@@ -487,7 +487,7 @@ export const PlayersMapView: React.FC = () => {
                   >
                     <div className="relative shrink-0">
                       <Avatar src={p.avatar} name={p.name} className={`w-9 h-9 rounded-xl object-cover border ${tierColor.badgeBorder}`} />
-                      <span className={`absolute -bottom-1 -right-1 px-1 py-0.2 rounded font-mono text-[8px] font-bold border ${tierColor.badgeBg} ${tierColor.badgeBorder} ${tierColor.badgeText}`}>
+                      <span className={`absolute -bottom-1 -right-1 px-1 py-0.2 rounded font-mono text-[11px] font-bold border ${tierColor.badgeBg} ${tierColor.badgeBorder} ${tierColor.badgeText}`}>
                         {p.level}
                       </span>
                     </div>
@@ -496,12 +496,12 @@ export const PlayersMapView: React.FC = () => {
                       <div className="flex items-center justify-between text-xs font-bold text-white">
                         <span className="truncate">{p.name}</span>
                         {p.distanceKm !== undefined && (
-                          <span className="text-[10px] font-mono text-zinc-400 tabular-nums">
+                          <span className="text-[11px] font-mono text-zinc-400 tabular-nums">
                             {p.distanceKm.toLocaleString()}km
                           </span>
                         )}
                       </div>
-                      <p className="text-[10px] text-zinc-400 truncate">
+                      <p className="text-[11px] text-zinc-400 truncate">
                         {p.location.city} · <span className={tierColor.badgeText}>{p.tier}</span>
                       </p>
                     </div>
@@ -519,7 +519,7 @@ export const PlayersMapView: React.FC = () => {
               <div className="flex items-center gap-3">
                 <Avatar src={selectedPlayer.avatar} name={selectedPlayer.name} className="w-12 h-12 rounded-2xl object-cover border-2 border-amber-500/80" />
                 <div>
-                  <h3 className="text-sm font-bold font-['Outfit'] text-white">
+                  <h3 className="text-sm font-bold font-display text-white">
                     {selectedPlayer.name}
                   </h3>
                   <p className="text-[11px] font-mono text-zinc-400">
@@ -529,10 +529,10 @@ export const PlayersMapView: React.FC = () => {
               </div>
 
               <div className="text-right">
-                <span className="px-2 py-0.5 rounded-lg bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold border border-amber-500/40">
+                <span className="px-2 py-0.5 rounded-lg bg-amber-500/20 text-amber-300 font-mono text-[11px] font-bold border border-amber-500/40">
                   Level {selectedPlayer.level}
                 </span>
-                <p className="text-[10px] font-mono text-zinc-400 mt-1 tabular-nums">
+                <p className="text-[11px] font-mono text-zinc-400 mt-1 tabular-nums">
                   {selectedPlayer.distanceKm !== undefined ? `${selectedPlayer.distanceKm.toLocaleString()} km away` : ''}
                 </p>
               </div>

@@ -36,7 +36,7 @@ export const NotificationsModal: React.FC = () => {
               <Bell className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+              <h3 className="text-base font-bold font-display text-zinc-900 dark:text-zinc-100">
                 Push Notifications & Goal Reminders
               </h3>
               <p className="text-xs text-zinc-500 dark:text-zinc-400">

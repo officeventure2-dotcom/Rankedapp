@@ -249,7 +249,7 @@ export const SudokuGame: React.FC = () => {
             <span>·</span>
             <span>Blitz Clock: <strong className="font-mono text-zinc-900 dark:text-zinc-100">{formatTime(timerSeconds)}</strong></span>
           </div>
-          <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+          <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
             <span className="text-2xl">🔢</span>
             <span>1v1 Sudoku Clash</span>
           </h2>
@@ -314,7 +314,7 @@ export const SudokuGame: React.FC = () => {
             <span className="text-[11px] text-zinc-400 font-medium">pts</span>
           </div>
           {turn === 'p1' && !isGameOver && (
-            <div className="text-[10px] font-bold text-amber-600 dark:text-amber-400 mt-1 uppercase tracking-wider animate-pulse">
+            <div className="text-[11px] font-bold text-amber-600 dark:text-amber-400 mt-1 uppercase tracking-wider animate-pulse">
               Your Turn to Place Number
             </div>
           )}
@@ -342,7 +342,7 @@ export const SudokuGame: React.FC = () => {
             <span className="text-[11px] text-zinc-400 font-medium">pts</span>
           </div>
           {turn === 'p2' && !isGameOver && (
-            <div className="text-[10px] font-bold text-blue-600 dark:text-blue-400 mt-1 uppercase tracking-wider animate-pulse">
+            <div className="text-[11px] font-bold text-blue-600 dark:text-blue-400 mt-1 uppercase tracking-wider animate-pulse">
               {mode === '2p' ? 'Player 2 Turn' : 'Marcus Vance Evaluating...'}
             </div>
           )}
@@ -453,7 +453,7 @@ export const SudokuGame: React.FC = () => {
           <div className="w-12 h-12 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center mx-auto">
             <Trophy className="w-6 h-6" />
           </div>
-          <h3 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+          <h3 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100">
             {gameResult}
           </h3>
           <p className="text-xs text-zinc-600 dark:text-zinc-400">

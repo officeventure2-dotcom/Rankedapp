@@ -54,51 +54,6 @@ export const BottomNavBanner: React.FC = () => {
   // Theme-aware active color mapping
   const getThemeHighlight = () => {
     switch (theme) {
-      case 'dark-neo':
-        return {
-          text: 'text-cyan-400',
-          bgGlow: 'bg-cyan-500/15',
-          border: 'border-cyan-500/40',
-          dot: 'bg-cyan-400',
-          centerRing: 'ring-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.35)]',
-          centerBg: 'bg-cyan-950/80'
-        };
-      case 'anime-solo':
-        return {
-          text: 'text-sky-400',
-          bgGlow: 'bg-sky-500/15',
-          border: 'border-sky-500/40',
-          dot: 'bg-sky-400',
-          centerRing: 'ring-sky-500/50 shadow-[0_0_20px_rgba(56,189,248,0.35)]',
-          centerBg: 'bg-sky-950/80'
-        };
-      case 'anime-cyberpunk':
-        return {
-          text: 'text-emerald-400',
-          bgGlow: 'bg-emerald-500/15',
-          border: 'border-emerald-500/40',
-          dot: 'bg-emerald-400',
-          centerRing: 'ring-emerald-500/50 shadow-[0_0_20px_rgba(34,197,94,0.35)]',
-          centerBg: 'bg-purple-950/80'
-        };
-      case 'anime-sakura':
-        return {
-          text: 'text-pink-400',
-          bgGlow: 'bg-pink-500/15',
-          border: 'border-pink-500/40',
-          dot: 'bg-pink-400',
-          centerRing: 'ring-pink-500/50 shadow-[0_0_20px_rgba(244,114,182,0.35)]',
-          centerBg: 'bg-pink-950/80'
-        };
-      case 'anime-saiyan':
-        return {
-          text: 'text-yellow-400',
-          bgGlow: 'bg-yellow-500/15',
-          border: 'border-yellow-500/40',
-          dot: 'bg-yellow-400',
-          centerRing: 'ring-yellow-500/50 shadow-[0_0_20px_rgba(250,204,21,0.35)]',
-          centerBg: 'bg-amber-950/80'
-        };
       case 'light':
         return {
           text: 'text-amber-600',
@@ -206,7 +161,7 @@ export const BottomNavBanner: React.FC = () => {
               </div>
 
               {/* Micro Label */}
-              <span className={`text-[9px] sm:text-[10px] font-mono font-bold tracking-tight mt-0.5 transition-colors ${
+              <span className={`text-[11px] sm:text-[11px] font-mono font-bold tracking-tight mt-0.5 transition-colors ${
                 isActive ? colors.text : 'text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-700 dark:group-hover:text-zinc-300'
               }`}>
                 {item.label}

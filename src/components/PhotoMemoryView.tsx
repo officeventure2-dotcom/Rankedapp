@@ -215,7 +215,7 @@ export const PhotoMemoryView: React.FC<{ onBack: () => void }> = ({ onBack }) =>
         <ArrowLeft className="w-4 h-4" /> Back
       </button>
       <div className="space-y-1">
-        <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">Photo Memory</h2>
+        <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-50">Photo Memory</h2>
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
           Train your visual memory. Look at a set of pictures, then bring it back from memory. It gets harder as you improve.
         </p>
@@ -400,7 +400,7 @@ const Header: React.FC<{ title: string; sub: string; onExit: () => void }> = ({ 
       <ArrowLeft className="w-4 h-4" />
     </button>
     <div className="min-w-0">
-      <h2 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50 truncate">{title}</h2>
+      <h2 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-50 truncate">{title}</h2>
       <p className="text-xs text-zinc-500 dark:text-zinc-400">{sub}</p>
     </div>
   </div>

@@ -74,7 +74,7 @@ export const OnlineReaderModal: React.FC = () => {
               <BookOpen className="w-5 h-5" />
             </div>
             <div className="min-w-0">
-              <h2 className="text-sm sm:text-base font-bold font-['Outfit'] truncate">
+              <h2 className="text-sm sm:text-base font-bold font-display truncate">
                 {activeBookForReading.title}
               </h2>
               <p className="text-xs opacity-75 truncate">
@@ -170,7 +170,7 @@ export const OnlineReaderModal: React.FC = () => {
               <span className="text-xs font-mono uppercase tracking-widest text-amber-500 font-semibold">
                 Chapter {chapter.chapterNumber} of {chapters.length}
               </span>
-              <h1 className="text-2xl sm:text-3xl font-extrabold font-['Outfit']">
+              <h1 className="text-2xl sm:text-3xl font-extrabold font-display">
                 {chapter.title}
               </h1>
             </div>

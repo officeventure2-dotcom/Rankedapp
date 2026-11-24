@@ -140,7 +140,7 @@ export const MemoryModeView: React.FC = () => {
   return (
     <div className="max-w-2xl mx-auto space-y-4 animate-in fade-in duration-300">
       <div className="space-y-1">
-        <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">Memory Mode</h2>
+        <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-50">Memory Mode</h2>
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
           Memorize numbers, poems or anything you want to keep. Pick a set below or add your own, and get a
           day-by-day plan.
@@ -213,7 +213,7 @@ export const MemoryModeView: React.FC = () => {
                     {item.title}
                   </span>
                   <span className="block text-xs text-zinc-500 dark:text-zinc-400">{describe(item)}</span>
-                  <span className="mt-1 flex flex-wrap gap-1.5 text-[10px] font-mono">
+                  <span className="mt-1 flex flex-wrap gap-1.5 text-[11px] font-mono">
                     {p.bestStreak ? (
                       <span className="px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
                         Best {p.bestStreak} digits
@@ -318,7 +318,7 @@ const AddForm: React.FC<{ onCancel: () => void; onSave: (item: MemoryItem) => vo
         <ArrowLeft className="w-4 h-4" /> Back
       </button>
       <div className={`${card} p-4 space-y-4`}>
-        <h2 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">Add your own</h2>
+        <h2 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-50">Add your own</h2>
 
         <label className="block space-y-1.5">
           <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-300">Title</span>
@@ -436,7 +436,7 @@ export const ItemDetail: React.FC<{
           <ArrowLeft className="w-4 h-4" />
         </button>
         <div className="min-w-0">
-          <h2 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50 truncate">{item.title}</h2>
+          <h2 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-50 truncate">{item.title}</h2>
           <p className="text-xs text-zinc-500 dark:text-zinc-400">{describe(item)}</p>
         </div>
       </div>
@@ -531,7 +531,7 @@ const PlanTab: React.FC<{
     return (
       <div className={`${card} p-4 space-y-4`}>
         <div>
-          <h3 className="text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">Make a memorizing plan</h3>
+          <h3 className="text-base font-bold font-display text-zinc-900 dark:text-zinc-50">Make a memorizing plan</h3>
           <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
             New parts are introduced first, then each part comes back 1, 3 and 7 days later. The last day is a full
             recital from memory.
@@ -630,7 +630,7 @@ const PlanTab: React.FC<{
     <div className="space-y-3">
       <div className={`${card} p-4 space-y-2`}>
         <div className="flex items-center justify-between gap-2">
-          <h3 className="text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">
+          <h3 className="text-base font-bold font-display text-zinc-900 dark:text-zinc-50">
             {finished ? 'Plan complete' : today > plan.days ? 'Plan ended' : `Day ${Math.max(1, today)} of ${plan.days}`}
           </h3>
           <span className="text-xs font-mono text-zinc-500">
@@ -679,9 +679,9 @@ const PlanTab: React.FC<{
               <div className="min-w-0 flex-1 space-y-1.5">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">Day {d.day}</span>
-                  {isToday && <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-600 dark:text-amber-400">TODAY</span>}
-                  {missed && <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400">MISSED</span>}
-                  {d.final && <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-400">FINAL</span>}
+                  {isToday && <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-600 dark:text-amber-400">TODAY</span>}
+                  {missed && <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400">MISSED</span>}
+                  {d.final && <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-400">FINAL</span>}
                   <span className="ml-auto text-[11px] font-mono text-zinc-400">~{d.minutes} min</span>
                 </div>
                 <ul className="space-y-1.5 text-sm text-zinc-600 dark:text-zinc-300">

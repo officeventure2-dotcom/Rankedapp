@@ -174,7 +174,7 @@ export const LanguageLabView: React.FC = () => {
               <Globe className="w-3.5 h-3.5" />
               <span>Multilingual Polyglot Academy</span>
             </div>
-            <h2 className="text-2xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 flex items-center gap-2.5">
+            <h2 className="text-2xl font-bold font-display text-zinc-900 dark:text-zinc-100 flex items-center gap-2.5">
               <span>Language Lab</span>
               <span className="text-xl font-normal text-zinc-400">·</span>
               <span className="text-lg font-medium text-purple-600 dark:text-purple-400 font-mono">
@@ -233,7 +233,7 @@ export const LanguageLabView: React.FC = () => {
                     <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100 truncate">
                       {lang.name}
                     </div>
-                    <div className="text-[10px] text-zinc-400 font-medium">
+                    <div className="text-[11px] text-zinc-400 font-medium">
                       {lang.nativeName}
                     </div>
                   </div>
@@ -328,7 +328,7 @@ export const LanguageLabView: React.FC = () => {
                       }`}
                     >
                       <div className="text-xs font-bold font-mono">{lvl.level}</div>
-                      <div className={`text-[9px] truncate ${isSelected ? 'text-purple-100' : 'text-zinc-400'}`}>
+                      <div className={`text-[11px] truncate ${isSelected ? 'text-purple-100' : 'text-zinc-400'}`}>
                         {lvl.level === 'A0' ? 'Alphabet' :
                          lvl.level === 'A1' ? 'Beginner' :
                          lvl.level === 'A2' ? 'Elem.' :
@@ -363,7 +363,7 @@ export const LanguageLabView: React.FC = () => {
                   <span>·</span>
                   <span>Phonics & Word Reading Laboratory</span>
                 </div>
-                <h3 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+                <h3 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100">
                   {currentLang.name} Alphabet & How to Read Words
                 </h3>
               </div>
@@ -420,10 +420,10 @@ export const LanguageLabView: React.FC = () => {
                         <div className="text-[11px] font-mono font-bold text-purple-600 dark:text-purple-400">
                           {item.transliteration}
                         </div>
-                        <div className="text-[10px] text-zinc-400 truncate" title={item.phoneticSound}>
+                        <div className="text-[11px] text-zinc-400 truncate" title={item.phoneticSound}>
                           {item.phoneticSound}
                         </div>
-                        <div className="text-[9px] text-zinc-500 italic mt-0.5 truncate" title={`${item.exampleWord} (${item.exampleMeaning})`}>
+                        <div className="text-[11px] text-zinc-500 italic mt-0.5 truncate" title={`${item.exampleWord} (${item.exampleMeaning})`}>
                           {item.exampleWord}
                         </div>
                       </div>
@@ -507,7 +507,7 @@ export const LanguageLabView: React.FC = () => {
 
                         {/* Syllable Breakdown */}
                         <div className="space-y-1">
-                          <span className="text-[10px] uppercase font-mono font-bold text-zinc-400">
+                          <span className="text-[11px] uppercase font-mono font-bold text-zinc-400">
                             Syllable Separation (Blend left to right):
                           </span>
                           <div className="flex items-center gap-1.5 flex-wrap">
@@ -571,7 +571,7 @@ export const LanguageLabView: React.FC = () => {
                   <span>·</span>
                   <span className="text-zinc-400">{currentExercise.topic}</span>
                 </div>
-                <h3 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+                <h3 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-100">
                   {currentExercise.prompt}
                 </h3>
               </div>
@@ -602,7 +602,7 @@ export const LanguageLabView: React.FC = () => {
         {/* Challenge Task Box */}
         <div className="p-5 rounded-xl bg-purple-50/40 dark:bg-purple-950/20 border border-purple-200/60 dark:border-purple-900/30 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase font-mono font-bold text-purple-600 dark:text-purple-400">
+            <span className="text-[11px] uppercase font-mono font-bold text-purple-600 dark:text-purple-400">
               Target Sentence Exercise
             </span>
             {currentExercise.phonetic && (
@@ -732,7 +732,7 @@ export const LanguageLabView: React.FC = () => {
                   <div className="pt-2 border-t border-zinc-200/60 dark:border-zinc-700/60 font-mono text-[11px] text-purple-700 dark:text-purple-300">
                     {tip.example}
                   </div>
-                  <div className="text-[10px] text-zinc-400 italic">
+                  <div className="text-[11px] text-zinc-400 italic">
                     {tip.translation}
                   </div>
                 </div>

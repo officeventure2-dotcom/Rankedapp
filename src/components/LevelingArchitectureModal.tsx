@@ -113,7 +113,7 @@ export const LevelingArchitectureModal: React.FC<LevelingArchitectureModalProps>
               <ShieldAlert className="w-4 h-4" />
               <span>Hardcore Polymath Progression Specification</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">
+            <h2 className="text-xl sm:text-2xl font-bold font-display text-zinc-900 dark:text-zinc-50">
               Rank-Up Architecture & Leveling Curve
             </h2>
             <p className="text-xs text-zinc-500">
@@ -133,7 +133,7 @@ export const LevelingArchitectureModal: React.FC<LevelingArchitectureModalProps>
         {/* Highlight Stats Strip */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div className="p-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800">
-            <span className="text-[10px] text-zinc-400 uppercase tracking-wider block font-semibold">
+            <span className="text-[11px] text-zinc-400 uppercase tracking-wider block font-semibold">
               Max Level Target
             </span>
             <span className="text-lg font-mono font-bold text-zinc-900 dark:text-zinc-100">
@@ -143,7 +143,7 @@ export const LevelingArchitectureModal: React.FC<LevelingArchitectureModalProps>
           </div>
 
           <div className="p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/20">
-            <span className="text-[10px] text-amber-600 dark:text-amber-400 uppercase tracking-wider block font-semibold">
+            <span className="text-[11px] text-amber-600 dark:text-amber-400 uppercase tracking-wider block font-semibold">
               Total XP to Max
             </span>
             <span className="text-lg font-mono font-bold text-amber-600 dark:text-amber-400">
@@ -153,7 +153,7 @@ export const LevelingArchitectureModal: React.FC<LevelingArchitectureModalProps>
           </div>
 
           <div className="p-3.5 rounded-xl bg-indigo-500/5 border border-indigo-500/20">
-            <span className="text-[10px] text-indigo-600 dark:text-indigo-400 uppercase tracking-wider block font-semibold">
+            <span className="text-[11px] text-indigo-600 dark:text-indigo-400 uppercase tracking-wider block font-semibold">
               Curve Power Exponent
             </span>
             <span className="text-lg font-mono font-bold text-indigo-600 dark:text-indigo-400">
@@ -163,7 +163,7 @@ export const LevelingArchitectureModal: React.FC<LevelingArchitectureModalProps>
           </div>
 
           <div className="p-3.5 rounded-xl bg-purple-500/5 border border-purple-500/20">
-            <span className="text-[10px] text-purple-600 dark:text-purple-400 uppercase tracking-wider block font-semibold">
+            <span className="text-[11px] text-purple-600 dark:text-purple-400 uppercase tracking-wider block font-semibold">
               Est. Time to Max
             </span>
             <span className="text-lg font-mono font-bold text-purple-600 dark:text-purple-400">
@@ -246,7 +246,7 @@ export const LevelingArchitectureModal: React.FC<LevelingArchitectureModalProps>
                     <span className="w-6 h-6 rounded-md bg-zinc-900 text-amber-400 font-mono text-xs flex items-center justify-center font-bold">
                       {idx + 1}
                     </span>
-                    <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                    <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 font-display">
                       {g.tier} ({g.levels})
                     </span>
                     <span className="text-xs font-mono text-zinc-500">
@@ -264,7 +264,7 @@ export const LevelingArchitectureModal: React.FC<LevelingArchitectureModalProps>
                 </p>
 
                 <div className="flex items-center gap-2 flex-wrap pt-1">
-                  <span className="text-[10px] uppercase font-bold text-zinc-400 tracking-wider">
+                  <span className="text-[11px] uppercase font-bold text-zinc-400 tracking-wider">
                     Gates:
                   </span>
                   {g.prerequisites.map((req, rIdx) => (

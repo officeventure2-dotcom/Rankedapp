@@ -207,7 +207,7 @@ export const Game24: React.FC = () => {
             <Calculator className="w-3.5 h-3.5" />
             <span>Arithmetical Logic & Combinatorial Reasoning</span>
           </div>
-          <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+          <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
             <span>The 24 Challenge</span>
             <span className={`px-2 py-0.5 rounded border text-[11px] font-semibold ${getDifficultyBadge(currentPuzzle.difficulty)}`}>
               {currentPuzzle.difficulty}
@@ -261,7 +261,7 @@ export const Game24: React.FC = () => {
                 }`}
               >
                 <span>{num}</span>
-                <span className="text-[10px] font-sans font-medium text-zinc-400">
+                <span className="text-[11px] font-sans font-medium text-zinc-400">
                   {isUsed ? 'Used' : 'Tap to use'}
                 </span>
               </button>

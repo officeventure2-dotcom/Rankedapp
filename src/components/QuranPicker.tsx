@@ -96,7 +96,7 @@ export const QuranPicker: React.FC<{
 
       <div className={`${card} p-4 space-y-4`}>
         <div className="space-y-1">
-          <h2 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">Quran</h2>
+          <h2 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-50">Quran</h2>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
             Choose a surah and the verses to learn. You get the Arabic text, the English meaning and a daily plan, and every verse you recite from memory earns XP.
           </p>

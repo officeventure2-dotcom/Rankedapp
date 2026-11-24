@@ -15,11 +15,6 @@ html {
   --lg-orb-2: 99, 102, 241;   /* indigo */
   --lg-orb-3: 16, 185, 129;   /* emerald */
 }
-html[data-theme="dark-neo"]        { --lg-orb-1: 6, 182, 212;  --lg-orb-2: 59, 130, 246;  --lg-orb-3: 16, 185, 129; }
-html[data-theme="anime-solo"]      { --lg-orb-1: 56, 189, 248; --lg-orb-2: 99, 102, 241;  --lg-orb-3: 168, 85, 247; }
-html[data-theme="anime-cyberpunk"] { --lg-orb-1: 168, 85, 247; --lg-orb-2: 34, 197, 94;   --lg-orb-3: 244, 63, 94; }
-html[data-theme="anime-sakura"]    { --lg-orb-1: 244, 114, 182; --lg-orb-2: 192, 132, 252; --lg-orb-3: 251, 113, 133; }
-html[data-theme="anime-saiyan"]    { --lg-orb-1: 250, 204, 21; --lg-orb-2: 249, 115, 22;  --lg-orb-3: 234, 88, 12; }
 html[data-theme="light"]           { --lg-orb-1: 251, 191, 36; --lg-orb-2: 129, 140, 248; --lg-orb-3: 45, 212, 191; }
 
 /* ---------- Glass tokens (dark themes are the default) ---------- */
