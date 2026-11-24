@@ -205,7 +205,7 @@ export const MindMatrixGame: React.FC = () => {
             <Zap className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-base font-bold font-display text-zinc-900 dark:text-zinc-100">
               Mind Matrix Cognitive Clash (1v1)
             </h3>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -289,7 +289,7 @@ export const MindMatrixGame: React.FC = () => {
               <span className="text-xs font-mono uppercase tracking-widest text-zinc-400">
                 Cognitive Challenge
               </span>
-              <h2 className="text-xl sm:text-2xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 mt-1">
+              <h2 className="text-xl sm:text-2xl font-bold font-display text-zinc-900 dark:text-zinc-100 mt-1">
                 {currentRound.prompt}
               </h2>
             </div>
@@ -393,7 +393,7 @@ export const MindMatrixGame: React.FC = () => {
           /* Final Match Victory Screen */
           <div className="p-8 rounded-2xl border-2 border-purple-500 bg-purple-50/30 dark:bg-purple-950/30 text-center space-y-4">
             <Trophy className="w-12 h-12 text-yellow-500 mx-auto" />
-            <h3 className="text-2xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-2xl font-bold font-display text-zinc-900 dark:text-zinc-100">
               {p1Score > p2Score
                 ? `${user.name} Wins the Clash!`
                 : p2Score > p1Score

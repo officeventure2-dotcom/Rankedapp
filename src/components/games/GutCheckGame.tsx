@@ -111,7 +111,7 @@ const AngleTest: React.FC<TestProps> = ({ round, done, finished }) => {
   const tip = line(deg, 80); const goal = line(round.angle, 80);
   return (
     <div className="space-y-3">
-      <p className="text-center text-3xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">{round.angle}°</p>
+      <p className="text-center text-3xl font-bold font-display text-zinc-900 dark:text-zinc-100">{round.angle}°</p>
       <svg
         viewBox="0 0 200 200" className={`${stage} max-w-[260px] mx-auto block`} role="slider" aria-label="Angle" aria-valuemin={0} aria-valuemax={359} aria-valuenow={deg}
         onPointerDown={(e) => { if (finished) return; drag.current = true; e.currentTarget.setPointerCapture(e.pointerId); set(e); }}
@@ -186,7 +186,7 @@ const SplitTest: React.FC<TestProps> = ({ round, done, finished }) => {
   const X = (p: number) => 20 + (p / 100) * 260;
   return (
     <div className="space-y-3">
-      <p className="text-center text-3xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">Mark {round.split.label}</p>
+      <p className="text-center text-3xl font-bold font-display text-zinc-900 dark:text-zinc-100">Mark {round.split.label}</p>
       <svg
         viewBox="0 0 300 80" className={stage} role="img" aria-label="Line to split"
         onPointerDown={(e) => { if (finished) return; drag.current = true; e.currentTarget.setPointerCapture(e.pointerId); set(e); }}
@@ -247,7 +247,7 @@ export const GutCheckGame: React.FC = () => {
     return (
       <div className="space-y-4">
         <div>
-          <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">Gut Check</h2>
+          <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100">Gut Check</h2>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">Five quick tests of your senses, each scored 0 to 100. Count, Track, Angle, Tempo and Split.</p>
         </div>
         <ul className="grid grid-cols-1 gap-1.5 text-sm text-zinc-600 dark:text-zinc-300">
@@ -266,7 +266,7 @@ export const GutCheckGame: React.FC = () => {
     return (
       <div className="space-y-4 text-center">
         <Trophy className="w-10 h-10 mx-auto text-amber-500" />
-        <p className="text-5xl font-black font-['Outfit'] text-zinc-900 dark:text-zinc-100">{gradeFor(avg)}</p>
+        <p className="text-5xl font-black font-display text-zinc-900 dark:text-zinc-100">{gradeFor(avg)}</p>
         <p className="text-sm text-zinc-600 dark:text-zinc-300">Average <b>{avg}</b> / 100 · +{earned.toLocaleString()} XP</p>
         <ul className="text-sm text-zinc-600 dark:text-zinc-300 space-y-0.5">{TESTS.map((t, i) => <li key={t.id}>{t.title}: <b>{scores[i]}</b></li>)}</ul>
         <div className="flex justify-center gap-2">
@@ -285,7 +285,7 @@ export const GutCheckGame: React.FC = () => {
         <span>{run.mode === 'daily' ? 'Daily' : 'Free play'} · Test {idx + 1} of {TESTS.length}</span>
         <span>{scores.length ? `Avg ${avg}` : ''}</span>
       </div>
-      <h2 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">{test.title}</h2>
+      <h2 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-100">{test.title}</h2>
       <p className="text-xs text-zinc-500 dark:text-zinc-400">{test.how}</p>
       <View key={idx} round={round} done={done} finished={finished} />
       {finished && (

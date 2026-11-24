@@ -50,8 +50,8 @@ export const TopBanner: React.FC = () => {
         <img src={HERO_CREST_PATH} alt="" referrerPolicy="no-referrer" className="w-9 h-9 rounded-lg object-cover shrink-0 border border-zinc-200 dark:border-zinc-700" />
         <span className="flex-1 min-w-0">
           <span className="flex items-baseline justify-between gap-2">
-            <span className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50 truncate">Level {progress.currentLevel}<span className="hidden min-[420px]:inline"> · {progress.tier}</span></span>
-            <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 shrink-0">{progress.percent.toFixed(0)}%</span>
+            <span className="text-sm font-bold font-display text-zinc-900 dark:text-zinc-50 truncate">Level {progress.currentLevel}<span className="hidden min-[420px]:inline"> · {progress.tier}</span></span>
+            <span className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 shrink-0">{progress.percent.toFixed(0)}%</span>
           </span>
           <span className="mt-1 block h-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
             <span className="block h-full rounded-full bg-gradient-to-r from-amber-500 to-yellow-400" style={{ width: `${Math.max(2, progress.percent)}%` }} />
@@ -93,7 +93,7 @@ export const TopBanner: React.FC = () => {
             {results.map(t => (
               <li key={t.where + t.label}>
                 <button onClick={() => open(t)} className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl text-sm text-left text-zinc-900 dark:text-zinc-100 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer">
-                  <span>{t.label}</span><span className="text-[10px] font-mono text-zinc-500">{t.where}</span>
+                  <span>{t.label}</span><span className="text-[11px] font-mono text-zinc-500">{t.where}</span>
                 </button>
               </li>
             ))}
@@ -102,7 +102,7 @@ export const TopBanner: React.FC = () => {
     </div>
     {activeTab === 'scroll' && dailyQuests.length > 0 && (
       <div className="flex items-center gap-2 px-1" role="group" aria-label="Daily quests">
-        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mr-1">Daily</span>
+        <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mr-1">Daily</span>
         {dailyQuests.map((q) => {
           const pct = Math.min(100, Math.round((q.current / Math.max(1, q.target)) * 100));
           return (

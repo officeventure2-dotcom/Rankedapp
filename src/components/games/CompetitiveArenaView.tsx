@@ -91,11 +91,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <Swords className="w-3.5 h-3.5" />
               <span>Cognitive Arena & Intellect Duels</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold font-['Outfit'] tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold font-display tracking-tight">
               Mind Games & Intellectual Arenas
             </h1>
             <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
-              Choose between competitive **1v1 Multiplayer Duels** (against friends or smart AI opponents) and dedicated **Solo Mind Puzzles** (arithmetic logic, Sudoku, Picross Nonograms, and cognitive matrices).
+              Choose between competitive 1v1 Multiplayer Duels (against friends or smart AI opponents) and dedicated Solo Mind Puzzles (arithmetic logic, Sudoku, Picross Nonograms, and cognitive matrices).
             </p>
           </div>
 
@@ -109,7 +109,7 @@ export const CompetitiveArenaView: React.FC = () => {
               <div className="text-xl font-extrabold font-mono text-white">
                 1,885 <span className="text-xs font-normal text-amber-400 font-sans">GM Candidate</span>
               </div>
-              <div className="text-[10px] text-zinc-400 mt-0.5 flex items-center gap-2 font-mono">
+              <div className="text-[11px] text-zinc-400 mt-0.5 flex items-center gap-2 font-mono">
                 <span className="text-emerald-400 font-bold">34W</span>
                 <span>-</span>
                 <span className="text-rose-400 font-bold">8L</span>
@@ -125,13 +125,13 @@ export const CompetitiveArenaView: React.FC = () => {
         {/* Multiplayer Lobby Room Quick Bar */}
         {arenaCategory === 'multiplayer' && (
           <div className="mt-6 pt-6 border-t border-zinc-800 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <span className="text-xs text-zinc-400 font-medium">Multiplayer Room Code:</span>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 font-mono text-xs font-bold text-amber-400">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span className="text-xs text-zinc-400 font-medium whitespace-nowrap">Multiplayer Room Code:</span>
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 font-mono text-xs font-bold text-amber-400 whitespace-nowrap">
                 <span>{roomCode}</span>
                 <button
                   onClick={copyRoomCode}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors p-2 -m-2"
                   title="Copy Room Code"
                 >
                   {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
@@ -176,7 +176,7 @@ export const CompetitiveArenaView: React.FC = () => {
         >
           <Swords className="w-4 h-4 text-amber-500" />
           <span>1v1 & Multiplayer Arena (5 Games)</span>
-          <span className="hidden sm:inline-block text-[10px] font-mono font-normal px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400">
+          <span className="hidden sm:inline-block text-[11px] font-mono font-normal px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400">
             Pass & Play · vs AI Bot
           </span>
         </button>
@@ -191,7 +191,7 @@ export const CompetitiveArenaView: React.FC = () => {
         >
           <Brain className="w-4 h-4 text-indigo-500" />
           <span>Solo Mind & Puzzle Lab (7 Games)</span>
-          <span className="hidden sm:inline-block text-[10px] font-mono font-normal px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+          <span className="hidden sm:inline-block text-[11px] font-mono font-normal px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
             Cognitive Logic · Daily Streaks
           </span>
         </button>
@@ -221,11 +221,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <div>
                 <div className="flex items-start justify-between">
                   <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400"><Crown className="w-6 h-6" /></span>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
                     Pass & Play
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-display">
                   Chess Blitz 1v1
                 </h3>
                 <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
@@ -250,11 +250,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <div>
                 <div className="flex items-start justify-between">
                   <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-400"><CircleDot className="w-6 h-6" /></span>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-600 dark:text-rose-400 font-bold">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-600 dark:text-rose-400 font-bold">
                     NEW 1v1
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-display">
                   Connect 4 Tactics
                 </h3>
                 <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
@@ -279,11 +279,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <div>
                 <div className="flex items-start justify-between">
                   <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400"><Zap className="w-6 h-6" /></span>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold">
                     NEW 1v1
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-display">
                   Speed Math Duel
                 </h3>
                 <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
@@ -308,11 +308,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <div>
                 <div className="flex items-start justify-between">
                   <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"><Target className="w-6 h-6" /></span>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
                     Live Buzzer
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-display">
                   Trivia Duel
                 </h3>
                 <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
@@ -337,11 +337,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <div>
                 <div className="flex items-start justify-between">
                   <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-sky-500/15 text-sky-600 dark:text-sky-400"><Languages className="w-6 h-6" /></span>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
                     Wordle Duel
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-display">
                   Guess The Word Duel
                 </h3>
                 <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
@@ -391,11 +391,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <div>
                 <div className="flex items-start justify-between">
                   <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-indigo-500/15 text-indigo-600 dark:text-indigo-400"><Calculator className="w-6 h-6" /></span>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold">
                     NEW SOLO
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-display">
                   The 24 Challenge
                 </h3>
                 <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
@@ -420,11 +420,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <div>
                 <div className="flex items-start justify-between">
                   <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-violet-500/15 text-violet-600 dark:text-violet-400"><Hash className="w-6 h-6" /></span>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
                     Solo / 9x9
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-display">
                   Sudoku Master
                 </h3>
                 <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
@@ -449,11 +449,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <div>
                 <div className="flex items-start justify-between">
                   <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-teal-500/15 text-teal-600 dark:text-teal-400"><Grid className="w-6 h-6" /></span>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-bold">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-bold">
                     NEW SOLO
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-display">
                   Nonogram Picross
                 </h3>
                 <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
@@ -478,11 +478,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <div>
                 <div className="flex items-start justify-between">
                   <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-indigo-500/15 text-indigo-600 dark:text-indigo-400"><Brain className="w-6 h-6" /></span>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
                     Matrices
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-display">
                   Mind Matrix
                 </h3>
                 <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
@@ -507,11 +507,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <div>
                 <div className="flex items-start justify-between">
                   <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-400"><Type className="w-6 h-6" /></span>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold">
                     Solo Wordle
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-display">
                   Wordle Deduction
                 </h3>
                 <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
@@ -536,11 +536,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <div>
                 <div className="flex items-start justify-between">
                   <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-orange-500/15 text-orange-600 dark:text-orange-400"><Rows3 className="w-6 h-6" /></span>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-600 dark:text-orange-400 font-bold">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-600 dark:text-orange-400 font-bold">
                     NEW SOLO
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-display">
                   Logic Rows
                 </h3>
                 <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">
@@ -565,11 +565,11 @@ export const CompetitiveArenaView: React.FC = () => {
               <div>
                 <div className="flex items-start justify-between">
                   <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-sky-500/15 text-sky-600 dark:text-sky-400"><Eye className="w-6 h-6" /></span>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-600 dark:text-sky-400 font-bold">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-600 dark:text-sky-400 font-bold">
                     NEW SOLO
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-['Outfit']">
+                <h3 className="mt-2 text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 font-display">
                   Gut Check
                 </h3>
                 <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug line-clamp-2">

@@ -17,6 +17,7 @@ import {
   OnlineBook,
   EducationalVideo,
   ThemeMode,
+  ThemePref,
   ChallengeSubTab,
   ArenaGameId
 } from '../types';
@@ -76,7 +77,8 @@ interface RankedContextType {
   enableLocation: () => Promise<void>;
   toggleLocation: () => void;
   theme: ThemeMode;
-  setTheme: (theme: ThemeMode) => void;
+  themePref: ThemePref;
+  setTheme: (theme: ThemePref) => void;
   toggleTheme: () => void;
   soundEnabled: boolean;
   toggleSound: () => void;
@@ -154,11 +156,19 @@ const RankedContext = createContext<RankedContextType | undefined>(undefined);
 
 export const RankedProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Theme state
-  const [theme, setThemeState] = useState<ThemeMode>(() => {
+  const [themePref, setThemeState] = useState<ThemePref>(() => {
     const saved = localStorage.getItem('ranked_theme');
-    const validThemes: ThemeMode[] = ['light', 'dark', 'dark-neo', 'anime-solo', 'anime-cyberpunk', 'anime-sakura', 'anime-saiyan'];
-    return (validThemes.includes(saved as ThemeMode) ? (saved as ThemeMode) : 'dark');
+    // old themed values fall back to dark
+    return saved === 'light' || saved === 'system' ? saved : 'dark';
   });
+  const [systemDark, setSystemDark] = useState<boolean>(() => window.matchMedia('(prefers-color-scheme: dark)').matches);
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const on = (e: MediaQueryListEvent) => setSystemDark(e.matches);
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, []);
+  const theme: ThemeMode = themePref === 'system' ? (systemDark ? 'dark' : 'light') : themePref;
 
   const [soundEnabled, setSoundEnabled] = useState<boolean>(() => {
     const saved = localStorage.getItem('ranked_sound');
@@ -348,33 +358,18 @@ export const RankedProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   // Sync theme class and data-theme attribute on root document
   useEffect(() => {
-    localStorage.setItem('ranked_theme', theme);
+    localStorage.setItem('ranked_theme', themePref);
     const root = document.documentElement;
-    // Clean previous theme classes
-    root.classList.remove(
-      'theme-light',
-      'theme-dark',
-      'theme-dark-neo',
-      'theme-anime-solo',
-      'theme-anime-cyberpunk',
-      'theme-anime-sakura',
-      'theme-anime-saiyan'
-    );
-
-    if (theme === 'light') {
-      root.classList.remove('dark');
-      document.body.classList.remove('dark');
-    } else {
-      root.classList.add('dark');
-      document.body.classList.add('dark');
-    }
-
+    root.classList.remove('theme-light', 'theme-dark');
+    root.classList.toggle('dark', theme === 'dark');
+    document.body.classList.toggle('dark', theme === 'dark');
     root.classList.add(`theme-${theme}`);
     root.setAttribute('data-theme', theme);
     document.body.setAttribute('data-theme', theme);
-  }, [theme]);
+    root.style.colorScheme = theme;
+  }, [theme, themePref]);
 
-  const setTheme = (newTheme: ThemeMode) => {
+  const setTheme = (newTheme: ThemePref) => {
     sounds.playClick();
     setThemeState(newTheme);
   };
@@ -1188,6 +1183,7 @@ export const RankedProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         enableLocation,
         toggleLocation,
         theme,
+        themePref,
         setTheme,
         toggleTheme,
         soundEnabled,

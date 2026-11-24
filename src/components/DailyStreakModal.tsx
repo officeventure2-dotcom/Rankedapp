@@ -60,10 +60,10 @@ export const DailyStreakModal: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-lg sm:text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50 leading-tight">
+                <h2 className="text-lg sm:text-xl font-bold font-display text-zinc-900 dark:text-zinc-50 leading-tight">
                   Daily Streak
                 </h2>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
                   ACTIVE
                 </span>
               </div>
@@ -114,7 +114,7 @@ export const DailyStreakModal: React.FC = () => {
               <p className="text-[11px] text-zinc-500">
                 {user.streakFreezeAvailable ?? 2} free freeze protections left
               </p>
-              <span className="text-[10px] text-zinc-400 block font-mono">
+              <span className="text-[11px] text-zinc-400 block font-mono">
                 Preserves rank if day is missed
               </span>
             </div>
@@ -123,7 +123,7 @@ export const DailyStreakModal: React.FC = () => {
           {/* Today's Reward Claim Action Card */}
           <div className="pt-4 border-t border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 block font-semibold">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 block font-semibold">
                 Today's Attendance Reward (Day {user.streakDays})
               </span>
               <div className="flex items-center gap-2 mt-0.5">
@@ -164,7 +164,7 @@ export const DailyStreakModal: React.FC = () => {
               <Calendar className="w-3.5 h-3.5 text-zinc-400" />
               <span>Consecutive Day Track</span>
             </h3>
-            <span className="text-[10px] sm:text-[11px] text-zinc-400 font-mono truncate ml-2">
+            <span className="text-[11px] sm:text-[11px] text-zinc-400 font-mono truncate ml-2">
               Next: Day {nextMilestone.day} ({daysUntilNextMilestone}d)
             </span>
           </div>
@@ -189,11 +189,11 @@ export const DailyStreakModal: React.FC = () => {
                   }`}
                 >
                   <div>
-                    <span className="text-[9px] sm:text-[10px] font-mono font-bold block text-zinc-500 dark:text-zinc-400 truncate">
+                    <span className="text-[11px] sm:text-[11px] font-mono font-bold block text-zinc-500 dark:text-zinc-400 truncate">
                       D{day.dayNumber}
                     </span>
                     {isMilestone && (
-                      <span className="hidden sm:inline-block mt-0.5 text-[9px] font-mono font-bold text-yellow-500 bg-yellow-500/10 px-1 rounded">
+                      <span className="hidden sm:inline-block mt-0.5 text-[11px] font-mono font-bold text-yellow-500 bg-yellow-500/10 px-1 rounded">
                         ★
                       </span>
                     )}
@@ -211,7 +211,7 @@ export const DailyStreakModal: React.FC = () => {
                     )}
                   </div>
 
-                  <span className={`text-[9px] sm:text-[10px] font-mono font-bold tabular-nums truncate ${
+                  <span className={`text-[11px] sm:text-[11px] font-mono font-bold tabular-nums truncate ${
                     isCurrent ? 'text-amber-500' : isPast ? 'text-emerald-500' : 'text-zinc-400'
                   }`}>
                     +{day.xpReward >= 1000 ? `${(day.xpReward / 1000).toFixed(1)}k` : day.xpReward}
@@ -255,7 +255,7 @@ export const DailyStreakModal: React.FC = () => {
                       <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
                         {m.title}
                       </span>
-                      <span className="font-mono text-[10px] font-bold px-1.5 py-0.2 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+                      <span className="font-mono text-[11px] font-bold px-1.5 py-0.2 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
                         Day {m.day}
                       </span>
                     </div>
@@ -268,7 +268,7 @@ export const DailyStreakModal: React.FC = () => {
                     <span className="font-mono text-xs font-bold text-amber-600 dark:text-amber-400 block tabular-nums">
                       +{m.bonusXp.toLocaleString()} XP
                     </span>
-                    <span className="text-[10px] font-medium text-zinc-400">
+                    <span className="text-[11px] font-medium text-zinc-400">
                       {isUnlocked ? 'Achieved ✓' : `${m.day - user.streakDays}d left`}
                     </span>
                   </div>

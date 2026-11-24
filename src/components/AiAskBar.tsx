@@ -63,7 +63,7 @@ export const AiAskBar: React.FC = () => {
             placeholder="Ask anything: science, history, habits…"
             aria-label="Ask Ranked a question"
             style={{ background: 'transparent', boxShadow: 'none', border: 0 }}
-            className="flex-1 min-w-0 bg-transparent text-sm py-2 outline-none placeholder:text-zinc-400"
+            className="bare-input flex-1 min-w-0 bg-transparent text-sm py-2 outline-none placeholder:text-zinc-400"
           />
         </label>
         <button

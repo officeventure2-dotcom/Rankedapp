@@ -198,7 +198,7 @@ export const TriviaDuelGame: React.FC = () => {
             <span>·</span>
             <span>Round {Math.min(questionIndex + 1, TOTAL_ROUNDS)} of {TOTAL_ROUNDS}</span>
           </div>
-          <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+          <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
             <Zap className="w-5 h-5 text-amber-500 fill-amber-500" />
             <span>1v1 Trivia Duel</span>
           </h2>
@@ -428,7 +428,7 @@ export const TriviaDuelGame: React.FC = () => {
           <div className="w-14 h-14 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center mx-auto">
             <Trophy className="w-7 h-7" />
           </div>
-          <h3 className="text-2xl font-extrabold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+          <h3 className="text-2xl font-extrabold font-display text-zinc-900 dark:text-zinc-100">
             {p1Score > p2Score
               ? `${user.name} Wins the Duel!`
               : p2Score > p1Score

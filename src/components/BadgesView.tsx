@@ -80,7 +80,7 @@ export const BadgesView: React.FC = () => {
       {/* Header and Filter */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100">
             Collectible Digital Badges
           </h2>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
@@ -134,7 +134,7 @@ export const BadgesView: React.FC = () => {
                 </div>
 
                 <div className="text-right">
-                  <span className={`text-[10px] font-mono font-bold uppercase tracking-wider ${rarity.text}`}>
+                  <span className={`text-[11px] font-mono font-bold uppercase tracking-wider ${rarity.text}`}>
                     {b.rarity}
                   </span>
                   <p className="text-[11px] font-mono font-semibold text-amber-600 dark:text-amber-400 tabular-nums">
@@ -193,7 +193,7 @@ export const BadgesView: React.FC = () => {
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-amber-500">
                 {inspectBadge.rarity} Badge
               </span>
-              <h3 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+              <h3 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100">
                 {inspectBadge.title}
               </h3>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 px-4 leading-relaxed">

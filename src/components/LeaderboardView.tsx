@@ -26,7 +26,7 @@ export const LeaderboardView: React.FC = () => {
       {/* Header & Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100">
             Global & Friends Leaderboard
           </h2>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
@@ -132,7 +132,7 @@ export const LeaderboardView: React.FC = () => {
                           <p className="font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5 group-hover:text-amber-500 transition-colors">
                             <span>{entry.name}</span>
                             {isCurrent && (
-                              <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200">
+                              <span className="text-[11px] px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200">
                                 You
                               </span>
                             )}
@@ -207,7 +207,7 @@ export const LeaderboardView: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
           <div className="w-full max-w-2xl rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-2xl space-y-6">
             <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3">
-              <h3 className="text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+              <h3 className="text-base font-bold font-display text-zinc-900 dark:text-zinc-100">
                 Side-by-Side Competitor Comparison
               </h3>
               <button

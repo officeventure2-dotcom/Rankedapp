@@ -172,7 +172,7 @@ export const RoomsView: React.FC = () => {
     return (
       <div className={`${card} text-center space-y-3`}>
         <Users className="w-8 h-8 mx-auto text-amber-500" />
-        <h2 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">Rooms need an account</h2>
+        <h2 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-100">Rooms need an account</h2>
         <p className="text-sm text-zinc-500 dark:text-zinc-400">Sign in to join a room, keep a daily streak and get reminders.</p>
         <button onClick={() => void signOut()} className={primary}>Sign in or sign up</button>
       </div>
@@ -220,7 +220,7 @@ export const RoomsView: React.FC = () => {
       <section className={`${card} space-y-3`} aria-label="Daily quiz">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">Daily Quiz</h2>
+            <h2 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-100">Daily Quiz</h2>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">Five general-knowledge questions, the same for everyone today.</p>
           </div>
           <Streak n={me?.streak ?? 0} label="Your streak" />

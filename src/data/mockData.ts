@@ -15,7 +15,6 @@ import {
   NotificationSetting,
   OnlineBook,
   EducationalVideo,
-  ThemePreset
 } from '../types';
 
 import heroCrestUrl from '../assets/images/ranked_hero_crest_1792934617606.jpg';
@@ -1683,104 +1682,4 @@ export const USER_PROFILES_MAP: Record<string, UserProfile> = {
   }
 };
 
-export const THEME_PRESETS: ThemePreset[] = [
-  {
-    id: 'dark',
-    name: 'Obsidian Minimal',
-    subtitle: 'Classic High-Performance Dark',
-    category: 'Standard',
-    badge: 'Default',
-    accentColor: 'text-amber-500',
-    bgHex: '#09090b',
-    accentHex: '#f59e0b',
-    secondaryHex: '#71717a',
-    description: 'Sleek OLED zinc dark mode with warm gold accents. Reduced eye strain and optimal contrast.',
-    glowClass: 'shadow-[0_0_20px_rgba(245,158,11,0.15)]',
-    bannerBorder: 'border-zinc-800'
-  },
-  {
-    id: 'light',
-    name: 'Scholar Alabaster',
-    subtitle: 'High-Contrast Daylight Clarity',
-    category: 'Standard',
-    badge: 'Light Mode',
-    accentColor: 'text-amber-600',
-    bgHex: '#f8fafc',
-    accentHex: '#d97706',
-    secondaryHex: '#64748b',
-    description: 'Crisp parchment paper aesthetics designed for prolonged reading, bright sunlight, and study sessions.',
-    glowClass: 'shadow-[0_4px_20px_rgba(0,0,0,0.06)]',
-    bannerBorder: 'border-zinc-300'
-  },
-  {
-    id: 'dark-neo',
-    name: 'Dark Neo-Brutalist',
-    subtitle: 'Cyberpunk Wireframe & High Voltage',
-    category: 'Neo-Brutalism',
-    badge: 'High Voltage',
-    accentColor: 'text-cyan-400',
-    bgHex: '#07090e',
-    accentHex: '#06b6d4',
-    secondaryHex: '#84cc16',
-    description: 'Ultra high-contrast terminal styling with radiant electric cyan and toxic lime outlines, bold tech borders.',
-    glowClass: 'shadow-[0_0_25px_rgba(6,182,212,0.3)]',
-    bannerBorder: 'border-cyan-500/50'
-  },
-  {
-    id: 'anime-solo',
-    name: 'Solo Leveling (Shadow Monarch)',
-    subtitle: 'Arise: Abyssal Void & Mana Blue',
-    category: 'Anime & Gaming',
-    badge: 'S-Rank Hunter',
-    accentColor: 'text-sky-400',
-    bgHex: '#040714',
-    accentHex: '#38bdf8',
-    secondaryHex: '#818cf8',
-    description: 'Deep abyssal midnight space infused with radiant electric mana blue and shadow monarch violet aura.',
-    glowClass: 'shadow-[0_0_30px_rgba(56,189,248,0.35)]',
-    bannerBorder: 'border-sky-500/40'
-  },
-  {
-    id: 'anime-cyberpunk',
-    name: 'Cyber Mecha (EVA-01)',
-    subtitle: 'Sync Rate 100%: Toxic Plum & Acid Green',
-    category: 'Anime & Gaming',
-    badge: 'Mecha Core',
-    accentColor: 'text-emerald-400',
-    bgHex: '#0f051d',
-    accentHex: '#22c55e',
-    secondaryHex: '#f43f5e',
-    description: 'Evangelion biomechanical aesthetic: deep dark purple chassis illuminated by radioactive green and neon magenta.',
-    glowClass: 'shadow-[0_0_30px_rgba(34,197,94,0.35)]',
-    bannerBorder: 'border-emerald-500/40'
-  },
-  {
-    id: 'anime-sakura',
-    name: 'Tokyo Twilight Sakura',
-    subtitle: 'Demon Slayer Wisteria & Blossom Petals',
-    category: 'Anime & Gaming',
-    badge: 'Hashira Spirit',
-    accentColor: 'text-pink-400',
-    bgHex: '#0e0a17',
-    accentHex: '#f472b6',
-    secondaryHex: '#c084fc',
-    description: 'Enchanting twilight wisteria violet and glowing cherry blossom petals. Elegant, ethereal Japanese nighttime motif.',
-    glowClass: 'shadow-[0_0_30px_rgba(244,114,182,0.35)]',
-    bannerBorder: 'border-pink-500/40'
-  },
-  {
-    id: 'anime-saiyan',
-    name: 'Super Saiyan Ki Flare',
-    subtitle: 'Power Level Over 9000: Dragon Gold',
-    category: 'Anime & Gaming',
-    badge: 'Ascended Saiyan',
-    accentColor: 'text-yellow-400',
-    bgHex: '#0b0a06',
-    accentHex: '#facc15',
-    secondaryHex: '#f97316',
-    description: 'Intense golden ki aura erupting over charred volcanic obsidian. Blazing determination and combat energy.',
-    glowClass: 'shadow-[0_0_30px_rgba(250,204,21,0.35)]',
-    bannerBorder: 'border-yellow-500/40'
-  }
-];
 
