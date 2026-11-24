@@ -360,7 +360,7 @@ export const ChessGame: React.FC<ChessGameProps> = () => {
                     <button
                       key={c}
                       onClick={() => handleSquareClick(r, c)}
-                      className={`w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center relative font-serif text-3xl sm:text-4xl transition-colors focus:outline-none ${
+                      className={`w-[min(3.5rem,calc((100vw-5rem)/8))] h-[min(3.5rem,calc((100vw-5rem)/8))] sm:w-16 sm:h-16 flex items-center justify-center relative font-serif text-3xl sm:text-4xl transition-colors focus:outline-none ${
                         isLight
                           ? 'bg-[#e8ebef] dark:bg-[#d1d5db] text-zinc-900'
                           : 'bg-[#6b7280] dark:bg-[#4b5563] text-zinc-950'

@@ -576,7 +576,7 @@ export const LanguageLabView: React.FC = () => {
                 </h3>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                 <button
                   onClick={() => setSelectedLevel('A0')}
                   title="Review Alphabet & How to Read Words"
@@ -593,7 +593,7 @@ export const LanguageLabView: React.FC = () => {
                   <Volume2 className="w-3.5 h-3.5" />
                   <span>Pronounce</span>
                 </button>
-                <span className="font-mono text-sm font-bold text-purple-600 dark:text-purple-400">
+                <span className="font-mono text-sm font-bold text-purple-600 dark:text-purple-400 whitespace-nowrap shrink-0">
                   +{currentExercise.xpReward.toLocaleString()} XP
                 </span>
               </div>

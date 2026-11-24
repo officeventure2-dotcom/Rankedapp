@@ -58,7 +58,7 @@ export const SubSectionNav: React.FC = () => {
     <div className="mb-6 animate-in fade-in slide-in-from-top-2 duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         {/* Transparent Glass Sub-Section Switcher (Jakob's Law UX) */}
-        <div className="p-1 rounded-2xl bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-zinc-200/60 dark:border-white/10 shadow-sm flex flex-wrap items-center gap-1 w-full sm:w-auto">
+        <div className="p-1 rounded-2xl bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-zinc-200/60 dark:border-white/10 shadow-sm flex flex-nowrap items-center gap-1 w-full sm:w-auto overflow-x-auto [&>button]:shrink-0 [&>button]:whitespace-nowrap">
           {subTabs.map(tab => {
             const isActive = activeTab === tab.id;
 
