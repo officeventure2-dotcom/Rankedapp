@@ -18,7 +18,7 @@ export const SubSectionNav: React.FC = () => {
   let hubName = '';
 
   if (activeTab === 'knowledge') return null;
-  if (activeTab === 'library' || activeTab === 'academy' || activeTab === 'science' || activeTab === 'language' || activeTab === 'books' || activeTab === 'memory' || activeTab === 'psychology' || activeTab === 'quran') {
+  if (activeTab === 'library' || activeTab === 'store' || activeTab === 'academy' || activeTab === 'science' || activeTab === 'language' || activeTab === 'books' || activeTab === 'memory' || activeTab === 'psychology' || activeTab === 'quran') {
     return <BackBar label="Knowledge" onBack={() => setActiveTab('knowledge')} />;
   } else if (
     activeTab === 'overview' ||

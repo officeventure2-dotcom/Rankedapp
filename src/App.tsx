@@ -31,6 +31,7 @@ import { AuthGate } from './auth/AuthGate';
 import { TopBanner } from './components/TopBanner';
 import { SubSectionNav } from './components/SubSectionNav';
 import { KnowledgeHub } from './components/KnowledgeHub';
+import { BookStoreView } from './components/BookStoreView';
 import { AndroidInstallModal } from './components/AndroidInstallModal';
 import { FlutterExportModal } from './components/FlutterExportModal';
 
@@ -107,6 +108,7 @@ const AppContent: React.FC = () => {
           {activeTab === 'language' && <ChallengesView only="language" />}
           {activeTab === 'books' && <ChallengesView only="books" />}
           {activeTab === 'knowledge' && <KnowledgeHub />}
+          {activeTab === 'store' && <BookStoreView />}
           {activeTab === 'library' && <OnlineLibraryView />}
           {activeTab === 'academy' && <EducationalVideosView />}
           {activeTab === 'scroll' && <ScrollModeView />}

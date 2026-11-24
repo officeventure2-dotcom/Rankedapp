@@ -1,10 +1,11 @@
 import React from 'react';
-import { Atom, BookOpen, BookOpenText, BrainCircuit, Globe, HeartHandshake, Youtube } from 'lucide-react';
+import { Atom, BookOpen, Store, BookOpenText, BrainCircuit, Globe, HeartHandshake, Youtube } from 'lucide-react';
 import { useRanked } from '../context/RankedContext';
 import { HubTiles, HubItem } from './HubTiles';
 
 export const KNOWLEDGE_ITEMS: HubItem[] = [
   { id: 'library', label: 'Foundational Books', blurb: 'The classics worth reading', icon: <BookOpen />, tone: 'text-amber-500' },
+  { id: 'store', label: 'Book Store', blurb: 'Free classics to read, and books to buy', icon: <Store />, tone: 'text-yellow-500' },
   { id: 'academy', label: 'Video Masterclasses', blurb: 'Learn from the best lectures', icon: <Youtube />, tone: 'text-red-500' },
   { id: 'science', label: 'Science Codex', blurb: 'Fact cards across the sciences', icon: <Atom />, tone: 'text-cyan-500' },
   { id: 'language', label: 'Language Lab', blurb: 'Practise and track a language', icon: <Globe />, tone: 'text-emerald-500' },
