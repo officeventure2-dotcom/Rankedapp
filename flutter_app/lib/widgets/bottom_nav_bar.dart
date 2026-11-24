@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class GlassBottomNav extends StatelessWidget {
   final int currentIndex;
@@ -15,13 +14,14 @@ class GlassBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = [
-      {'icon': LucideIcons.home, 'label': 'Home'},
-      {'icon': LucideIcons.swords, 'label': 'Arena'},
-      {'icon': LucideIcons.compass, 'label': 'Radar'},
-      {'icon': LucideIcons.bookOpen, 'label': 'Codex'},
-      {'icon': LucideIcons.trophy, 'label': 'Ranks'},
+    const items = [
+      {'icon': Icons.home_outlined, 'label': 'Home'},
+      {'icon': Icons.sports_esports_outlined, 'label': 'Challenges'},
+      {'icon': Icons.explore_outlined, 'label': 'Radar Map'},
+      {'icon': Icons.menu_book_outlined, 'label': 'Knowledge'},
+      {'icon': Icons.people_outline, 'label': 'Profile'},
     ];
+    final surface = Theme.of(context).colorScheme.surface;
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
@@ -32,7 +32,7 @@ class GlassBottomNav extends StatelessWidget {
           child: Container(
             height: 68,
             decoration: BoxDecoration(
-              color: const Color(0xFF18181B).withOpacity(0.80),
+              color: surface.withOpacity(0.85),
               borderRadius: BorderRadius.circular(32),
               border: Border.all(
                 color: Colors.white.withOpacity(0.12),
@@ -60,7 +60,7 @@ class GlassBottomNav extends StatelessWidget {
                   behavior: HitTestBehavior.opaque,
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? const Color(0xFFF59E0B).withOpacity(0.15)
@@ -84,7 +84,7 @@ class GlassBottomNav extends StatelessWidget {
                         Text(
                           item['label'] as String,
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 11,
                             fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                             color: isSelected
                                 ? const Color(0xFFF59E0B)
