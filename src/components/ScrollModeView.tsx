@@ -177,12 +177,12 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
                       decoding="async"
                       className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <span className="fact-tag absolute left-3 top-3 px-2.5 py-1 rounded-full bg-black/45 backdrop-blur text-[10px] font-mono font-semibold uppercase tracking-wider text-white">
+                    <span className="fact-tag absolute left-3 top-3 px-2.5 py-1 rounded-full bg-black/45 backdrop-blur text-[11px] font-mono font-semibold uppercase tracking-wider text-white">
                       {fact.field}
                     </span>
                   </div>
                   <div className="p-4 flex flex-col">
-                    <h3 className="text-lg font-bold font-['Outfit'] leading-snug text-zinc-900 dark:text-zinc-50">
+                    <h3 className="text-lg font-bold font-display leading-snug text-zinc-900 dark:text-zinc-50">
                       {fact.title}
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
@@ -216,7 +216,7 @@ const Feed: React.FC<{ topic: TopicFilter }> = ({ topic }) => {
                       >
                         <Share2 className="w-5 h-5 text-zinc-500 dark:text-zinc-400" />
                       </button>
-                      <span className="ml-auto text-[10px] font-mono text-zinc-400">
+                      <span className="ml-auto text-[11px] font-mono text-zinc-400">
                         Keep scrolling
                       </span>
                     </div>

@@ -354,10 +354,10 @@ export const AndroidInstallModal: React.FC<AndroidInstallModalProps> = ({ isOpen
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-['Outfit'] font-bold text-lg leading-tight text-white">
+                <h3 className="font-display font-bold text-lg leading-tight text-white">
                   Ranked for Android
                 </h3>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
                   Android Studio Ready
                 </span>
               </div>
@@ -419,7 +419,7 @@ export const AndroidInstallModal: React.FC<AndroidInstallModalProps> = ({ isOpen
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <h4 className="font-bold text-white text-sm font-['Outfit']">
+                  <h4 className="font-bold text-white text-sm font-display">
                     How to Read & Run in Android Studio
                   </h4>
                 </div>
@@ -582,7 +582,7 @@ export const AndroidInstallModal: React.FC<AndroidInstallModalProps> = ({ isOpen
                 <button
                   onClick={handleInstallClick}
                   disabled={installing}
-                  className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 font-bold font-['Outfit'] text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 active:scale-95 transition-all cursor-pointer"
+                  className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 font-bold font-display text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 active:scale-95 transition-all cursor-pointer"
                 >
                   <Download className="w-4 h-4" />
                   <span>{installing ? 'Launching Installer...' : 'Install on Android Device'}</span>

@@ -72,7 +72,7 @@ export const AuthGate: React.FC<{ children: React.ReactNode }> = ({ children }) 
   if (phase === 'unreachable') {
     return (
       <div className="min-h-dvh flex flex-col items-center justify-center gap-4 px-6 text-center bg-zinc-950 text-zinc-100">
-        <h1 className="text-xl font-bold font-['Outfit']">Can't reach Ranked</h1>
+        <h1 className="text-xl font-bold font-display">Can't reach Ranked</h1>
         <p className="text-sm text-zinc-400 max-w-xs">Check your internet connection and try again.</p>
         <button onClick={() => void check()} className="min-h-touch px-6 rounded-xl bg-amber-500 text-zinc-950 font-bold cursor-pointer">Try again</button>
       </div>
@@ -132,7 +132,7 @@ const AuthScreen: React.FC<{ onDone: (u: AuthUser) => void; onGuest: () => void 
       <div className="w-full max-w-sm space-y-6">
         <span className="w-11 h-11 rounded-xl bg-amber-500 text-zinc-950 flex items-center justify-center" aria-hidden="true"><Sparkles className="w-6 h-6" /></span>
         <header className="space-y-2">
-          <h1 className="text-[2rem] leading-tight font-extrabold font-['Outfit'] text-zinc-900 dark:text-zinc-50">{signup ? 'Create an account' : 'Welcome back,'}</h1>
+          <h1 className="text-[2rem] leading-tight font-extrabold font-display text-zinc-900 dark:text-zinc-50">{signup ? 'Create an account' : 'Welcome back,'}</h1>
           <p className="text-sm text-zinc-400">{signup ? 'It takes less than a minute. Enter your name, email and password.' : 'Good to see you again. Enter your email and password.'}</p>
         </header>
 

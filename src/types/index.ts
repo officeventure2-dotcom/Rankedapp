@@ -429,27 +429,6 @@ export interface MapPlayer {
   lastActive?: string;
 }
 
-export type ThemeMode =
-  | 'light'
-  | 'dark'
-  | 'dark-neo'
-  | 'anime-solo'
-  | 'anime-cyberpunk'
-  | 'anime-sakura'
-  | 'anime-saiyan';
-
-export interface ThemePreset {
-  id: ThemeMode;
-  name: string;
-  subtitle: string;
-  category: 'Standard' | 'Neo-Brutalism' | 'Anime & Gaming';
-  badge: string;
-  accentColor: string;
-  bgHex: string;
-  accentHex: string;
-  secondaryHex: string;
-  description: string;
-  glowClass: string;
-  bannerBorder: string;
-}
+export type ThemeMode = 'light' | 'dark';
+export type ThemePref = ThemeMode | 'system';
 

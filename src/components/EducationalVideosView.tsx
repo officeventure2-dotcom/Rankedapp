@@ -261,7 +261,7 @@ export const EducationalVideosView: React.FC = () => {
             <Youtube className="w-4 h-4" />
             <span>Interactive Educational Academy</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold font-['Outfit'] text-zinc-900 dark:text-zinc-50">
+          <h1 className="text-2xl sm:text-3xl font-extrabold font-display text-zinc-900 dark:text-zinc-50">
             Stream Masterclasses & Increase Knowledge
           </h1>
           <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
@@ -345,7 +345,7 @@ export const EducationalVideosView: React.FC = () => {
                   <span>·</span>
                   <span>{activeVideo.durationMinutes} min</span>
                 </div>
-                <h2 className="text-lg sm:text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+                <h2 className="text-lg sm:text-xl font-bold font-display text-zinc-900 dark:text-zinc-100">
                   {activeVideo.title}
                 </h2>
               </div>
@@ -389,7 +389,7 @@ export const EducationalVideosView: React.FC = () => {
                     <HelpCircle className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+                    <h3 className="text-base font-bold font-display text-zinc-900 dark:text-zinc-100">
                       Post-Lecture Comprehension Quiz
                     </h3>
                     <p className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -466,7 +466,7 @@ export const EducationalVideosView: React.FC = () => {
                   <div className="w-12 h-12 mx-auto rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/25">
                     <CheckCircle2 className="w-6 h-6" />
                   </div>
-                  <h4 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+                  <h4 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-100">
                     Mastery Verified! ({quizScore}/{quizList.length} Correct)
                   </h4>
                   <p className="text-xs text-zinc-600 dark:text-zinc-300 max-w-md mx-auto">
@@ -521,7 +521,7 @@ export const EducationalVideosView: React.FC = () => {
         {/* Right: Curated Playlist & Knowledge Track Selection (4 cols) */}
         <div className="lg:col-span-4 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-sm font-bold font-display text-zinc-900 dark:text-zinc-100">
               Curated Video Lectures ({filteredVideos.length})
             </h3>
           </div>
@@ -587,11 +587,11 @@ export const EducationalVideosView: React.FC = () => {
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider block">
+                    <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block">
                       {video.channel}
                     </span>
                     {isWatched && (
-                      <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 shrink-0">
+                      <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 shrink-0">
                         <CheckCircle2 className="w-3 h-3" /> Mastered
                       </span>
                     )}

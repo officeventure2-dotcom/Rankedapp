@@ -46,7 +46,7 @@ export const ChatView: React.FC = () => {
         {/* Friends Directory (Left Sidebar) */}
         <div className="md:col-span-4 border-r border-zinc-200 dark:border-zinc-800 p-4 space-y-3 bg-zinc-50/50 dark:bg-zinc-950/40">
           <div className="flex items-center justify-between px-2 pt-1">
-            <h3 className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
+            <h3 className="text-sm font-bold font-display text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
               <MessageCircle className="w-4 h-4 text-amber-500" />
               <span>Ranked Friends</span>
             </h3>
@@ -89,7 +89,7 @@ export const ChatView: React.FC = () => {
                       <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100 truncate">
                         {friend.name}
                       </span>
-                      <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded ${tierStyle.badgeText}`}>
+                      <span className={`text-[11px] font-mono font-bold px-1.5 py-0.2 rounded ${tierStyle.badgeText}`}>
                         Lvl {friend.level}
                       </span>
                     </div>
@@ -102,7 +102,7 @@ export const ChatView: React.FC = () => {
                       {friend.sharedInterests.slice(0, 2).map((interest, i) => (
                         <span
                           key={i}
-                          className="text-[10px] text-zinc-400 dark:text-zinc-500"
+                          className="text-[11px] text-zinc-400 dark:text-zinc-500"
                         >
                           {interest} {i === 0 ? '·' : ''}
                         </span>
@@ -164,7 +164,7 @@ export const ChatView: React.FC = () => {
                 >
                   <p>{msg.text}</p>
                 </div>
-                <span className="text-[10px] text-zinc-400 mt-1 px-1 font-mono">
+                <span className="text-[11px] text-zinc-400 mt-1 px-1 font-mono">
                   {msg.timestamp}
                 </span>
               </div>

@@ -165,7 +165,7 @@ export const DailyRate: React.FC = () => {
 
   return (
     <section className="mb-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 p-4" aria-label="Daily rate">
-      <h3 className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 mb-3">Daily rate</h3>
+      <h3 className="text-sm font-bold font-display text-zinc-900 dark:text-zinc-100 mb-3">Daily rate</h3>
       {shown === null && !err && <Loader2 className="w-5 h-5 animate-spin text-zinc-400" aria-label="Loading" />}
       <div className="flex gap-4 overflow-x-auto pb-1 scrollbar-none">
         {shown?.map((c) => (

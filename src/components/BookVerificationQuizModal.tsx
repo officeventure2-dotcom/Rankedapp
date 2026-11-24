@@ -77,14 +77,14 @@ export const BookVerificationQuizModal: React.FC<BookVerificationQuizModalProps>
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-600 dark:text-amber-400 font-bold">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-amber-600 dark:text-amber-400 font-bold">
                   Reading Verification Test
                 </span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 font-mono">
+                <span className="text-[11px] px-1.5 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 font-mono">
                   {book.tag}
                 </span>
               </div>
-              <h3 className="text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+              <h3 className="text-base font-bold font-display text-zinc-900 dark:text-zinc-100">
                 {book.title}
               </h3>
             </div>
@@ -113,7 +113,7 @@ export const BookVerificationQuizModal: React.FC<BookVerificationQuizModalProps>
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                   Comprehension Authenticated
                 </span>
-                <h4 className="text-2xl font-black font-['Outfit'] text-zinc-900 dark:text-zinc-50">
+                <h4 className="text-2xl font-black font-display text-zinc-900 dark:text-zinc-50">
                   Reading Proof Verified!
                 </h4>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-md mx-auto leading-relaxed">
@@ -124,15 +124,15 @@ export const BookVerificationQuizModal: React.FC<BookVerificationQuizModalProps>
               {/* Reward Metric Box */}
               <div className="grid grid-cols-3 gap-3 p-4 rounded-xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-800/40 text-center">
                 <div>
-                  <span className="text-[10px] text-zinc-500 block uppercase font-mono">Pages Logged</span>
+                  <span className="text-[11px] text-zinc-500 block uppercase font-mono">Pages Logged</span>
                   <span className="text-base font-bold font-mono text-zinc-900 dark:text-zinc-100">{book.pages}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-zinc-500 block uppercase font-mono">Literature XP</span>
+                  <span className="text-[11px] text-zinc-500 block uppercase font-mono">Literature XP</span>
                   <span className="text-base font-bold font-mono text-amber-600 dark:text-amber-400">+{earnedXp.toLocaleString()}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-zinc-500 block uppercase font-mono">Proof Status</span>
+                  <span className="text-[11px] text-zinc-500 block uppercase font-mono">Proof Status</span>
                   <span className="text-xs font-bold font-mono text-emerald-600 dark:text-emerald-400">VERIFIED ✓</span>
                 </div>
               </div>
@@ -192,7 +192,7 @@ export const BookVerificationQuizModal: React.FC<BookVerificationQuizModalProps>
                       onClick={() => handleSelectOption(idx)}
                       className={`w-full text-left p-3.5 rounded-xl border text-xs transition-all flex items-start gap-3 ${optionStyle}`}
                     >
-                      <span className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 font-mono text-[10px] border border-current">
+                      <span className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 font-mono text-[11px] border border-current">
                         {String.fromCharCode(65 + idx)}
                       </span>
                       <span className="flex-1 leading-relaxed">{opt}</span>

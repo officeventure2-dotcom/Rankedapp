@@ -322,7 +322,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
               <Sparkles className="w-4 h-4" />
               <span>Ranked Polymath Cognitive Arena</span>
             </div>
-            <h2 className="text-2xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+            <h2 className="text-2xl font-bold font-display text-zinc-900 dark:text-zinc-100">
               Trivia Arena & Knowledge Matrix
             </h2>
             <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
@@ -412,7 +412,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
             </div>
             <div className="text-xl font-bold font-mono text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
               <span>{stats.currentStreak}</span>
-              <span className="text-[10px] font-normal text-zinc-500">best: {stats.bestStreak}</span>
+              <span className="text-[11px] font-normal text-zinc-500">best: {stats.bestStreak}</span>
             </div>
           </div>
 
@@ -454,7 +454,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
           >
             <div className="text-xs font-bold flex items-center justify-between">
               <span>All Tiers</span>
-              <span className="text-[10px] font-mono opacity-80">{TRIVIA_BANK.length}</span>
+              <span className="text-[11px] font-mono opacity-80">{TRIVIA_BANK.length}</span>
             </div>
             <p className="text-[11px] opacity-75 mt-0.5">Mixed challenge</p>
           </button>
@@ -470,7 +470,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
           >
             <div className="text-xs font-bold flex items-center justify-between">
               <span>Easy</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-800 dark:text-emerald-200">
+              <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-800 dark:text-emerald-200">
                 +200 XP
               </span>
             </div>
@@ -488,7 +488,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
           >
             <div className="text-xs font-bold flex items-center justify-between">
               <span>Medium</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-800 dark:text-amber-200">
+              <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-800 dark:text-amber-200">
                 +360 XP
               </span>
             </div>
@@ -506,7 +506,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
           >
             <div className="text-xs font-bold flex items-center justify-between">
               <span>Hard</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-800 dark:text-orange-200">
+              <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-800 dark:text-orange-200">
                 +600 XP
               </span>
             </div>
@@ -524,7 +524,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
           >
             <div className="text-xs font-bold flex items-center justify-between">
               <span>Grandmaster</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-800 dark:text-purple-200">
+              <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-800 dark:text-purple-200">
                 +1,000+ XP
               </span>
             </div>
@@ -553,7 +553,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
                   Question {(questionIndex % filteredQuestions.length) + 1} of {filteredQuestions.length}
                 </span>
               </div>
-              <h3 className="text-lg sm:text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+              <h3 className="text-lg sm:text-xl font-bold font-display text-zinc-900 dark:text-zinc-100">
                 Active Trivia Challenge
               </h3>
             </div>
@@ -687,7 +687,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
           <div className="p-6 sm:p-7 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm space-y-5">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-100 dark:border-zinc-800 pb-4">
               <div>
-                <h3 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                <h3 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
                   <BarChart3 className="w-5 h-5 text-indigo-500" />
                   <span>Performance Stats by Difficulty</span>
                 </h3>
@@ -787,7 +787,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
           <div className="p-6 sm:p-7 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm space-y-5">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-4">
               <div>
-                <h3 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                <h3 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
                   <History className="w-5 h-5 text-amber-500" />
                   <span>Previous Trivia Answers & History Log</span>
                 </h3>
@@ -884,7 +884,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
                           ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500/30 text-emerald-900 dark:text-emerald-200'
                           : 'bg-rose-50 dark:bg-rose-950/40 border-rose-500/30 text-rose-900 dark:text-rose-200'
                       }`}>
-                        <span className="text-[10px] uppercase font-bold tracking-wider block opacity-75">
+                        <span className="text-[11px] uppercase font-bold tracking-wider block opacity-75">
                           Your Answer:
                         </span>
                         <span className="font-medium">{item.selectedOption}</span>
@@ -892,7 +892,7 @@ export const TriviaArenaView: React.FC<TriviaArenaViewProps> = ({ setActiveTab }
 
                       {!item.isCorrect && (
                         <div className="p-2.5 rounded-lg border bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500/30 text-emerald-900 dark:text-emerald-200">
-                          <span className="text-[10px] uppercase font-bold tracking-wider block opacity-75">
+                          <span className="text-[11px] uppercase font-bold tracking-wider block opacity-75">
                             Correct Answer:
                           </span>
                           <span className="font-medium">{item.correctOption}</span>

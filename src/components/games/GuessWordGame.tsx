@@ -166,7 +166,7 @@ export const GuessWordGame: React.FC = () => {
             <span>·</span>
             <span>Category: <strong className="text-purple-600 dark:text-purple-400">{currentSecret.category}</strong></span>
           </div>
-          <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+          <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
             <span className="text-2xl">🔤</span>
             <span>Guess The Word (1v1 Clash)</span>
           </h2>
@@ -295,7 +295,7 @@ export const GuessWordGame: React.FC = () => {
                   key={key}
                   onClick={() => handleKeyInput(key)}
                   className={`h-12 rounded-lg text-xs font-mono font-bold transition-all shadow-2xs active:scale-95 cursor-pointer flex items-center justify-center ${keyBg} ${
-                    isWide ? 'px-3 sm:px-4 text-[10px]' : 'w-8 sm:w-10'
+                    isWide ? 'px-3 sm:px-4 text-[11px]' : 'w-8 sm:w-10'
                   }`}
                 >
                   {key === 'BACK' ? <Delete className="w-4 h-4" /> : key}
@@ -312,7 +312,7 @@ export const GuessWordGame: React.FC = () => {
           <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center mx-auto">
             {hasWon ? <Trophy className="w-6 h-6" /> : <XCircle className="w-6 h-6 text-rose-500" />}
           </div>
-          <h3 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+          <h3 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100">
             {hasWon ? 'You Cracked the Scientific Word!' : `Word Was: ${currentSecret.word}`}
           </h3>
           <p className="text-xs text-zinc-600 dark:text-zinc-400">

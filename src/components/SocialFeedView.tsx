@@ -39,7 +39,7 @@ export const SocialFeedView: React.FC = () => {
       {/* Header and Post Trigger */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100">
             Social Milestone Feed
           </h2>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
@@ -59,7 +59,7 @@ export const SocialFeedView: React.FC = () => {
       {showComposeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
           <div className="w-full max-w-lg rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-2xl space-y-4">
-            <h3 className="text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-base font-bold font-display text-zinc-900 dark:text-zinc-100">
               Share a Verified Milestone to Ranked
             </h3>
             <form onSubmit={handlePostSubmit} className="space-y-4">
@@ -147,7 +147,7 @@ export const SocialFeedView: React.FC = () => {
                       <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-amber-500 transition-colors">
                         {post.userName}
                       </span>
-                      <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono font-bold border ${authorTierStyle.badgeBorder} ${authorTierStyle.badgeBg} ${authorTierStyle.badgeText}`}>
+                      <span className={`px-1.5 py-0.2 rounded text-[11px] font-mono font-bold border ${authorTierStyle.badgeBorder} ${authorTierStyle.badgeBg} ${authorTierStyle.badgeText}`}>
                         Lvl {post.userLevel}
                       </span>
                     </div>
@@ -231,7 +231,7 @@ export const SocialFeedView: React.FC = () => {
                     <div key={c.id} className="p-2.5 rounded-lg bg-zinc-50 dark:bg-zinc-800/40 text-xs">
                       <div className="flex items-center justify-between mb-1">
                         <span className="font-semibold text-zinc-900 dark:text-zinc-100">{c.userName}</span>
-                        <span className="text-[10px] text-zinc-400">{c.timestamp}</span>
+                        <span className="text-[11px] text-zinc-400">{c.timestamp}</span>
                       </div>
                       <p className="text-zinc-600 dark:text-zinc-300">{c.text}</p>
                     </div>

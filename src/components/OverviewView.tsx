@@ -73,12 +73,12 @@ export const OverviewView: React.FC = () => {
       {/* Brand and quick controls (these used to live in a bar pinned to the top of every screen) */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-9 h-9 shrink-0 rounded-xl bg-zinc-900 dark:bg-zinc-100 flex items-center justify-center text-white dark:text-zinc-900 font-bold font-['Outfit'] text-base shadow-sm">
+          <div className="w-9 h-9 shrink-0 rounded-xl bg-zinc-900 dark:bg-zinc-100 flex items-center justify-center text-white dark:text-zinc-900 font-bold font-display text-base shadow-sm">
             R
           </div>
           <div className="min-w-0">
-            <p className="text-lg font-extrabold tracking-tight font-['Outfit'] text-zinc-900 dark:text-zinc-50 leading-none">Ranked</p>
-            <p className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 tracking-wider">POLYMATH RPG</p>
+            <p className="text-lg font-extrabold tracking-tight font-display text-zinc-900 dark:text-zinc-50 leading-none">Ranked</p>
+            <p className="text-[11px] font-mono text-zinc-400 dark:text-zinc-500 tracking-wider">POLYMATH RPG</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
@@ -126,7 +126,7 @@ export const OverviewView: React.FC = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute -bottom-1.5 -right-1 sm:-bottom-2 sm:-right-2 px-2 py-0.5 rounded-md bg-zinc-900 text-amber-400 font-mono text-[10px] sm:text-xs font-bold border border-amber-500/40 shadow-sm">
+              <div className="absolute -bottom-1.5 -right-1 sm:-bottom-2 sm:-right-2 px-2 py-0.5 rounded-md bg-zinc-900 text-amber-400 font-mono text-[11px] sm:text-xs font-bold border border-amber-500/40 shadow-sm">
                 {progress.tier.toUpperCase()}
               </div>
             </div>
@@ -134,7 +134,7 @@ export const OverviewView: React.FC = () => {
             <div className="flex-1 min-w-0">
               <h1
                 onClick={() => openUserProfile(user.id)}
-                className="text-xl sm:text-3xl font-extrabold font-['Outfit'] tracking-tight text-zinc-900 dark:text-zinc-50 cursor-pointer hover:text-amber-500 transition-colors leading-tight truncate"
+                className="text-xl sm:text-3xl font-extrabold font-display tracking-tight text-zinc-900 dark:text-zinc-50 cursor-pointer hover:text-amber-500 transition-colors leading-tight truncate"
               >
                 Level {progress.currentLevel} <span className="text-zinc-400 text-base sm:text-lg font-normal">/ 1,000</span>
               </h1>
@@ -198,11 +198,11 @@ export const OverviewView: React.FC = () => {
                     <span className="group-hover:text-amber-500 transition-colors">Streak</span>
                   </div>
                   {!user.streakClaimedToday ? (
-                    <span className="text-[10px] font-mono font-bold text-amber-500 bg-amber-500/10 px-1.5 py-0.2 rounded border border-amber-500/30 animate-pulse">
+                    <span className="text-[11px] font-mono font-bold text-amber-500 bg-amber-500/10 px-1.5 py-0.2 rounded border border-amber-500/30 animate-pulse">
                       Claim!
                     </span>
                   ) : (
-                    <span className="text-[9px] font-mono text-emerald-500">
+                    <span className="text-[11px] font-mono text-emerald-500">
                       ✓ Done
                     </span>
                   )}
@@ -256,7 +256,7 @@ export const OverviewView: React.FC = () => {
         <div className="lg:col-span-7 space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+              <h2 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-100">
                 7 Mastery Pillars
               </h2>
               <p className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -336,7 +336,7 @@ export const OverviewView: React.FC = () => {
           <div className="p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 shadow-sm space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
+                <h3 className="text-sm font-bold font-display text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
                   <Zap className="w-4 h-4 text-amber-500" />
                   <span>Daily Quests</span>
                 </h3>
@@ -396,7 +396,7 @@ export const OverviewView: React.FC = () => {
                   <Watch className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+                  <h3 className="text-sm font-bold font-display text-zinc-900 dark:text-zinc-100">
                     Connected Apps & Settings
                   </h3>
                   <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
@@ -421,7 +421,7 @@ export const OverviewView: React.FC = () => {
                   <span className="w-2 h-2 rounded-full bg-amber-500" />
                   <span>Reading Apps</span>
                 </div>
-                <p className="text-[10px] text-zinc-500">Kindle & Goodreads</p>
+                <p className="text-[11px] text-zinc-500">Kindle & Goodreads</p>
               </button>
 
               <button
@@ -432,7 +432,7 @@ export const OverviewView: React.FC = () => {
                   <span className="w-2 h-2 rounded-full bg-pink-500" />
                   <span>Movie Apps</span>
                 </div>
-                <p className="text-[10px] text-zinc-500">Letterboxd & IMDb</p>
+                <p className="text-[11px] text-zinc-500">Letterboxd & IMDb</p>
               </button>
             </div>
           </div>

@@ -193,7 +193,7 @@ export const LogicRowsGame: React.FC = () => {
   return (
     <div className="space-y-4 max-w-2xl mx-auto">
       <div className="space-y-1">
-        <h3 className="text-lg font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">Logic Rows</h3>
+        <h3 className="text-lg font-bold font-display text-zinc-900 dark:text-zinc-50">Logic Rows</h3>
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
           Put each item in its own row using the clues. Rows are listed top to bottom. Tap a clue to cross it off.
         </p>

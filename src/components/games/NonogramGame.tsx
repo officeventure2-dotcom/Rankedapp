@@ -160,7 +160,7 @@ export const NonogramGame: React.FC = () => {
             <Grid className="w-3.5 h-3.5" />
             <span>Spatial Deduction & Picross Matrix</span>
           </div>
-          <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+          <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
             <span>Nonogram: {currentPuzzle.name}</span>
             <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
               {currentPuzzle.difficulty} ({currentPuzzle.size}×{currentPuzzle.size})

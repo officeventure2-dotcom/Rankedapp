@@ -75,7 +75,7 @@ export const UserProfileModal: React.FC = () => {
               <Avatar src={inspectingUser.avatar} name={inspectingUser.name} className="w-24 h-24 rounded-2xl object-cover border-4 border-white dark:border-zinc-900 shadow-xl bg-zinc-800" />
               <div className="space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">
+                  <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-50">
                     {inspectingUser.name}
                   </h2>
                   <span className={`px-2 py-0.5 rounded text-xs font-mono font-bold border ${tierColor.badgeBorder} ${tierColor.badgeBg} ${tierColor.badgeText}`}>
@@ -154,7 +154,7 @@ export const UserProfileModal: React.FC = () => {
 
           {/* 7 Pillars Radar Scores */}
           <div className="space-y-3">
-            <h3 className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-sm font-bold font-display text-zinc-900 dark:text-zinc-100">
               Disciplinary Mastery Breakdown
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -191,7 +191,7 @@ export const UserProfileModal: React.FC = () => {
           {/* Verified Achievements & Badges Showcase */}
           <div className="space-y-3 pt-2 border-t border-zinc-100 dark:border-zinc-800">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+              <h3 className="text-sm font-bold font-display text-zinc-900 dark:text-zinc-100">
                 Unlocked Badges & Verified Proof ({unlockedBadges.length})
               </h3>
             </div>
@@ -214,7 +214,7 @@ export const UserProfileModal: React.FC = () => {
                     <p className="text-[11px] text-zinc-500 dark:text-zinc-400 line-clamp-1">
                       {badge.description}
                     </p>
-                    <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-400">
+                    <div className="flex items-center gap-2 text-[11px] font-mono text-zinc-400">
                       <span className="text-amber-500 font-semibold">+{badge.xpReward.toLocaleString()} XP</span>
                       <span>·</span>
                       <span>{badge.rarity}</span>

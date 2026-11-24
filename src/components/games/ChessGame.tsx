@@ -265,7 +265,7 @@ export const ChessGame: React.FC<ChessGameProps> = () => {
             <Crown className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-base font-bold font-display text-zinc-900 dark:text-zinc-100">
               Grandmaster Chess Duel
             </h3>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -323,7 +323,7 @@ export const ChessGame: React.FC<ChessGameProps> = () => {
                 <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
                   {opponentInfo.name}
                 </p>
-                <div className="flex items-center gap-1 text-[10px] text-zinc-400 font-mono">
+                <div className="flex items-center gap-1 text-[11px] text-zinc-400 font-mono">
                   <span>Level {opponentInfo.level}</span>
                   <span>·</span>
                   <span>Black Pieces (♚)</span>
@@ -368,12 +368,12 @@ export const ChessGame: React.FC<ChessGameProps> = () => {
                     >
                       {/* Board coordinate rank & file labels */}
                       {c === 0 && (
-                        <span className="absolute top-0.5 left-1 text-[9px] font-mono font-bold opacity-40">
+                        <span className="absolute top-0.5 left-1 text-[11px] font-mono font-bold opacity-40">
                           {8 - r}
                         </span>
                       )}
                       {r === 7 && (
-                        <span className="absolute bottom-0.5 right-1 text-[9px] font-mono font-bold opacity-40">
+                        <span className="absolute bottom-0.5 right-1 text-[11px] font-mono font-bold opacity-40">
                           {['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'][c]}
                         </span>
                       )}
@@ -410,7 +410,7 @@ export const ChessGame: React.FC<ChessGameProps> = () => {
                 <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
                   {gameMode === '2p' ? 'Player 1 (White)' : `${user.name} (You)`}
                 </p>
-                <div className="flex items-center gap-1 text-[10px] text-zinc-400 font-mono">
+                <div className="flex items-center gap-1 text-[11px] text-zinc-400 font-mono">
                   <span>Level {user.level}</span>
                   <span>·</span>
                   <span>White Pieces (♔)</span>
@@ -475,10 +475,10 @@ export const ChessGame: React.FC<ChessGameProps> = () => {
           {/* Move History Transcript */}
           <div className="p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm space-y-3">
             <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
-              <h4 className="text-xs font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+              <h4 className="text-xs font-bold font-display text-zinc-900 dark:text-zinc-100">
                 Algebraic Move Log ({moveHistory.length} moves)
               </h4>
-              <span className="text-[10px] font-mono text-zinc-400">Standard FIDE</span>
+              <span className="text-[11px] font-mono text-zinc-400">Standard FIDE</span>
             </div>
 
             <div className="max-h-48 overflow-y-auto space-y-1 font-mono text-xs pr-2 scrollbar-none">
@@ -493,7 +493,7 @@ export const ChessGame: React.FC<ChessGameProps> = () => {
                       key={idx}
                       className="flex items-center justify-between px-2 py-0.5 rounded bg-zinc-50 dark:bg-zinc-800/40"
                     >
-                      <span className="text-zinc-400 text-[10px]">
+                      <span className="text-zinc-400 text-[11px]">
                         {idx % 2 === 0 ? `${Math.floor(idx / 2) + 1}. ` : ''}
                       </span>
                       <span className="font-bold text-zinc-800 dark:text-zinc-200">
@@ -510,7 +510,7 @@ export const ChessGame: React.FC<ChessGameProps> = () => {
           {isGameOver && (
             <div className="p-5 rounded-2xl border-2 border-amber-500 bg-amber-50/20 dark:bg-amber-950/30 text-center space-y-3 shadow-xl animate-in zoom-in-95">
               <Trophy className="w-8 h-8 text-amber-500 mx-auto" />
-              <h3 className="text-base font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+              <h3 className="text-base font-bold font-display text-zinc-900 dark:text-zinc-100">
                 {winner === 'w' ? 'Victory for White!' : winner === 'b' ? 'Victory for Black!' : 'Game Drawn!'}
               </h3>
               <p className="text-xs text-zinc-600 dark:text-zinc-300">

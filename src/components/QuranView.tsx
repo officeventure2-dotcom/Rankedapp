@@ -179,7 +179,7 @@ export const QuranView: React.FC = () => {
   return (
     <div className="max-w-2xl mx-auto space-y-4 animate-in fade-in duration-300">
       <div className="space-y-1">
-        <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-50">Quran</h2>
+        <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-50">Quran</h2>
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
           Memorize verses, recite them from memory and earn big XP. Your level goes up with every verse.
         </p>
@@ -192,7 +192,7 @@ export const QuranView: React.FC = () => {
           </span>
           <div className="min-w-0">
             <p className="text-[11px] font-mono uppercase tracking-wider text-zinc-400">Quran rank</p>
-            <p className="text-lg font-extrabold font-['Outfit'] text-zinc-900 dark:text-zinc-50 leading-tight">{rank.current.name}</p>
+            <p className="text-lg font-extrabold font-display text-zinc-900 dark:text-zinc-50 leading-tight">{rank.current.name}</p>
           </div>
           <div className="ml-auto text-right">
             <p className="text-lg font-extrabold font-mono text-zinc-900 dark:text-zinc-50 leading-tight">{num(memorized)}</p>
@@ -215,7 +215,7 @@ export const QuranView: React.FC = () => {
           ].map(([v, l]) => (
             <div key={l} className="rounded-xl py-2 bg-black/[0.03] dark:bg-white/[0.05]">
               <p className="text-sm font-bold font-mono text-zinc-900 dark:text-zinc-50">{v}</p>
-              <p className="text-[10px] text-zinc-500">{l}</p>
+              <p className="text-[11px] text-zinc-500">{l}</p>
             </div>
           ))}
         </div>

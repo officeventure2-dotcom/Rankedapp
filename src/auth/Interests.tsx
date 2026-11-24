@@ -43,7 +43,7 @@ export const Interests: React.FC<{ onDone: () => void }> = ({ onDone }) => {
 
         <header className="mt-6 space-y-2">
           <p className="text-xs font-mono font-bold text-zinc-400">STEP {step + 1} OF {STEPS.length}</p>
-          <h1 className="text-[2rem] leading-tight font-extrabold font-['Outfit'] text-zinc-900 dark:text-zinc-50">{cur.title}</h1>
+          <h1 className="text-[2rem] leading-tight font-extrabold font-display text-zinc-900 dark:text-zinc-50">{cur.title}</h1>
           <p className="text-sm text-zinc-400">{cur.hint}</p>
         </header>
 

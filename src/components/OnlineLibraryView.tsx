@@ -52,7 +52,7 @@ export const OnlineLibraryView: React.FC = () => {
             <BookOpen className="w-4 h-4" />
             <span>Digital Classical Library & Reading Archive</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold font-['Outfit'] text-zinc-900 dark:text-zinc-50">
+          <h1 className="text-2xl sm:text-3xl font-extrabold font-display text-zinc-900 dark:text-zinc-50">
             Read Foundational Works & Verify Books
           </h1>
           <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
@@ -105,7 +105,7 @@ export const OnlineLibraryView: React.FC = () => {
                     <span className="text-xs font-mono text-zinc-400 block mb-1">
                       {book.genre} · {book.year > 0 ? book.year : `${Math.abs(book.year)} BC`}
                     </span>
-                    <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100 group-hover:text-amber-500 transition-colors">
+                    <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100 group-hover:text-amber-500 transition-colors">
                       {book.title}
                     </h2>
                     <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
@@ -136,7 +136,7 @@ export const OnlineLibraryView: React.FC = () => {
                       className="flex items-center justify-between text-xs text-zinc-700 dark:text-zinc-300"
                     >
                       <span className="truncate">Ch. {ch.chapterNumber}: {ch.title}</span>
-                      <span className="font-mono text-[10px] text-zinc-400 shrink-0 ml-2">
+                      <span className="font-mono text-[11px] text-zinc-400 shrink-0 ml-2">
                         {ch.estimatedMinutes} min
                       </span>
                     </div>

@@ -83,7 +83,7 @@ export const SettingsSheet: React.FC = () => {
           <div className="flex items-center gap-3 min-w-0">
             <Avatar src={user.avatar} name={user.name} className="w-11 h-11 rounded-xl object-cover shrink-0" />
             <div className="min-w-0">
-              <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100 font-['Outfit'] truncate">
+              <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100 font-display truncate">
                 {user.name}
               </h3>
               <p className="text-[11px] text-zinc-500 dark:text-zinc-400 truncate">
@@ -113,7 +113,7 @@ export const SettingsSheet: React.FC = () => {
               {soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-500" /> : <VolumeX className="w-4 h-4 text-zinc-400" />}
               <span>
                 <span className="block font-semibold text-zinc-900 dark:text-zinc-100">Audio chimes</span>
-                <span className="block text-[10px] text-zinc-400">{soundEnabled ? 'On' : 'Muted'}</span>
+                <span className="block text-[11px] text-zinc-400">{soundEnabled ? 'On' : 'Muted'}</span>
               </span>
             </span>
           </button>
@@ -128,7 +128,7 @@ export const SettingsSheet: React.FC = () => {
               {theme === 'light' ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-cyan-400" />}
               <span>
                 <span className="block font-semibold text-zinc-900 dark:text-zinc-100">Light / dark</span>
-                <span className="block text-[10px] text-zinc-400">{theme.toUpperCase()}</span>
+                <span className="block text-[11px] text-zinc-400">{theme.toUpperCase()}</span>
               </span>
             </span>
           </button>
@@ -140,7 +140,7 @@ export const SettingsSheet: React.FC = () => {
               <Palette className="w-4 h-4 text-amber-500" />
               <span>
                 <span className="block font-semibold text-xs text-zinc-900 dark:text-zinc-100">Themes & life trackers</span>
-                <span className="block text-[10px] text-zinc-400">Pick a theme, sync Strava, Kindle, Goodreads, Letterboxd</span>
+                <span className="block text-[11px] text-zinc-400">Pick a theme, sync Strava, Kindle, Goodreads, Letterboxd</span>
               </span>
             </span>
             <ChevronRight className="w-4 h-4 text-zinc-400 shrink-0" />
@@ -151,7 +151,7 @@ export const SettingsSheet: React.FC = () => {
               <Bell className="w-4 h-4 text-amber-500" />
               <span>
                 <span className="block font-semibold text-xs text-zinc-900 dark:text-zinc-100">Goal notifications</span>
-                <span className="block text-[10px] text-zinc-400">Daily streak reminders and level-up alerts</span>
+                <span className="block text-[11px] text-zinc-400">Daily streak reminders and level-up alerts</span>
               </span>
             </span>
             <ChevronRight className="w-4 h-4 text-zinc-400 shrink-0" />
@@ -162,7 +162,7 @@ export const SettingsSheet: React.FC = () => {
               <LogOut className="w-4 h-4 text-rose-500" />
               <span>
                 <span className="block font-semibold text-xs text-zinc-900 dark:text-zinc-100">{isGuest ? 'Sign in or sign up' : 'Sign out'}</span>
-                <span className="block text-[10px] text-zinc-400">{isGuest ? 'You are browsing as a guest' : authUser ? `Signed in as ${authUser.email}` : 'End this session'}</span>
+                <span className="block text-[11px] text-zinc-400">{isGuest ? 'You are browsing as a guest' : authUser ? `Signed in as ${authUser.email}` : 'End this session'}</span>
               </span>
             </span>
           </button>
@@ -172,7 +172,7 @@ export const SettingsSheet: React.FC = () => {
               <Smartphone className="w-4 h-4 text-emerald-500" />
               <span>
                 <span className="block font-bold text-xs text-emerald-600 dark:text-emerald-400">Android Studio project</span>
-                <span className="block text-[10px] text-zinc-400">Kotlin source, Gradle setup and APK guide</span>
+                <span className="block text-[11px] text-zinc-400">Kotlin source, Gradle setup and APK guide</span>
               </span>
             </span>
             <ChevronRight className="w-4 h-4 text-emerald-500 shrink-0" />
@@ -183,7 +183,7 @@ export const SettingsSheet: React.FC = () => {
               <span className="font-mono text-cyan-500 font-bold text-sm w-4 text-center">F</span>
               <span>
                 <span className="block font-bold text-xs text-cyan-600 dark:text-cyan-400">Flutter app source</span>
-                <span className="block text-[10px] text-zinc-400">Dart entrypoint, Material 3 and pubspec.yaml</span>
+                <span className="block text-[11px] text-zinc-400">Dart entrypoint, Material 3 and pubspec.yaml</span>
               </span>
             </span>
             <ChevronRight className="w-4 h-4 text-cyan-500 shrink-0" />
@@ -212,7 +212,7 @@ export const SettingsSheet: React.FC = () => {
                 }`}
               >
                 <span className="text-xs block leading-tight">{p.name}</span>
-                <span className="text-[10px] font-mono opacity-70">Lv.{p.lvl}</span>
+                <span className="text-[11px] font-mono opacity-70">Lv.{p.lvl}</span>
               </button>
             ))}
           </div>

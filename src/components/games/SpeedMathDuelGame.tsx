@@ -223,7 +223,7 @@ export const SpeedMathDuelGame: React.FC = () => {
             <Zap className="w-3.5 h-3.5 text-amber-500 fill-current" />
             <span>High-Speed Arithmetic Duel</span>
           </div>
-          <h2 className="text-xl font-bold font-['Outfit'] text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-xl font-bold font-display text-zinc-900 dark:text-zinc-100">
             Speed Math Duel 1v1
           </h2>
           <p className="text-xs text-zinc-500">
@@ -278,11 +278,11 @@ export const SpeedMathDuelGame: React.FC = () => {
         <div className="flex items-center justify-between text-xs font-bold font-mono">
           <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
             <span>Player 1 (Score: {p1Score})</span>
-            {p1Streak > 1 && <span className="text-[10px] text-amber-500">🔥{p1Streak}</span>}
+            {p1Streak > 1 && <span className="text-[11px] text-amber-500">🔥{p1Streak}</span>}
           </span>
           <span className="text-zinc-400 font-sans text-[11px] font-normal">Tug-of-War Dominance</span>
           <span className="text-purple-600 dark:text-purple-400 flex items-center gap-1">
-            {p2Streak > 1 && <span className="text-[10px] text-amber-500">🔥{p2Streak}</span>}
+            {p2Streak > 1 && <span className="text-[11px] text-amber-500">🔥{p2Streak}</span>}
             <span>{mode === 'bot' ? 'DeepMath Bot' : 'Player 2'} ({p2Score})</span>
           </span>
         </div>
