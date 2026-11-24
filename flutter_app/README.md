@@ -33,3 +33,11 @@ This is the full **Flutter & Dart** native implementation of **Ranked**, configu
    flutter build apk --release
    ```
    The generated APK will be at `build/app/outputs/flutter-apk/app-release.apk`.
+
+
+## Port status (web app -> Flutter)
+Done in this slice: Light/Dark/System theme, Figtree + Bricolage Grotesque fonts, 5-tab bottom nav, lazy Home feed,
+Challenges and Knowledge icon hubs with "Pick for me", Profile opening on the Social Feed with a three-dot menu.
+Not ported yet: games, books/store, rooms, Daily Rate, direct messages, login. These still live in the React app
+and the Cloudflare Worker (`worker/`); there is no Dart backend yet. Old screens (Overview, Map, Trivia) are still dark-only.
+This code has not been compiled: run `flutter pub get && flutter analyze` first.
