@@ -82,7 +82,7 @@ export const BottomNavBanner: React.FC = () => {
   const navItems: Array<{
     hub: MainNavHub;
     label: string;
-    targetTab: 'scroll' | 'overview' | 'challenges' | 'map' | 'knowledge' | 'leaderboard';
+    targetTab: 'scroll' | 'social' | 'challenges' | 'map' | 'knowledge' | 'leaderboard';
     icon: React.ReactNode;
   }> = [
     {
@@ -112,7 +112,7 @@ export const BottomNavBanner: React.FC = () => {
     {
       hub: 'community',
       label: 'Profile',
-      targetTab: 'overview',
+      targetTab: 'social',
       icon: <Users className="w-5 h-5" />
     }
   ];

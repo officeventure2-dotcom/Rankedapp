@@ -1,21 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRanked } from '../context/RankedContext';
 import {
   Trophy,
   Globe,
   MessageCircle,
   Award,
-  User
+  User,
+  MoreVertical
 } from 'lucide-react';
 import { haptics } from '../utils/haptics';
 import { BackBar } from './HubTiles';
 
+const PROFILE_SECTIONS = [
+  { id: 'social', label: 'Social Feed', icon: <Globe className="w-4 h-4" /> },
+  { id: 'overview', label: 'Info & Pillars', icon: <User className="w-4 h-4" /> },
+  { id: 'leaderboard', label: 'Leaderboard', icon: <Trophy className="w-4 h-4" /> },
+  { id: 'chat', label: 'Direct Messages', icon: <MessageCircle className="w-4 h-4" /> },
+  { id: 'badges', label: 'Badges Catalog', icon: <Award className="w-4 h-4" /> }
+] as const;
+
+/** Profile opens on the feed; every other section lives behind the three-dot menu. */
+const ProfileBar: React.FC = () => {
+  const { activeTab, setActiveTab } = useRanked();
+  const [open, setOpen] = useState(false);
+  const current = PROFILE_SECTIONS.find(t => t.id === activeTab) || PROFILE_SECTIONS[0];
+  return (
+    <div className="mb-4 relative flex items-center justify-between gap-3">
+      <h1 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Profile</h1>
+      <button
+        aria-label="More sections" aria-haspopup="menu" aria-expanded={open}
+        onClick={() => { haptics.tap(); setOpen(o => !o); }}
+        className="w-11 h-11 rounded-xl flex items-center justify-center border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-200 cursor-pointer"
+      ><MoreVertical className="w-5 h-5" /></button>
+      {open && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
+          <div role="menu" className="absolute right-0 top-12 z-50 w-56 p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-xl">
+            {PROFILE_SECTIONS.map(t => (
+              <button
+                key={t.id} role="menuitem"
+                onClick={() => { haptics.tap(); setOpen(false); setActiveTab(t.id); }}
+                className={`w-full flex items-center gap-3 px-3 min-h-[44px] rounded-xl text-sm font-semibold cursor-pointer ${t.id === current.id ? 'bg-amber-500/15 text-amber-500' : 'text-zinc-700 dark:text-zinc-200'}`}
+              >{t.icon}{t.label}</button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
 export const SubSectionNav: React.FC = () => {
   const { activeTab, setActiveTab } = useRanked();
-
-  // Determine current hub configuration
-  let subTabs: Array<{ id: string; label: string; icon: React.ReactNode }> | null = null;
-  let hubName = '';
 
   if (activeTab === 'knowledge') return null;
   if (activeTab === 'books' || activeTab === 'library' || activeTab === 'store') {
@@ -34,61 +70,10 @@ export const SubSectionNav: React.FC = () => {
   }
   if (activeTab === 'academy' || activeTab === 'science' || activeTab === 'language' || activeTab === 'memory' || activeTab === 'psychology' || activeTab === 'quran') {
     return <BackBar label="Knowledge" onBack={() => setActiveTab('knowledge')} />;
-  } else if (
-    activeTab === 'overview' ||
-    activeTab === 'leaderboard' ||
-    activeTab === 'social' ||
-    activeTab === 'chat' ||
-    activeTab === 'badges'
-  ) {
-    hubName = 'Profile & Ranks';
-    subTabs = [
-      { id: 'overview', label: 'Info & Pillars', icon: <User className="w-3.5 h-3.5" /> },
-      { id: 'leaderboard', label: 'Leaderboard', icon: <Trophy className="w-3.5 h-3.5" /> },
-      { id: 'social', label: 'Social Feed', icon: <Globe className="w-3.5 h-3.5" /> },
-      { id: 'chat', label: 'Direct Messages', icon: <MessageCircle className="w-3.5 h-3.5" /> },
-      { id: 'badges', label: 'Badges Catalog', icon: <Award className="w-3.5 h-3.5" /> }
-    ];
+  }
+  if (activeTab === 'overview' || activeTab === 'leaderboard' || activeTab === 'social' || activeTab === 'chat' || activeTab === 'badges') {
+    return <ProfileBar />;
   }
 
-  // If on Home ('overview') or Map ('map'), no sub-section bar needed
-  if (!subTabs) return null;
-
-  return (
-    <div className="mb-6 animate-in fade-in slide-in-from-top-2 duration-300">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        {/* Transparent Glass Sub-Section Switcher (Jakob's Law UX) */}
-        <div className="p-1 rounded-2xl bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-zinc-200/60 dark:border-white/10 shadow-sm flex flex-nowrap items-center gap-1 w-full sm:w-auto overflow-x-auto [&>button]:shrink-0 [&>button]:whitespace-nowrap">
-          {subTabs.map(tab => {
-            const isActive = activeTab === tab.id;
-
-            return (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  haptics.tap();
-                  setActiveTab(tab.id as any);
-                }}
-                className={`flex items-center gap-1.5 px-3 py-2 min-h-[40px] rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
-                  isActive
-                    ? 'bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 shadow-md scale-[1.02]'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5'
-                }`}
-              >
-                <span className={isActive ? 'text-amber-400 dark:text-amber-600' : 'text-zinc-400'}>
-                  {tab.icon}
-                </span>
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Section Context Pill */}
-        <span className="text-[11px] font-mono text-zinc-400 dark:text-zinc-500 hidden md:block">
-          {hubName}
-        </span>
-      </div>
-    </div>
-  );
+  return null;
 };
