@@ -102,6 +102,7 @@ export const ChallengesView: React.FC<{ only?: ChallengeSubTab }> = ({ only }) =
 
   // Book search & suggestion state
   const [bookSearchQuery, setBookSearchQuery] = useState('');
+  const [myBooksQuery, setMyBooksQuery] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedCatalogBook, setSelectedCatalogBook] = useState<BookCatalogItem | null>(null);
   const [activeQuizModalBook, setActiveQuizModalBook] = useState<BookCatalogItem | null>(null);
@@ -314,30 +315,23 @@ export const ChallengesView: React.FC<{ only?: ChallengeSubTab }> = ({ only }) =
               </button>
 
               <button
-                onClick={() => setActiveTab('library')}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-lg bg-amber-500 text-zinc-950 hover:bg-amber-400 transition-colors shadow-sm"
-              >
-                <BookOpen className="w-3.5 h-3.5" />
-                <span>Read Online</span>
-              </button>
-
-              <button
                 onClick={() => setShowBookForm(prev => !prev)}
                 className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-lg bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 hover:bg-zinc-800 transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" />
-                <span>Log Custom Book</span>
+                <span>Log a Book</span>
               </button>
             </div>
           </div>
 
-          {/* Search with Instant Suggestions Bar */}
+          {/* Catalog search lives in the Log a Book panel, so it never mixes with your own list */}
+          {showBookForm && (
           <div className="relative p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 shadow-sm space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Search className="w-4 h-4 text-amber-500" />
                 <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider font-mono">
-                  Search Book Catalog & Verification Tests
+                  Find a book to log & verify
                 </span>
               </div>
               <span className="text-[11px] text-zinc-400">
@@ -452,6 +446,7 @@ export const ChallengesView: React.FC<{ only?: ChallengeSubTab }> = ({ only }) =
               ))}
             </div>
           </div>
+          )}
 
           {/* Form to Log Book / Custom */}
           {showBookForm && (
@@ -567,9 +562,16 @@ export const ChallengesView: React.FC<{ only?: ChallengeSubTab }> = ({ only }) =
             </form>
           )}
 
+          {/* Search only your own logged books */}
+          <label className="flex items-center gap-2 px-3 min-h-touch rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900">
+            <Search className="w-4 h-4 text-zinc-500 shrink-0" aria-hidden="true" />
+            <input type="search" value={myBooksQuery} onChange={e => setMyBooksQuery(e.target.value)} placeholder="Search your books…" aria-label="Search your books"
+              className="bare-input flex-1 min-w-0 bg-transparent text-base py-2 outline-none text-zinc-900 dark:text-zinc-100" />
+          </label>
+
           {/* Books List Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {books.map(b => {
+            {books.filter(b => !myBooksQuery.trim() || `${b.title} ${b.author}`.toLowerCase().includes(myBooksQuery.trim().toLowerCase())).map(b => {
               const matchedCatalog = BOOK_CATALOG.find(c => c.title.toLowerCase() === b.title.toLowerCase());
               return (
                 <div
